@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PeñApp</string>
+    <string name="volver">Volver</string>
+    <string name="listapersonas_title">Lista de personas en la peña:</string>
+    <string name="intro">Bienvenidos a PeñApp</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Gastos">Gastos: </string>
+    <string name="but_nuevogasto">Nuevo gasto</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="button_main">Comenzar PEÑA</string>
+    <string name="text_select_person">Selecciona la cantidad de personas que participan en la peña.</string>
+    <string name="text_button_aceptar">Aceptar</string>
+    <string name="title_activity_person_selection">PersonSelectionActivity</string>
+    <string name="title_activity_person_list">PersonListActivity</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

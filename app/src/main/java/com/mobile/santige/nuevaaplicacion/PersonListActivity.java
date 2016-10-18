@@ -3,6 +3,7 @@ package com.mobile.santige.nuevaaplicacion;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -78,10 +79,6 @@ public class PersonListActivity extends AppCompatActivity {
             listaPersonas.set(p.getListID(), p);
         }
 
-        for ( Persona pe : listaPersonas ){
-            /* */
-        }
-
         updateView(listaPersonas);
     }
 
@@ -103,6 +100,9 @@ public class PersonListActivity extends AppCompatActivity {
             listLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             listLayout.setId(5000);
 
+            /*LinearLayout listLayout = (LinearLayout) findViewById(R.id.listaPersonasLayout);
+            listLayout.removeAllViews();*/
+
             final Persona persona = super.getItem(position);
 
             final TextView listText = new TextView(PersonListActivity.this);
@@ -116,25 +116,27 @@ public class PersonListActivity extends AppCompatActivity {
                 LinearLayout gastosLayout = new LinearLayout(PersonListActivity.this);
                 gastosLayout.setOrientation(LinearLayout.VERTICAL);
                 listLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
-                listLayout.setId(_id);
                 _id++;
+                listLayout.setId(_id);
 
+                Double monto = 0.0;
+                int cantidad = persona.getGastos().size();
                 for ( Gasto g : persona.getGastos()){
-                    final TextView listDescripGasto = new TextView(PersonListActivity.this);
-                    listDescripGasto.setId(_id);
-                    listDescripGasto.setPadding(20,0,0,0);
-                    listDescripGasto.setText( g.getDescripcion());
-                    _id++;
-
-                    final TextView listMonto = new TextView(PersonListActivity.this);
-                    listMonto.setId(_id);
-                    listMonto.setText( "$ "+ g.getMonto());
-                    listMonto.setPadding(40,0,0,0);
-                    _id++;
-
-                    gastosLayout.addView(listDescripGasto, ViewGroup.LayoutParams.MATCH_PARENT);
-                    gastosLayout.addView(listMonto, ViewGroup.LayoutParams.MATCH_PARENT);
+                    monto+= g.getMonto();
                 }
+
+                final TextView listDescripGasto = new TextView(PersonListActivity.this);
+                _id++;
+                listDescripGasto.setId(_id);
+                listDescripGasto.setTextColor(Color.BLUE);
+                if (cantidad==1) {
+                    listDescripGasto.setText( "(Compro " + cantidad + " cosa y gasto $ " + monto + ")"  );
+                }else{
+                    listDescripGasto.setText( "(Compro " + cantidad + " cosas y gasto $ " + monto + ")"  );
+                }
+
+                gastosLayout.addView(listDescripGasto, ViewGroup.LayoutParams.MATCH_PARENT);
+
                 listLayout.addView(gastosLayout);
             }
 

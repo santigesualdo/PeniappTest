@@ -9,10 +9,11 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="button_main">Comenzar PEÑA</string>
-    <string name="text_select_person">Selecciona la cantidad de personas que participan en la peña.</string>
+    <string name="text_select_person">¿Cuantos somos?</string>
     <string name="text_button_aceptar">Aceptar</string>
     <string name="title_activity_person_selection">PersonSelectionActivity</string>
     <string name="title_activity_person_list">PersonListActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_gasto_activity">gasto_activity</string>
 
 </resources>

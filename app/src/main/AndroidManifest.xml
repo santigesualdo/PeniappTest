@@ -35,7 +35,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".PersonDetail_Activity"></activity>
+        <activity android:name=".PersonDetail_Activity" />
+        <activity android:name=".activity_gasto" />
+        <activity android:name=".GastoDetail"></activity>
     </application>
 
 </manifest>

@@ -76,14 +76,18 @@ public class PersonDetail_Activity extends AppCompatActivity  {
                 alertDialogBuilder.setView(promptsView);
 
                 final TextView descrip = (TextView) promptsView.findViewById(R.id.textTitleGasto);
+                descrip.setText(R.string.gasto_descrip);
+                descrip.setTextSize(16);
                 final TextView monto = (TextView) promptsView.findViewById(R.id.textMontoGasto);
+                monto.setText(R.string.monto_descrip);
+                monto.setTextSize(16);
 
                 final EditText gastoDescrip = (EditText) promptsView.findViewById(R.id.inputDescripGasto);
-                gastoDescrip.setText("(¿En que gastaste?)");
+                gastoDescrip.setText("");
                 gastoDescrip.setOnKeyListener(new View.OnKeyListener() {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (gastoDescrip.getText().toString().equals("(¿En que gastaste?)")){
+                        if (gastoDescrip.getText().toString().equals("-")){
                             gastoDescrip.setText("");
                         }
                         return false;
@@ -92,11 +96,11 @@ public class PersonDetail_Activity extends AppCompatActivity  {
 
 
                 final EditText gastoMont = (EditText) promptsView.findViewById(R.id.inputMontoGasto);
-                gastoMont.setText("(¿Cuanto?)");
+                gastoMont.setText("");
                 gastoMont.setOnKeyListener(new View.OnKeyListener() {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (gastoMont.getText().toString().equals("(¿Cuanto?)")){
+                        if (gastoMont.getText().toString().equals("")){
                             gastoMont.setText("");
                         }
                         return false;
@@ -120,7 +124,7 @@ public class PersonDetail_Activity extends AppCompatActivity  {
                                             return;
                                         }
 
-                                        if (desc.equals("") || desc.equals("(¿En que gastaste?)")){
+                                        if (desc.equals("")){
                                             Toast.makeText( context ,"No ingresaste un nombre para el gasto, intenta de nuevo.", Toast.LENGTH_LONG ).show();
                                             gastoDescrip.requestFocus();
                                             return;

@@ -24,8 +24,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PersonListActivity extends AppCompatActivity {
 
@@ -67,7 +69,7 @@ public class PersonListActivity extends AppCompatActivity {
         TextView m_bCancel = new TextView(this);
         m_bCancel.setId(idBack);
         m_bCancel.setText("Lista de Personas:");
-        nTextH =  12;
+        nTextH =  18;
         m_bCancel.setTextSize(nTextH);
         m_bCancel.setTypeface(Typeface.create("arial", Typeface.BOLD));
         RelativeLayout.LayoutParams lpbCancel =
@@ -127,7 +129,14 @@ public class PersonListActivity extends AppCompatActivity {
             }
         }
 
-        cTVBot.setText("Monto total gastado: $" + montoTotal);
+        DecimalFormat df = new DecimalFormat("#.00");
+
+        if (montoTotal>0){
+            cTVBot.setText("Monto por persona: $" + df.format(montoTotal/Integer.parseInt(PersonSelectionActivity.personasCount))   + "\nMonto total gastado: $" + montoTotal);
+        }else{
+            cTVBot.setText("Monto total gastado: $" + df.format(montoTotal));
+        }
+
 
         m_panel.addView(list);
         setContentView(global_panel);
@@ -174,6 +183,12 @@ public class PersonListActivity extends AppCompatActivity {
                 listText.setId(5001);
 
                 listText.setText(persona.getNombre());
+                listText.setPadding(0,5,0,5);
+                listText.setTextSize(16);
+                Random rnd = new Random();
+                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                //listText.setBackgroundColor(color);
+                listLayout.setBackgroundColor(color);
                 listLayout.addView(listText);
 
                 int _id = 5001;
@@ -193,6 +208,7 @@ public class PersonListActivity extends AppCompatActivity {
                     final TextView listDescripGasto = new TextView(PersonListActivity.this);
                     _id++;
                     listDescripGasto.setId(_id);
+                    listDescripGasto.setBackgroundColor(color);
                     listDescripGasto.setTextColor(Color.BLUE);
                     if (cantidad==1) {
                         listDescripGasto.setText( "(Compro " + cantidad + " cosa y gasto $ " + monto + ")"  );

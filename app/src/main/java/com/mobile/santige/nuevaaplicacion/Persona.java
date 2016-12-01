@@ -11,9 +11,8 @@ public class Persona implements Serializable {
     private int listID;
 
     public void Persona(){
-        gastos = new ArrayList<>();
+        gastos = new ArrayList<Gasto>();
     }
-
 
     public String getNombre() {
         return nombre;

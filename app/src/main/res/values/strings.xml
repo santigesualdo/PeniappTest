@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">PeñApp</string>
     <string name="volver">Volver</string>
+    <string name="gasto_descrip">¿En qué gastaste?</string>
+    <string name="monto_descrip">¿Cuánto gastaste?</string>
     <string name="listapersonas_title">Lista de personas en la peña:</string>
     <string name="intro">Bienvenidos a PeñApp</string>
     <string name="Nombre">Nombre</string>

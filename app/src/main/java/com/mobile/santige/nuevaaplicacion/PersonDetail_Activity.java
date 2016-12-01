@@ -43,18 +43,19 @@ public class PersonDetail_Activity extends AppCompatActivity  {
         e.setText(detailedPerson.getNombre());
 
         // Boton volver al formulario anterior.
-        Button volver = (Button) findViewById(R.id.butVolver);
+        final Button volver = (Button) findViewById(R.id.butVolver);
         volver.setText("Ok");
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent returnIntent = new Intent( context , PersonListActivity.class);
+                Intent returnIntent=new Intent( volver.getContext() , PersonListActivity.class);
                 EditText edit = (EditText) findViewById(R.id.editText);
                 if (edit.getText().toString() != null && !edit.getText().toString().equals("")){
                     detailedPerson.setNombre(edit.getText().toString());
                 }
+
                 returnIntent.putExtra("editedPerson", detailedPerson);
-                returnIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                returnIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(returnIntent);
             }
         });

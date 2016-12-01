@@ -32,33 +32,17 @@ public class PersonListActivity extends AppCompatActivity {
     final static int		idTopLayout = Menu.FIRST + 100,
                             idBack 		= Menu.FIRST + 101,
                             idBotLayout	= Menu.FIRST + 102;
-    List<Persona> listaPersonas;
     private PersonaAdapter myAdapter;
+    private List<Persona> listaPersonas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
-        String countPersons = intent.getStringExtra(PersonSelectionActivity.COUNTPERSONS);
+        int numPersons = Integer.parseInt(PersonSelectionActivity.personasCount);
 
-        int numPersons;
-
-        try {
-            numPersons = Integer.parseInt(countPersons);
-        } catch (Exception e) {
-            numPersons = 10;
-        }
-
-        listaPersonas = new ArrayList<Persona>();
-
-        for (int i = 0; i < numPersons; i++) {
-            Persona p = new Persona();
-            p.setNombre("Persona " + i );
-            p.setListID(i);
-            listaPersonas.add(p);
-        }
+        listaPersonas = PersonSelectionActivity._listaPersonas;
 
         updateView(listaPersonas);
     }
@@ -152,12 +136,14 @@ public class PersonListActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-        Intent i = getIntent();
 
         Persona p = (Persona) getIntent().getSerializableExtra("editedPerson");
+
         if (p!=null) {
-            listaPersonas.set(p.getListID(), p);
+            PersonSelectionActivity._listaPersonas.set(p.getListID(), p);
         }
+
+        listaPersonas = PersonSelectionActivity._listaPersonas;
 
         updateView(listaPersonas);
     }
@@ -165,7 +151,7 @@ public class PersonListActivity extends AppCompatActivity {
     public void viewPersonActivity(View view, Persona p) {
         Intent intent = new Intent(this, PersonDetail_Activity.class);
         intent.putExtra("person", p);
-        startActivity(intent);
+        startActivityForResult(intent,2);
     }
 
     private class PersonaAdapter extends ArrayAdapter<Persona> {

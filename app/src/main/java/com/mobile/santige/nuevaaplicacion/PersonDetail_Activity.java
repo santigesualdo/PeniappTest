@@ -39,8 +39,15 @@ public class PersonDetail_Activity extends AppCompatActivity  {
         Intent i = getIntent();
         detailedPerson = (Persona)i.getSerializableExtra("person");
 
-        EditText e = (EditText)findViewById(R.id.editText);
+        final EditText e = (EditText)findViewById(R.id.editText);
         e.setText(detailedPerson.getNombre());
+        e.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                e.setText("");
+            }
+        });
+
 
         // Boton volver al formulario anterior.
         final Button volver = (Button) findViewById(R.id.butVolver);

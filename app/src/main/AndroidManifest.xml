@@ -37,7 +37,8 @@
 
         <activity android:name=".PersonDetail_Activity" />
         <activity android:name=".activity_gasto" />
-        <activity android:name=".GastoDetail"></activity>
+        <activity android:name=".GastoDetail" />
+        <activity android:name=".ResultActivity"></activity>
     </application>
 
 </manifest>

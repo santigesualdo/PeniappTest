@@ -1,42 +1,33 @@
 package com.mobile.santige.nuevaaplicacion;
 
-import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TableRow;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class PersonListActivity extends AppCompatActivity {
 
@@ -48,6 +39,8 @@ public class PersonListActivity extends AppCompatActivity {
     static public List<Persona> listaPersonas;
     static public double montoTotal;
     static public double montoPorPera;
+    int numPersons;
+    TextView seekBarValue;
 
 
     @Override
@@ -55,9 +48,9 @@ public class PersonListActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        int numPersons = Integer.parseInt(PersonSelectionActivity.personasCount);
+        numPersons = MainActivity.personasCount;
 
-        listaPersonas = PersonSelectionActivity._listaPersonas;
+        listaPersonas = MainActivity._listaPersonas;
 
         updateView(listaPersonas);
     }
@@ -81,7 +74,7 @@ public class PersonListActivity extends AppCompatActivity {
         int nTextH = 18;
         TextView m_bCancel = new TextView(this);
         m_bCancel.setId(idBack);
-        m_bCancel.setText("Lista de Personas:");
+        m_bCancel.setText("¿Quienes gastaron?");
         nTextH = 18;
         m_bCancel.setTextSize(nTextH);
         m_bCancel.setTypeface(Typeface.create("arial", Typeface.BOLD));
@@ -108,12 +101,12 @@ public class PersonListActivity extends AppCompatActivity {
 
         // botton
         Button bottomButton = new Button(this);
-        bottomButton.setText("LISTO!");
+        bottomButton.setText("Listo!");
         bottomButton.setWidth(50);
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ResultActivity.class);
+                Intent intent = new Intent(v.getContext(), PersonSelectionActivity.class);
                 startActivity(intent);
             }
         });
@@ -160,7 +153,7 @@ public class PersonListActivity extends AppCompatActivity {
         }
 
         DecimalFormat df = new DecimalFormat("#.00");
-        montoPorPera = montoTotal / Integer.parseInt(PersonSelectionActivity.personasCount);
+        montoPorPera = montoTotal / numPersons;
 
         if (montoTotal > 0) {
             cTVBot.setText("Monto por persona: $" + df.format(montoPorPera) + "\nMonto total gastado: $" + montoTotal);
@@ -176,24 +169,158 @@ public class PersonListActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-
-        Persona p = (Persona) getIntent().getSerializableExtra("editedPerson");
-
-        if (p != null) {
-            PersonSelectionActivity._listaPersonas.set(p.getListID(), p);
-        }
-
-        listaPersonas = PersonSelectionActivity._listaPersonas;
-
         updateView(listaPersonas);
     }
 
-    public void viewPersonActivity(View view, Persona p) {
-        Intent intent = new Intent(this, PersonDetail_Activity.class);
-        intent.putExtra("person", p);
-        startActivityForResult(intent, 2);
+    private void showEditPersonNameDialog(final View v, final Persona persona) {
+        LayoutInflater li = LayoutInflater.from(v.getContext());
+        View promptsView = li.inflate(R.layout.dialog_edit_name, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                v.getContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+            /*final EditText descrip = (EditText) promptsView.findViewById(R.id.inputDescripName);
+            descrip.setText(R.string.nombre_descrip);
+            descrip.setTextSize(16);*/
+
+        final EditText nombreDescrip = (EditText) promptsView.findViewById(R.id.inputDescripName);
+        nombreDescrip.setText(R.string.nombre_descrip);
+        nombreDescrip.setText("");
+        nombreDescrip.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (nombreDescrip.getText().toString().equals("-")){
+                    nombreDescrip.setText("");
+                }
+                return false;
+            }
+        });
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setTitle("Ingresar Nombre.")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                String desc = nombreDescrip.getText().toString();
+
+                                if (desc.equals("")){
+                                    Toast.makeText(  v.getContext() ,"No ingresaste un nombre.", Toast.LENGTH_LONG ).show();
+                                    nombreDescrip.requestFocus();
+                                    return;
+                                }
+
+                                persona.setNombre(nombreDescrip.getText().toString());
+                                listaPersonas.set(persona.getListID(), persona);
+                                updateView(listaPersonas);
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 
+    private void showNewGastoDialog(final View v, final Persona persona) {
+        LayoutInflater li = LayoutInflater.from(v.getContext());
+        View promptsView = li.inflate(R.layout.dialog_new_gasto, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                v.getContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        final TextView descrip = (TextView) promptsView.findViewById(R.id.textTitleGasto);
+        descrip.setText(R.string.gasto_descrip);
+        descrip.setTextSize(16);
+        final TextView monto = (TextView) promptsView.findViewById(R.id.textMontoGasto);
+        monto.setText(R.string.monto_descrip);
+        monto.setTextSize(16);
+
+        final EditText gastoDescrip = (EditText) promptsView.findViewById(R.id.inputDescripGasto);
+        gastoDescrip.setText("");
+        gastoDescrip.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (gastoDescrip.getText().toString().equals("-")){
+                    gastoDescrip.setText("");
+                }
+                return false;
+            }
+        });
+
+
+        final EditText gastoMont = (EditText) promptsView.findViewById(R.id.inputMontoGasto);
+        gastoMont.setText("");
+        gastoMont.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (gastoMont.getText().toString().equals("")){
+                    gastoMont.setText("");
+                }
+                return false;
+            }
+        });
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setTitle("Ingresar gasto.")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                String desc = gastoDescrip.getText().toString();
+                                String monto = gastoMont.getText().toString();
+                                Double montoNumero;
+                                try{
+                                    montoNumero = Double.parseDouble(monto);
+                                }catch (Exception e){
+                                    Toast.makeText( v.getContext() ,"No ingresaste un numero para el importe, proba de nuevo.", Toast.LENGTH_LONG ).show();
+                                    gastoMont.requestFocus();
+                                    return;
+                                }
+
+                                if (desc.equals("")){
+                                    Toast.makeText(  v.getContext() ,"No ingresaste un nombre para el gasto, intenta de nuevo.", Toast.LENGTH_LONG ).show();
+                                    gastoDescrip.requestFocus();
+                                    return;
+                                }
+
+                                Gasto g = new Gasto( desc , Double.parseDouble(monto) );
+
+                                List<Gasto> gastos = persona.getGastos();
+                                if (gastos== null) {
+                                    gastos = new ArrayList<Gasto>();
+                                }
+                                gastos.add(g);
+                                persona.setGastos(gastos);
+                                //showGastos();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
 
     private class PersonaAdapter extends ArrayAdapter<Persona> {
         public PersonaAdapter(Context context, List<Persona> personas) {
@@ -203,7 +330,7 @@ public class PersonListActivity extends AppCompatActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            LinearLayout listLayout = new LinearLayout(PersonListActivity.this);
+            final LinearLayout listLayout = new LinearLayout(PersonListActivity.this);
             listLayout.setOrientation(LinearLayout.VERTICAL);
             listLayout.setId(5000);
 
@@ -215,13 +342,24 @@ public class PersonListActivity extends AppCompatActivity {
                 listText.setId(5001);
 
                 listText.setText(persona.getNombre());
+                String auxNombre = persona.getNombre();
                 listText.setPadding(0, 5, 0, 5);
                 listText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 listText.setTextSize(16);
-                Random rnd = new Random();
-                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-                listLayout.setBackgroundColor(color);
+
+                listText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showEditPersonNameDialog(v, persona);
+
+                        Toast.makeText(v.getContext(), "nombre modificado: " + persona.getNombre(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+
                 listLayout.addView(listText);
+                listLayout.setBackgroundColor(Color.WHITE);
 
                 int _id = 5001;
                 if (persona.getGastos() != null) {
@@ -237,7 +375,7 @@ public class PersonListActivity extends AppCompatActivity {
                     final TextView listDescripGasto = new TextView(PersonListActivity.this);
                     _id++;
                     listDescripGasto.setId(_id);
-                    listDescripGasto.setBackgroundColor(color);
+                    listDescripGasto.setBackgroundColor(Color.GRAY);
                     listDescripGasto.setTextColor(Color.BLUE);
                     listDescripGasto.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     if (cantidad == 1) {
@@ -253,17 +391,22 @@ public class PersonListActivity extends AppCompatActivity {
                     listLayout.addView(gastosLayout);
                 }
 
-                listLayout.setOnClickListener(new View.OnClickListener() {
+                Button bNuevoGasto = new Button(this.getContext());
+                bNuevoGasto.setText("+");
+                bNuevoGasto.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        viewPersonActivity(v, persona);
+                    public void onClick(View v)
+                    {
+                        showNewGastoDialog(v, persona);
                     }
                 });
 
+                listLayout.addView(bNuevoGasto);
                 return listLayout;
             }
 
             return null;
         }
     }
+
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PeñApp</string>
     <string name="volver">Volver</string>
+    <string name="nombre_descrip">Ingresa el nombre de la persona</string>
     <string name="gasto_descrip">¿En qué gastaste?</string>
     <string name="monto_descrip">¿Cuánto gastaste?</string>
     <string name="listapersonas_title">Lista de personas en la peña:</string>
@@ -107,5 +108,9 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="title_activity_scroll">ScrollActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>

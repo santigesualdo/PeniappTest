@@ -1,6 +1,5 @@
 package com.mobile.santige.nuevaaplicacion;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
@@ -8,9 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String msg = "Android";
+    public static Integer personasCount=2;
+    public static List<Persona> _listaPersonas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Button comenzar = (Button) findViewById(R.id.comenzar);
         comenzar.setOnClickListener(this);
+
         Log.d(msg,"The OnCreate() event. ");
     }
 
@@ -53,7 +58,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, PersonSelectionActivity.class );
+
+        _listaPersonas = new ArrayList<Persona>();
+        for (int i = 0 ; i< personasCount; i++){
+            Persona p = new Persona();
+            p.setNombre("Persona " + i );
+            p.setListID(i);
+            _listaPersonas.add(p);
+        }
+
+        Intent intent = new Intent(this, PersonListActivity.class );
         startActivity(intent);
     }
 }

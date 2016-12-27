@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,10 @@ public class PersonListActivity extends AppCompatActivity {
 
     final static int idTopLayout = Menu.FIRST + 100,
             idBack = Menu.FIRST + 101,
-            idBotLayout = Menu.FIRST + 102;
+            idBotLayout = Menu.FIRST + 102,
+            bottomMenuHeight = 75;
+
+
     private PersonaAdapter myAdapter;
 
     static public List<Persona> listaPersonas;
@@ -87,22 +89,25 @@ public class PersonListActivity extends AppCompatActivity {
         RelativeLayout ibMenuBot = new RelativeLayout(this);
         ibMenuBot.setId(idBotLayout);
         ibMenuBot.setBackgroundColor(Color.argb(100,0,256,0));
+        ibMenuBot.setMinimumHeight(bottomMenuHeight);
         RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        botParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         global_panel.addView(ibMenuBot, botParams);
 
         // textview in ibMenu : card holder
         TextView cTVBot = new TextView(this);
+        cTVBot.setPadding(0,0,0,80);
         cTVBot.setText("Monto total gastado: ");
         cTVBot.setTextSize(16);
         cTVBot.setTypeface(Typeface.create("arial", Typeface.BOLD));
         RelativeLayout.LayoutParams lpcTVBot = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lpcTVBot.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        lpcTVBot.addRule(RelativeLayout.CENTER_IN_PARENT);
+        lpcTVBot.addRule(RelativeLayout.ALIGN_TOP);
 
         // botton
         Button bottomButton = new Button(this);
         bottomButton.setText("Listo!");
-        bottomButton.setWidth(50);
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +116,8 @@ public class PersonListActivity extends AppCompatActivity {
             }
         });
         RelativeLayout.LayoutParams lpcButton = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lpcButton.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        lpcButton.addRule(RelativeLayout.CENTER_IN_PARENT);
+        lpcButton.addRule(RelativeLayout.ALIGN_BOTTOM);
 
         ibMenuBot.addView(cTVBot, lpcTVBot);
         ibMenuBot.addView(bottomButton, lpcButton);
@@ -156,9 +162,9 @@ public class PersonListActivity extends AppCompatActivity {
         montoPorPera = montoTotal / numPersons;
 
         if (montoTotal > 0) {
-            cTVBot.setText("Monto por persona: $" + df.format(montoPorPera) + "\nMonto total gastado: $" + montoTotal);
-        } else {
             cTVBot.setText("Monto total gastado: $" + df.format(montoTotal));
+        } else {
+            cTVBot.setText("Monto total gastado: $0.00");
         }
 
 

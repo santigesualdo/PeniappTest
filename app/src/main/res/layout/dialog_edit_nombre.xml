@@ -7,8 +7,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textMontoGasto"
-        tools:text="Ingrese monto del gasto:"
+        android:id="@+id/textTitleNombre"
+        tools:text="Nombre persona:"
         android:textSize="18sp"
         android:layout_marginTop="20dp"
         android:textAlignment="center" />
@@ -19,8 +19,8 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_marginTop="20dp"
-        android:id="@+id/inputMontoGasto"
-        tools:text="(ingrese lo que gasto)"
-        android:textAlignment="center" />
+        android:id="@+id/inputDescripName"
+        android:textAlignment="center"
+        tools:text="(ingrese el nombre)" />
 
 </LinearLayout>

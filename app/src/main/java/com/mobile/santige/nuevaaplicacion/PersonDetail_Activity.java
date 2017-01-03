@@ -35,6 +35,7 @@ public class PersonDetail_Activity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_person_detail);
         Intent i = getIntent();
         detailedPerson = (Persona)i.getSerializableExtra("person");
@@ -82,25 +83,9 @@ public class PersonDetail_Activity extends AppCompatActivity  {
                 // set prompts.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
 
-                final TextView descrip = (TextView) promptsView.findViewById(R.id.textTitleGasto);
-                descrip.setText(R.string.gasto_descrip);
-                descrip.setTextSize(16);
                 final TextView monto = (TextView) promptsView.findViewById(R.id.textMontoGasto);
                 monto.setText(R.string.monto_descrip);
                 monto.setTextSize(16);
-
-                final EditText gastoDescrip = (EditText) promptsView.findViewById(R.id.inputDescripGasto);
-                gastoDescrip.setText("");
-                gastoDescrip.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (gastoDescrip.getText().toString().equals("-")){
-                            gastoDescrip.setText("");
-                        }
-                        return false;
-                    }
-                });
-
 
                 final EditText gastoMont = (EditText) promptsView.findViewById(R.id.inputMontoGasto);
                 gastoMont.setText("");
@@ -120,24 +105,18 @@ public class PersonDetail_Activity extends AppCompatActivity  {
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        String desc = gastoDescrip.getText().toString();
                                         String monto = gastoMont.getText().toString();
                                         Double montoNumero;
                                         try{
                                             montoNumero = Double.parseDouble(monto);
+                                            Toast.makeText( context ,"Es parseable", Toast.LENGTH_LONG ).show();
                                         }catch (Exception e){
                                             Toast.makeText( context ,"No ingresaste un numero para el importe, proba de nuevo.", Toast.LENGTH_LONG ).show();
                                             gastoMont.requestFocus();
                                             return;
                                         }
 
-                                        if (desc.equals("")){
-                                            Toast.makeText( context ,"No ingresaste un nombre para el gasto, intenta de nuevo.", Toast.LENGTH_LONG ).show();
-                                            gastoDescrip.requestFocus();
-                                            return;
-                                        }
-
-                                        Gasto g = new Gasto( desc , Double.parseDouble(monto) );
+                                        Gasto g = new Gasto( "" , montoNumero );
 
                                         List<Gasto> gastos = detailedPerson.getGastos();
                                         if (gastos== null) {
@@ -145,6 +124,7 @@ public class PersonDetail_Activity extends AppCompatActivity  {
                                         }
                                         gastos.add(g);
                                         detailedPerson.setGastos(gastos);
+                                        Toast.makeText( context ,"Detailed Person gastos: " + Integer.toString(detailedPerson.getGastos().size()), Toast.LENGTH_LONG ).show();
                                         showGastos();
                                     }
                                 })

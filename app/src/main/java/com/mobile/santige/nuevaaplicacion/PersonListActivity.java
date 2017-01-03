@@ -40,7 +40,7 @@ public class PersonListActivity extends AppCompatActivity {
 
     static public List<Persona> listaPersonas;
     static public double montoTotal;
-    static public double montoPorPera;
+
     int numPersons;
     TextView seekBarValue;
 
@@ -57,7 +57,7 @@ public class PersonListActivity extends AppCompatActivity {
         updateView(listaPersonas);
     }
 
-    private void updateView(List<Persona> personas) {
+    private void updateView(final List<Persona> personas) {
 
         //Create our top content holder
         RelativeLayout global_panel = new RelativeLayout(this);
@@ -125,7 +125,25 @@ public class PersonListActivity extends AppCompatActivity {
         // +++++++++++++ MIDDLE COMPONENT: all our GUI content
         LinearLayout midLayout = new LinearLayout(this);
         midLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        midLayout.setBackgroundColor(Color.WHITE);
         midLayout.setOrientation(LinearLayout.VERTICAL);
+
+        Button addPerson = new Button(this);
+        addPerson.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        addPerson.setText("Agregar Persona con Gastos");
+        addPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Persona newP = new Persona();
+                Persona anteriorP  = personas.get(personas.size()-1);
+                newP.setListID(anteriorP.getListID()+1);
+                newP.setNombre("Persona "+ newP.getListID());
+                personas.add(newP);
+                updateView(personas);
+            }
+        });
+        midLayout.addView(addPerson);
+
         RelativeLayout.LayoutParams midParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         midParams.addRule(RelativeLayout.ABOVE, ibMenuBot.getId());
         midParams.addRule(RelativeLayout.BELOW, ibMenu.getId());
@@ -135,6 +153,7 @@ public class PersonListActivity extends AppCompatActivity {
         vscroll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         vscroll.setFillViewport(true);
         midLayout.addView(vscroll);
+
         //panel in scroll: add all controls/ objects to this layout
         LinearLayout m_panel = new LinearLayout(this);
         m_panel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -149,17 +168,16 @@ public class PersonListActivity extends AppCompatActivity {
         }
 
         montoTotal = 0;
-        montoPorPera = 0;
         for (Persona pe : personas) {
             if (pe.getGastos() != null) {
                 for (Gasto g : pe.getGastos()) {
                     montoTotal += g.getMonto();
+                    Toast.makeText(this, "montoTotal: " + montoTotal, Toast.LENGTH_SHORT).show();
                 }
             }
         }
 
         DecimalFormat df = new DecimalFormat("#.00");
-        montoPorPera = montoTotal / numPersons;
 
         if (montoTotal > 0) {
             cTVBot.setText("Monto total gastado: $" + df.format(montoTotal));
@@ -180,7 +198,7 @@ public class PersonListActivity extends AppCompatActivity {
 
     private void showEditPersonNameDialog(final View v, final Persona persona) {
         LayoutInflater li = LayoutInflater.from(v.getContext());
-        View promptsView = li.inflate(R.layout.dialog_edit_name, null);
+        View promptsView = li.inflate(R.layout.dialog_edit_nombre, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 v.getContext());
@@ -188,9 +206,9 @@ public class PersonListActivity extends AppCompatActivity {
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
 
-            /*final EditText descrip = (EditText) promptsView.findViewById(R.id.inputDescripName);
-            descrip.setText(R.string.nombre_descrip);
-            descrip.setTextSize(16);*/
+        final EditText descrip = (EditText) promptsView.findViewById(R.id.inputDescripName);
+        descrip.setText(R.string.nombre_descrip);
+        descrip.setTextSize(16);
 
         final EditText nombreDescrip = (EditText) promptsView.findViewById(R.id.inputDescripName);
         nombreDescrip.setText(R.string.nombre_descrip);
@@ -248,25 +266,9 @@ public class PersonListActivity extends AppCompatActivity {
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
 
-        final TextView descrip = (TextView) promptsView.findViewById(R.id.textTitleGasto);
-        descrip.setText(R.string.gasto_descrip);
-        descrip.setTextSize(16);
         final TextView monto = (TextView) promptsView.findViewById(R.id.textMontoGasto);
         monto.setText(R.string.monto_descrip);
         monto.setTextSize(16);
-
-        final EditText gastoDescrip = (EditText) promptsView.findViewById(R.id.inputDescripGasto);
-        gastoDescrip.setText("");
-        gastoDescrip.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (gastoDescrip.getText().toString().equals("-")){
-                    gastoDescrip.setText("");
-                }
-                return false;
-            }
-        });
-
 
         final EditText gastoMont = (EditText) promptsView.findViewById(R.id.inputMontoGasto);
         gastoMont.setText("");
@@ -286,7 +288,6 @@ public class PersonListActivity extends AppCompatActivity {
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                String desc = gastoDescrip.getText().toString();
                                 String monto = gastoMont.getText().toString();
                                 Double montoNumero;
                                 try{
@@ -296,14 +297,7 @@ public class PersonListActivity extends AppCompatActivity {
                                     gastoMont.requestFocus();
                                     return;
                                 }
-
-                                if (desc.equals("")){
-                                    Toast.makeText(  v.getContext() ,"No ingresaste un nombre para el gasto, intenta de nuevo.", Toast.LENGTH_LONG ).show();
-                                    gastoDescrip.requestFocus();
-                                    return;
-                                }
-
-                                Gasto g = new Gasto( desc , Double.parseDouble(monto) );
+                                Gasto g = new Gasto( "" , montoNumero );
 
                                 List<Gasto> gastos = persona.getGastos();
                                 if (gastos== null) {
@@ -311,7 +305,8 @@ public class PersonListActivity extends AppCompatActivity {
                                 }
                                 gastos.add(g);
                                 persona.setGastos(gastos);
-                                //showGastos();
+                                listaPersonas.set(persona.getListID(), persona);
+                                updateView(listaPersonas);
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -357,8 +352,6 @@ public class PersonListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         showEditPersonNameDialog(v, persona);
-
-                        Toast.makeText(v.getContext(), "nombre modificado: " + persona.getNombre(), Toast.LENGTH_LONG).show();
                     }
                 });
 

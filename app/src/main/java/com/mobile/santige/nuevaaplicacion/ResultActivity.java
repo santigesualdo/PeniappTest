@@ -75,11 +75,11 @@ public class ResultActivity extends AppCompatActivity {
                 int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
                 listLayout.setBackgroundColor(color);
 
-                 if (persona.getGastos()==null){
+                 /*if (persona.getGastos()==null){
                     listText.setText(persona.getNombre() + " no tuvo gastos. Debe poner: $" + PersonListActivity.montoPorPera);
                     LinearLayout.LayoutParams lpcButton = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
                     listLayout.addView(listText, lpcButton);
-                 }
+                 }*/
             }
             return listLayout;
         }

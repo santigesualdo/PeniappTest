@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -131,6 +132,7 @@ public class PersonListActivity extends AppCompatActivity {
         Button addPerson = new Button(this);
         addPerson.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         addPerson.setText("Agregar Persona con Gastos");
+        addPerson.setTextSize(14);
         addPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +174,6 @@ public class PersonListActivity extends AppCompatActivity {
             if (pe.getGastos() != null) {
                 for (Gasto g : pe.getGastos()) {
                     montoTotal += g.getMonto();
-                    Toast.makeText(this, "montoTotal: " + montoTotal, Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -271,6 +272,7 @@ public class PersonListActivity extends AppCompatActivity {
         monto.setTextSize(16);
 
         final EditText gastoMont = (EditText) promptsView.findViewById(R.id.inputMontoGasto);
+        gastoMont.setInputType(InputType.TYPE_CLASS_NUMBER);
         gastoMont.setText("");
         gastoMont.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -355,27 +357,27 @@ public class PersonListActivity extends AppCompatActivity {
                     }
                 });
 
-
-
                 listLayout.addView(listText);
                 listLayout.setBackgroundColor(Color.WHITE);
 
                 int _id = 5001;
-                if (persona.getGastos() != null) {
-                    LinearLayout gastosLayout = new LinearLayout(PersonListActivity.this);
-                    gastosLayout.setOrientation(LinearLayout.VERTICAL);
+                final LinearLayout gastosLayout = new LinearLayout(PersonListActivity.this);
+                gastosLayout.setOrientation(LinearLayout.VERTICAL);
 
+                final TextView listDescripGasto = new TextView(PersonListActivity.this);
+
+                if (persona.getGastos() != null) {
                     Double monto = 0.0;
                     int cantidad = persona.getGastos().size();
                     for (Gasto g : persona.getGastos()) {
                         monto += g.getMonto();
                     }
 
-                    final TextView listDescripGasto = new TextView(PersonListActivity.this);
+
                     _id++;
                     listDescripGasto.setId(_id);
-                    listDescripGasto.setBackgroundColor(Color.GRAY);
-                    listDescripGasto.setTextColor(Color.BLUE);
+                    listDescripGasto.setBackgroundColor(Color.WHITE);
+                    listDescripGasto.setTextColor(Color.BLACK);
                     listDescripGasto.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     if (cantidad == 1) {
                         listDescripGasto.setText("(Compro " + cantidad + " cosa y gasto $ " + monto + ")");
@@ -390,8 +392,20 @@ public class PersonListActivity extends AppCompatActivity {
                     listLayout.addView(gastosLayout);
                 }
 
+                LinearLayout linearLayoutBut = new LinearLayout(PersonListActivity.this);
+                // linearLayoutBut.setPadding(5,5,5,5);
+                linearLayoutBut.setWeightSum(2);
+                linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
+                linearLayoutBut.setBackgroundColor(Color.DKGRAY);
+                listLayout.addView(linearLayoutBut);
+
+                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);
+                param.weight=1.0f;
+                param.height= 50 ;
+
                 Button bNuevoGasto = new Button(this.getContext());
-                bNuevoGasto.setText("+");
+                bNuevoGasto.setText("Agregar Gasto");
+                bNuevoGasto.setTextSize(10);
                 bNuevoGasto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v)
@@ -400,7 +414,20 @@ public class PersonListActivity extends AppCompatActivity {
                     }
                 });
 
-                listLayout.addView(bNuevoGasto);
+
+                Button removePerson = new Button(this.getContext());
+                removePerson.setText("Quitar Persona");
+                removePerson.setTextSize(10);
+                removePerson.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PersonaAdapter.super.remove(persona);
+                    }
+                });
+
+                linearLayoutBut.addView(bNuevoGasto, param);
+                linearLayoutBut.addView(removePerson, param);
+
                 return listLayout;
             }
 

@@ -9,6 +9,7 @@ public class Persona implements Serializable {
     private String nombre;
     private List<Gasto> gastos;
     private int listID;
+    private String mensajeSalida;
 
     public void Persona(){
         gastos = new ArrayList<Gasto>();
@@ -36,5 +37,11 @@ public class Persona implements Serializable {
 
     public void setListID(int listID) {
         this.listID = listID;
+    }
+
+    public String getMensajeSalida() { return mensajeSalida; }
+
+    public void setMensajeSalida(String mensajeSalida) {
+        this.mensajeSalida = mensajeSalida;
     }
 }

@@ -13,7 +13,7 @@ import static com.mobile.santige.nuevaaplicacion.MainActivity.personasCount;
 public class PersonSelectionActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView seekBarValue;
-    public static String COUNTPERSONS = "com.example.myfirstapp.MESSAGE";
+    public static String COUNTPERSONS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class PersonSelectionActivity extends AppCompatActivity implements View.O
 
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBarValue = (TextView) findViewById(R.id.seekbarvalue);
+        seekBarValue.setTextSize(16);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
@@ -40,7 +41,11 @@ public class PersonSelectionActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        COUNTPERSONS = seekBarValue.getText().toString();
+        try{
+            COUNTPERSONS = seekBarValue.getText().toString();
+        }catch (Exception e){
+            COUNTPERSONS = "0";
+        }
 
         Intent intent = new Intent(this, ResultActivity.class );
         startActivity(intent);

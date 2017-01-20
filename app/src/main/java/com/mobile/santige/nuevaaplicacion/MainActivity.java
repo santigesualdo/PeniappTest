@@ -1,16 +1,16 @@
 package com.mobile.santige.nuevaaplicacion;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     String msg = "Android";
     public static Integer personasCount=2;
@@ -59,6 +59,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        incializarPersonas();
+
+        Intent intent = new Intent(this, PersonListActivity.class );
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    public static void incializarPersonas() {
         _listaPersonas = new ArrayList<Persona>();
         for (int i = 0 ; i< personasCount; i++){
             Persona p = new Persona();
@@ -66,8 +81,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             p.setListID(i);
             _listaPersonas.add(p);
         }
-
-        Intent intent = new Intent(this, PersonListActivity.class );
-        startActivity(intent);
     }
 }

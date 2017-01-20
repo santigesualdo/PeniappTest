@@ -1,5 +1,6 @@
 package com.mobile.santige.nuevaaplicacion;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -23,7 +25,7 @@ import android.widget.Toast;
 import java.util.List;
 import java.util.Random;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends Activity {
 
     private ResultPersonasAdapter resPerAdapter;
     List<Persona> personas;
@@ -51,13 +53,15 @@ public class ResultActivity extends AppCompatActivity {
         montoPorPera = montoTotal / cantPersonas;
 
         personasSinGasto = cantPersonas - personas.size();
-        textPersonaSinGasto = "las " + personasSinGasto + " personas  sin gastos";
+        textPersonaSinGasto = "Las " + personasSinGasto + " personas  sin gastos";
 
         mensajeWhatsapp="Resultados de peña: \n";
 
-        personaSinGasto = new Persona();
-        personaSinGasto.setNombre(textPersonaSinGasto);
-        personas.add(personaSinGasto);
+        if (personas.size()>1){
+            personaSinGasto = new Persona();
+            personaSinGasto.setNombre(textPersonaSinGasto);
+            personas.add(personaSinGasto);
+        }
 
         updateView(personas);
     }
@@ -70,7 +74,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         personas.remove(personaSinGasto);
-        Intent intent = new Intent(this, PersonListActivity.class);
+        Intent intent = new Intent(this, PersonSelectionActivity.class);
         startActivity(intent);
     }
 
@@ -107,7 +111,7 @@ public class ResultActivity extends AppCompatActivity {
         TextView cTVBot = new TextView(this);
         cTVBot.setPadding(0,0,0,0);
         cTVBot.setText("Monto total gastado: ");
-        cTVBot.setTextSize(16);
+        cTVBot.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
         cTVBot.setTypeface(Typeface.create("arial", Typeface.BOLD));
         RelativeLayout.LayoutParams lpcTVBot = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         lpcTVBot.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -193,7 +197,7 @@ public class ResultActivity extends AppCompatActivity {
                 listText.setText(persona.getNombre());
                 listText.setPadding(0, 5, 0, 5);
                 listText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                listText.setTextSize(12);
+                listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
                 Random rnd = new Random();
                 int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
                 listLayout.setBackgroundColor(color);

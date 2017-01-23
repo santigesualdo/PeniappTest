@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -22,7 +20,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class ResultActivity extends Activity {
@@ -47,17 +48,21 @@ public class ResultActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        personas = PersonListActivity.listaPersonas;
-        montoTotal = PersonListActivity.montoTotal;
-        cantPersonas = Integer.parseInt(PersonSelectionActivity.COUNTPERSONS);
+
+        Bundle bundleObject = getIntent().getExtras();
+        GrupoPersonas grupoPersonas = (GrupoPersonas) bundleObject.getSerializable("array_personas");
+
+        personas = grupoPersonas.get_listaPersonas();
+        montoTotal = getIntent().getExtras().getDouble("monto_total");
+        cantPersonas = getIntent().getExtras().getInt("count_persons");
         montoPorPera = montoTotal / cantPersonas;
 
         personasSinGasto = cantPersonas - personas.size();
-        textPersonaSinGasto = "Las " + personasSinGasto + " personas  sin gastos";
+        textPersonaSinGasto = "Las " + personasSinGasto + " personas sin gastos";
 
         mensajeWhatsapp="Resultados de peña: \n";
 
-        if (personas.size()>1){
+        if (cantPersonas > personas.size()){
             personaSinGasto = new Persona();
             personaSinGasto.setNombre(textPersonaSinGasto);
             personas.add(personaSinGasto);
@@ -74,7 +79,13 @@ public class ResultActivity extends Activity {
     @Override
     public void onBackPressed() {
         personas.remove(personaSinGasto);
+        GrupoPersonas groupToSend = new GrupoPersonas();
+        groupToSend.set_listaPersonas(personas);
         Intent intent = new Intent(this, PersonSelectionActivity.class);
+        Bundle bundleObject = new Bundle();
+        bundleObject.putSerializable("array_personas", groupToSend);
+        intent.putExtras(bundleObject);
+        intent.putExtra("monto_total", montoTotal);
         startActivity(intent);
     }
 
@@ -210,22 +221,22 @@ public class ResultActivity extends Activity {
                         acumGastosPersona += g.getMonto();
                     }
                 }
-
-                montoAPoner = Double.parseDouble(String.format("%.2f",montoPorPera-acumGastosPersona));
+                montoAPoner= montoPorPera-acumGastosPersona;
+                DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+                df.setMaximumFractionDigits(2); //340 = DecimalFormat.DOUBLE_FRACTION_DIGITS
+                df.setMinimumFractionDigits(2);//FractionDigits(2);
 
                 String mensaje="";
                 if (persona.getNombre() != textPersonaSinGasto){
                     if (montoAPoner > 0 ) {
-                        persona.setMensajeSalida(persona.getNombre() + " debe pagar $" + Math.abs(montoAPoner));
+                        persona.setMensajeSalida(persona.getNombre() + " debe pagar $" + df.format(Math.abs(montoAPoner)));
                     }else if (montoAPoner<0){
-                        persona.setMensajeSalida(persona.getNombre() + " debe recuperar $ " + Math.abs(montoAPoner));
+                        persona.setMensajeSalida(persona.getNombre() + " debe recuperar $ " + df.format(Math.abs(montoAPoner)));
                     }else if (montoAPoner == 0){
                         persona.setMensajeSalida(persona.getNombre() + " ya esta derecho de gastos.");
                     }
                 }else{
-                    if (montoAPoner > 0 ) {
-                        persona.setMensajeSalida(persona.getNombre() + " deben pagar $" + Math.abs(montoAPoner));
-                    }
+                    persona.setMensajeSalida(persona.getNombre() + " deben pagar $" + df.format(Math.abs(montoPorPera)));
                 }
 
                 listText.setText(persona.getMensajeSalida());

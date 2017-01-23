@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -31,7 +30,6 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static android.graphics.Color.WHITE;
 
@@ -45,8 +43,9 @@ public class PersonListActivity extends Activity {
 
     private PersonaAdapter myAdapter;
 
-    static public List<Persona> listaPersonas;
-    static public double montoTotal;
+    private List<Persona> listaPersonas;
+    private GrupoPersonas grupoPersonas;
+    private double montoTotal;
 
     int numPersons;
     TextView seekBarValue;
@@ -57,9 +56,11 @@ public class PersonListActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
-        numPersons = MainActivity.personasCount;
+        Bundle bundleObject = getIntent().getExtras();
 
-        listaPersonas = MainActivity._listaPersonas;
+        grupoPersonas = (GrupoPersonas) bundleObject.getSerializable("array_personas");
+        listaPersonas = grupoPersonas.get_listaPersonas();
+        numPersons = getIntent().getIntExtra("personasCount",0);
 
         updateView(listaPersonas);
     }
@@ -153,6 +154,14 @@ public class PersonListActivity extends Activity {
                 if (montoTotal > 0) {
                     if (personas.size()>1){
                         Intent intent = new Intent(v.getContext(), PersonSelectionActivity.class);
+
+                        GrupoPersonas personasGroup = new GrupoPersonas();
+                        personasGroup.set_listaPersonas(personas);
+                        Bundle b = new Bundle();
+                        b.putSerializable("array_personas", personasGroup);
+                        intent.putExtras(b);
+                        intent.putExtra("monto_total", montoTotal);
+
                         startActivity(intent);
                     }else{
                         Toast.makeText(v.getContext(), "Para calcular gastos, al menos tiene que haber 2 personas.", Toast.LENGTH_SHORT).show();

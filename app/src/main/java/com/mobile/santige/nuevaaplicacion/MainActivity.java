@@ -7,14 +7,11 @@ import android.view.*;
 import android.util.Log;
 import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends Activity implements View.OnClickListener {
 
     String msg = "Android";
-    public static Integer personasCount=2;
-    public static List<Persona> _listaPersonas;
+    private Integer personasCount=2;
+    private GrupoPersonas grupoPersonas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +59,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         incializarPersonas();
 
         Intent intent = new Intent(this, PersonListActivity.class );
+        Bundle b = new Bundle();
+
+        b.putSerializable("array_personas", grupoPersonas);
+        intent.putExtras(b);
+        intent.putExtra("personasCount", personasCount);
         startActivity(intent);
     }
 
@@ -73,13 +75,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    public static void incializarPersonas() {
-        _listaPersonas = new ArrayList<Persona>();
+    public void incializarPersonas() {
+
+        grupoPersonas = new GrupoPersonas();
         for (int i = 0 ; i< personasCount; i++){
             Persona p = new Persona();
             p.setNombre("Persona " + i );
             p.setListID(i);
-            _listaPersonas.add(p);
+            grupoPersonas.get_listaPersonas().add(p);
         }
     }
 }

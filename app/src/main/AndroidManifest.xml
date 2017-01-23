@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PersonSelectionActivity" />
+        <activity android:name=".ResultActivity" />
         <activity
             android:name=".PersonListActivity"
             android:label="@string/title_activity_person_list"
@@ -27,19 +28,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mobile.santige.nuevaaplicacion.MainActivity" />
         </activity>
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <activity android:name=".PersonDetail_Activity" />
-        <activity android:name=".activity_gasto" />
-        <activity android:name=".GastoDetail" />
-        <activity android:name=".ResultActivity" />
-        <activity android:name=".Main2Activity" />
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

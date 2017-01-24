@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -45,9 +47,13 @@ public class ResultActivity extends Activity {
 
     static String textPersonaSinGasto = "las personas sin gastos";
 
+    DatabaseHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        db = new DatabaseHandler(this);
 
         Bundle bundleObject = getIntent().getExtras();
         GrupoPersonas grupoPersonas = (GrupoPersonas) bundleObject.getSerializable("array_personas");
@@ -109,10 +115,12 @@ public class ResultActivity extends Activity {
         global_panel.addView(ibMenu, topParams);
 
         // +++++++++++++ BOTTOM COMPONENT: the footer
-        RelativeLayout ibMenuBot = new RelativeLayout(this);
+        LinearLayout ibMenuBot = new LinearLayout(this);
+        ibMenuBot.setWeightSum(3);
         ibMenuBot.setId(idBotLayout);
+        ibMenuBot.setOrientation(LinearLayout.HORIZONTAL);
         ibMenuBot.setBackgroundColor(Color.argb(100,0,256,0));
-        ibMenuBot.setMinimumHeight(bottomMenuHeight);
+        //ibMenuBot.setMinimumHeight(bottomMenuHeight);
         RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         botParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -129,8 +137,30 @@ public class ResultActivity extends Activity {
         lpcTVBot.addRule(RelativeLayout.ALIGN_TOP);
 
         // botton
+        Button guardarButton = new Button(this);
+        guardarButton.setText("Guardar Peña");
+        guardarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Penia penia = getPenia();
+                db.addPenia(penia);
+            }
+
+            @NonNull
+            private Penia getPenia() {
+                Date date = new Date();
+                Penia penia = new Penia();
+                penia.setMonto(montoTotal);
+                penia.setFecha(date.toString());
+                penia.setCountPersons(cantPersonas);
+                penia.setActiva(1);
+                return penia;
+            }
+        });
+
         Button bottomButton = new Button(this);
-        bottomButton.setText("Compartir!");
+        bottomButton.setText("Compartir");
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,11 +180,20 @@ public class ResultActivity extends Activity {
                 }
             }
         });
-        RelativeLayout.LayoutParams lpcButton = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lpcButton.addRule(RelativeLayout.CENTER_IN_PARENT);
-        lpcButton.addRule(RelativeLayout.ALIGN_BOTTOM);
+        LinearLayout.LayoutParams lpcButton = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lpcButton.weight = 1;
 
-        //ibMenuBot.addView(cTVBot, lpcTVBot);
+        Button botonVerPenias = new Button(this);
+        botonVerPenias.setText("Ver Peñas");
+        botonVerPenias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"Cantidad de peñas en BD: " + db.getPeniaCount(), Toast.LENGTH_SHORT ).show();
+            }
+        });
+
+        ibMenuBot.addView(botonVerPenias,lpcButton);
+        ibMenuBot.addView(guardarButton, lpcButton);
         ibMenuBot.addView(bottomButton, lpcButton);
 
         // +++++++++++++ MIDDLE COMPONENT: all our GUI content

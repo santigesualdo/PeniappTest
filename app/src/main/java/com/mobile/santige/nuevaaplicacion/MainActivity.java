@@ -20,6 +20,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button comenzar = (Button) findViewById(R.id.comenzar);
         comenzar.setOnClickListener(this);
 
+        DatabaseHandler dbHandler = new DatabaseHandler(this);
+
+
+
+
+
         Log.d(msg,"The OnCreate() event. ");
     }
 

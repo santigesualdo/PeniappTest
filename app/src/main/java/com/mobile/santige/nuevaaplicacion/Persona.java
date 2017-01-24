@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Persona implements Serializable {
 
+    private Integer id;
+    private Integer peniaId;
     private String nombre;
     private List<Gasto> gastos;
     private int listID;
@@ -43,5 +45,21 @@ public class Persona implements Serializable {
 
     public void setMensajeSalida(String mensajeSalida) {
         this.mensajeSalida = mensajeSalida;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPeniaId() {
+        return peniaId;
+    }
+
+    public void setPeniaId(Integer peniaId) {
+        this.peniaId = peniaId;
     }
 }

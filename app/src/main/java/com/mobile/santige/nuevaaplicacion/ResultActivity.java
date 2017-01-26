@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -53,7 +54,7 @@ public class ResultActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        db = new DatabaseHandler(this);
+        db = DatabaseHandler.getInstance(this);
 
         Bundle bundleObject = getIntent().getExtras();
         GrupoPersonas grupoPersonas = (GrupoPersonas) bundleObject.getSerializable("array_personas");
@@ -116,7 +117,7 @@ public class ResultActivity extends Activity {
 
         // +++++++++++++ BOTTOM COMPONENT: the footer
         LinearLayout ibMenuBot = new LinearLayout(this);
-        ibMenuBot.setWeightSum(3);
+        ibMenuBot.setWeightSum(2);
         ibMenuBot.setId(idBotLayout);
         ibMenuBot.setOrientation(LinearLayout.HORIZONTAL);
         ibMenuBot.setBackgroundColor(Color.argb(100,0,256,0));
@@ -188,7 +189,7 @@ public class ResultActivity extends Activity {
         botonVerPenias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),"Cantidad de peñas en BD: " + db.getPeniaCount(), Toast.LENGTH_SHORT ).show();
+
             }
         });
 

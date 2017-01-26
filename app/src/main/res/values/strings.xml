@@ -112,5 +112,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="button_ver_peñas_anteriores">ver peñas anteriores</string>
+    <string name="title_activity_ver_penias">VerPeniasActivity</string>
 
 </resources>

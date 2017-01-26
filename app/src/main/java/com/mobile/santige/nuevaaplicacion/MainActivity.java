@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -17,14 +18,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Button comenzar = (Button) findViewById(R.id.comenzar);
         comenzar.setOnClickListener(this);
 
-        DatabaseHandler dbHandler = new DatabaseHandler(this);
-
-
-
-
+        Button verPenias = (Button) findViewById(R.id.ver_peñas);
+        verPenias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), VerPeniasActivity.class);
+                startActivity(i);
+            }
+        });
 
         Log.d(msg,"The OnCreate() event. ");
     }

@@ -40,25 +40,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String GASTO_KEY_ID_PERSON= "id_person";
     private static final String GASTO_KEY_MONTO= "monto";
 
-    public static DatabaseHandler dbHandler;
-    public static SQLiteDatabase db;
+    private static DatabaseHandler sInstance;
     Context savedContext;
 
-    public DatabaseHandler(Context context) {
-        super(context, DATABASE_NAME, null , DATABASE_VERSION);
+    public static synchronized DatabaseHandler getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new DatabaseHandler(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    private DatabaseHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         savedContext = context;
-    }
-
-    /** For OPEN database **/
-    public synchronized DatabaseHandler open() throws SQLiteException {
-        dbHandler = new DatabaseHandler(savedContext);
-        db = dbHandler.getWritableDatabase();
-        return this;
-    }
-
-    /** For CLOSE database **/
-    public void close() {
-        dbHandler.close();
     }
 
     @Override
@@ -83,7 +81,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_PENIA_TABLE);
         db.execSQL(CREATE_PERSON_TABLE);
         db.execSQL(CREATE_GASTO_TABLE);
-        open();
     }
 
     @Override
@@ -98,7 +95,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // PEÑA
         /* Agregar peña */
         public void addPenia(Penia penia){
-
+            SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
             values.put(PENIA_KEY_MONTO, penia.getMonto()); // Penia monto
@@ -196,16 +193,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         /* Obtener cuenta de penias */
-        public int getPeniaCount() {
-            if (!db.isOpen())
-                this.open();
+        public Integer getPeniaCount() {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Integer res = 0;
 
             String countQuery = "SELECT  * FROM " + TABLE_PENIA;
-            Cursor cursor = db.rawQuery(countQuery, null);
-            cursor.close();
-
-            // return count
-            return cursor.getCount();
+            if (db!=null){
+                Cursor cursor = db.rawQuery(countQuery, null);
+                res = cursor.getCount();
+                cursor.close();
+            }
+            return res;
         }
 
     // PERSONA

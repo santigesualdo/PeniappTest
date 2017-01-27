@@ -22,8 +22,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -145,15 +148,23 @@ public class ResultActivity extends Activity {
             public void onClick(View v) {
 
                 Penia penia = getPenia();
-                db.addPenia(penia);
+                if (db.addPenia(penia)!= -1) {
+                    Toast.makeText(v.getContext(),"La peña fue guardada con exito.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @NonNull
             private Penia getPenia() {
-                Date date = new Date();
+                Calendar cal = Calendar.getInstance();
+                Date currentLocalTime = cal.getTime();
+
+                DateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
+                String localTime = date.format(currentLocalTime);
+
                 Penia penia = new Penia();
                 penia.setMonto(montoTotal);
-                penia.setFecha(date.toString());
+                penia.setFecha(localTime);
                 penia.setCountPersons(cantPersonas);
                 penia.setActiva(1);
                 return penia;
@@ -184,16 +195,6 @@ public class ResultActivity extends Activity {
         LinearLayout.LayoutParams lpcButton = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lpcButton.weight = 1;
 
-        Button botonVerPenias = new Button(this);
-        botonVerPenias.setText("Ver Peñas");
-        botonVerPenias.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        ibMenuBot.addView(botonVerPenias,lpcButton);
         ibMenuBot.addView(guardarButton, lpcButton);
         ibMenuBot.addView(bottomButton, lpcButton);
 

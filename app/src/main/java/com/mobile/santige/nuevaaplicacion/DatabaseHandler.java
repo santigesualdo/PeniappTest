@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +43,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     Context savedContext;
 
     public static synchronized DatabaseHandler getInstance(Context context) {
-
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
         if (sInstance == null) {
             sInstance = new DatabaseHandler(context.getApplicationContext());
         }
@@ -94,7 +89,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // PEÑA
         /* Agregar peña */
-        public void addPenia(Penia penia){
+        public Long addPenia(Penia penia){
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
@@ -103,8 +98,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(PENIA_KEY_COUNTPERSONS, penia.getCountPersons()); // Penia monto
             values.put(PENIA_KEY_ACTIVE, penia.getActiva()); // Penia monto
 
-            db.insert(TABLE_PENIA, null, values);
+            Long result = db.insert(TABLE_PENIA, null, values);
             db.close();
+
+            return result;
         }
 
         /* Obtener nuevo ID para peña */

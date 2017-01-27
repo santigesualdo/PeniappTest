@@ -1,11 +1,14 @@
 package com.mobile.santige.nuevaaplicacion;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -22,9 +25,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 import static android.graphics.Color.WHITE;
+import static android.graphics.Color.YELLOW;
 
 public class VerPeniasActivity extends Activity {
 
@@ -62,6 +68,7 @@ public class VerPeniasActivity extends Activity {
 
         // +++++++++++++ TOP COMPONENT: the header
         RelativeLayout ibMenu = new RelativeLayout(this);
+        ibMenu.setBackgroundColor(Color.GRAY);
         ibMenu.setId(idTopLayout);
 
         RelativeLayout.LayoutParams topParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -72,7 +79,8 @@ public class VerPeniasActivity extends Activity {
         int nTextH = 18;
         TextView m_bCancel = new TextView(this);
         m_bCancel.setId(idBack);
-        m_bCancel.setText("¿Quienes gastaron?");
+        m_bCancel.setText("Listado de Peñas.");
+        m_bCancel.setBackgroundColor(Color.LTGRAY);
         nTextH = 18;
         m_bCancel.setTextSize(TypedValue.COMPLEX_UNIT_SP, nTextH);
         m_bCancel.setTypeface(Typeface.create("arial", Typeface.BOLD));
@@ -84,26 +92,30 @@ public class VerPeniasActivity extends Activity {
         // +++++++++++++ BOTTOM COMPONENT: the footer
         LinearLayout ibMenuBot = new LinearLayout(this);
         ibMenuBot.setId(idBotLayout);
-        ibMenuBot.setBackgroundColor(WHITE);
         ibMenuBot.setBackgroundResource(R.drawable.border);
-        //ibMenuBot.setMinimumHeight(bottomMenuHeight);
-        // LinearLayout.LayoutParams ibMenuBotParams = (LinearLayout.LayoutParams) ibMenuBot.getLayoutParams();
-        //ibMenuBotParams. = 2;
 
         RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //botParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         global_panel.addView(ibMenuBot, botParams);
 
-        // textview in ibMenu : card holder
+
+        Double montoTotalP = 0.0;
+        for ( Penia penia : listaPenias){
+            montoTotalP+=penia.getMonto();
+        }
+        DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        df.setMaximumFractionDigits(2); //340 = DecimalFormat.DOUBLE_FRACTION_DIGITS
+        df.setMinimumFractionDigits(2);//FractionDigits(2);
+
         TextView cTVBot = new TextView(this);
-        cTVBot.setText("Monto total gastado: ");
+        cTVBot.setText("Cantidad de Peñas: " + listaPenias.size()  );
+
+
         cTVBot.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
         cTVBot.setTypeface(Typeface.create("arial", Typeface.BOLD));
         RelativeLayout.LayoutParams lpcTVBot = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //lpcTVBot.addRule(RelativeLayout.CENTER_IN_PARENT);
-        //lpcTVBot.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         lpcTVBot.setMargins(20,0,20,0);
+        ibMenuBot.addView(cTVBot,lpcTVBot);
 
         // +++++++++++++ MIDDLE COMPONENT: all our GUI content
         LinearLayout midLayout = new LinearLayout(this);
@@ -111,11 +123,18 @@ public class VerPeniasActivity extends Activity {
         midLayout.setBackgroundColor(WHITE);
         midLayout.setOrientation(LinearLayout.VERTICAL);
 
-        Button addPerson = new Button(this);
-        addPerson.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        addPerson.setText("Agregar Persona con Gastos");
-        addPerson.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-        midLayout.addView(addPerson);
+        Button addPenia = new Button(this);
+        addPenia.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        addPenia.setText("Nueva peña.");
+        addPenia.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        addPenia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+        midLayout.addView(addPenia);
 
         RelativeLayout.LayoutParams midParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         midParams.addRule(RelativeLayout.ABOVE, ibMenuBot.getId());
@@ -138,6 +157,7 @@ public class VerPeniasActivity extends Activity {
             list.setAdapter(myAdapter);
         } else {
             myAdapter = new VerPeniasActivity.PeniaAdapter(this, listaPenias);
+            list.setAdapter(myAdapter);
         }
 
         m_panel.addView(list);
@@ -190,10 +210,37 @@ public class VerPeniasActivity extends Activity {
 
                 final ImageButton but = new ImageButton(VerPeniasActivity.this);
                 but.setBackgroundColor(Color.TRANSPARENT);
-                but.setImageResource(R.drawable.penc);
+                but.setImageResource(R.drawable.elim);
                 LinearLayout.LayoutParams param3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 param3.weight=0.2f;
                 but.setLayoutParams(param3);
+                but.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which){
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                            PeniaAdapter.super.remove(penia);
+                                            DatabaseHandler db = DatabaseHandler.getInstance(v.getContext());
+                                            db.deletePenia(penia);
+                                            updateView(listaPenias);
+                                        break;
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        break;
+                                }
+                            }
+                        };
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setMessage("¿Esta seguro de eliminar esta peña?")
+                                .setNegativeButton("No", dialogClickListener)
+                                .setPositiveButton("Si", dialogClickListener)
+                                .show();
+                    }
+                });
 
                 personaEditLay.addView(but);
                 personaEditLay.addView(listText);

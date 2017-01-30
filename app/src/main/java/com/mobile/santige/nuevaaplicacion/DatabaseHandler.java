@@ -236,6 +236,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             return persona;
         }
 
+        /* Obtener todas las personas de una peña*/
+        public List<Persona> getAllPersonas(int peniaId){
+            List<Persona> personasList = new ArrayList<Persona>();
+            String selectQuery = "SELECT  * FROM " + TABLE_PERSON + " WHERE " + PERSON_KEY_ID_PENIA + " = " + peniaId ;
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Persona persona = new Persona();
+                    persona.setId(cursor.getInt(0));
+                    persona.setPeniaId(cursor.getInt(1));
+                    persona.setNombre(cursor.getString(2));
+                    personasList.add(persona);
+                } while (cursor.moveToNext());
+            }
+
+            return personasList;
+        }
+
         /* Obtener todas las personas */
         public List<Persona> getAllPersonas(){
             List<Persona> personasList = new ArrayList<Persona>();

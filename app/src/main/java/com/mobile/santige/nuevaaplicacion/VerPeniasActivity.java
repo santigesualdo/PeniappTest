@@ -43,12 +43,14 @@ public class VerPeniasActivity extends Activity {
             idBotLayout = Menu.FIRST + 102,
             bottomMenuHeight = 75;
 
+    DatabaseHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_penias);
 
-        DatabaseHandler db = DatabaseHandler.getInstance(this);
+        db = DatabaseHandler.getInstance(this);
         listaPenias = db.getAllPenias();
 
         if (listaPenias.size()==0){
@@ -193,7 +195,7 @@ public class VerPeniasActivity extends Activity {
 
                 LinearLayout personaEditLay = new LinearLayout(VerPeniasActivity.this);
                 // linearLayoutBut.setPadding(5,5,5,5);
-                personaEditLay.setWeightSum(2);
+                personaEditLay.setWeightSum(3);
                 personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
                 personaEditLay.setBackgroundColor(WHITE);
                 listLayout.addView(personaEditLay);
@@ -245,42 +247,47 @@ public class VerPeniasActivity extends Activity {
                 personaEditLay.addView(but);
                 personaEditLay.addView(listText);
 
+                LinearLayout personaDataLay = new LinearLayout(VerPeniasActivity.this);
+                personaDataLay.setWeightSum(2);
+                personaDataLay.setOrientation(LinearLayout.VERTICAL);
+                personaDataLay.setBackgroundColor(Color.RED);
+
+                TextView cantidadPersonasTxt = new TextView(this.getContext());
+                cantidadPersonasTxt.setText("Personas: " + penia.getCountPersons());
+                cantidadPersonasTxt.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+
+                TextView totalText = new TextView(this.getContext());
+                DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+                df.setMaximumFractionDigits(2);
+                df.setMinimumFractionDigits(2);
+                totalText.setText("Total Gastado: $ "+ df.format(penia.getMonto()));
+                totalText.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+
+                personaDataLay.addView(cantidadPersonasTxt);
+                personaDataLay.addView(totalText);
+                List<Persona> personasEnPenia = db.getAllPersonas(penia.getId());
+                for (Persona p : personasEnPenia ){
+                    if (p.getGastos() != null){
+                        Double gastoTotalPorPersona = 0.0;
+                        for (Gasto g : p.getGastos()){
+                            gastoTotalPorPersona+= g.getMonto();
+                        }
+                        TextView persona = new TextView(this.getContext());
+                        persona.setText( p.getNombre() + " - $" + df.format(gastoTotalPorPersona));
+                        persona.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+                        personaDataLay.addView(persona);
+                    }
+                }
+
+                listLayout.addView(personaDataLay);
+
                 listLayout.setBackgroundColor(WHITE);
 
                 int _id = 5001;
                 final LinearLayout gastosLayout = new LinearLayout(VerPeniasActivity.this);
                 gastosLayout.setOrientation(LinearLayout.VERTICAL);
 
-                final TextView listDescripGasto = new TextView(VerPeniasActivity.this);
-
-                /*if (persona.getGastos() != null) {
-                    Double monto = 0.0;
-                    int cantidad = persona.getGastos().size();
-                    for (Gasto g : persona.getGastos()) {
-                        monto += g.getMonto();
-                    }
-
-
-                    _id++;
-                    listDescripGasto.setId(_id);
-                    listDescripGasto.setBackgroundColor(WHITE);
-                    listDescripGasto.setTextColor(Color.BLACK);
-                    listDescripGasto.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    if (cantidad == 1) {
-                        listDescripGasto.setText("(Compro " + cantidad + " cosa y gasto $ " + monto + ")");
-                    } else {
-                        listDescripGasto.setText("(Compro " + cantidad + " cosas y gasto $ " + monto + ")");
-                    }
-
-                    //gastosLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
-                    gastosLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    gastosLayout.addView(listDescripGasto, ViewGroup.LayoutParams.MATCH_PARENT);
-
-                    listLayout.addView(gastosLayout);
-                }*/
-
                 LinearLayout linearLayoutBut = new LinearLayout(VerPeniasActivity.this);
-                // linearLayoutBut.setPadding(5,5,5,5);
                 linearLayoutBut.setWeightSum(2);
                 linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
                 linearLayoutBut.setBackgroundColor(WHITE);

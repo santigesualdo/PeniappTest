@@ -265,7 +265,8 @@ public class VerPeniasActivity extends Activity {
 
                 personaDataLay.addView(cantidadPersonasTxt);
                 personaDataLay.addView(totalText);
-                List<Persona> personasEnPenia = db.getAllPersonas(penia.getId());
+                List<Persona> personasEnPenia = db.getPersonasByPenia(penia.getId());
+                Integer id = 7000;
                 for (Persona p : personasEnPenia ){
                     if (p.getGastos() != null){
                         Double gastoTotalPorPersona = 0.0;
@@ -273,6 +274,7 @@ public class VerPeniasActivity extends Activity {
                             gastoTotalPorPersona+= g.getMonto();
                         }
                         TextView persona = new TextView(this.getContext());
+                        persona.setId(id++);
                         persona.setText( p.getNombre() + " - $" + df.format(gastoTotalPorPersona));
                         persona.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
                         personaDataLay.addView(persona);

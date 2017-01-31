@@ -205,15 +205,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // PERSONA
         /* Agregar persona */
-        public void addPerson(Persona persona, Penia penia){
+        public Long addPerson(Persona persona, Penia penia){
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
             values.put(PERSON_KEY_ID_PENIA, penia.getId()); // Penia monto
             values.put(PERSON_KEY_NOMBRE, persona.getNombre()); // Penia monto
 
-            db.insert(TABLE_PERSON, null, values);
+            Long result = db.insert(TABLE_PERSON, null, values);
             db.close();
+
+            return result;
         }
 
         /* Obtener persona por Id */
@@ -237,17 +239,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         /* Obtener todas las personas de una peña*/
-        public List<Persona> getAllPersonas(int peniaId){
+        public List<Persona> getPersonasByPenia(int peniaId){
             List<Persona> personasList = new ArrayList<Persona>();
-            String selectQuery = "SELECT  * FROM " + TABLE_PERSON + " WHERE " + PERSON_KEY_ID_PENIA + " = " + peniaId ;
+            String personQuery = "SELECT * FROM " + TABLE_PERSON + " WHERE " + PERSON_KEY_ID_PENIA + " = " + peniaId ;
 
-            SQLiteDatabase db = this.getWritableDatabase();
-            Cursor cursor = db.rawQuery(selectQuery, null);
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(personQuery, null);
 
             if (cursor.moveToFirst()) {
                 do {
                     Persona persona = new Persona();
                     persona.setId(cursor.getInt(0));
+                    String gastosQuery = "SELECT * FROM " + TABLE_GASTO + " WHERE " + GASTO_KEY_ID_PERSON + " = " + persona.getId();
+
+                    Cursor cursor2 = db.rawQuery(gastosQuery, null);
+                    List<Gasto>  gastosPerson = new ArrayList<Gasto>();
+                    if (cursor2.moveToFirst()){
+                        do{
+                            Gasto g = new Gasto("", cursor2.getDouble(2));
+                            gastosPerson.add(g);
+                        }while (cursor2.moveToNext());
+                    }
+                    if (gastosPerson!=null)
+                        persona.setGastos(gastosPerson);
                     persona.setPeniaId(cursor.getInt(1));
                     persona.setNombre(cursor.getString(2));
                     personasList.add(persona);
@@ -312,15 +326,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // GASTO
         /* Agregar gasto */
-        public void addGasto(Gasto gasto, Persona persona){
+        public Long addGasto(Gasto gasto, Integer personId){
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(GASTO_KEY_ID_PERSON, persona.getListID()); // Penia monto
+            values.put(GASTO_KEY_ID_PERSON, personId); // Penia monto
             values.put(GASTO_KEY_MONTO, gasto.getMonto()); // Penia monto
 
-            db.insert(TABLE_GASTO, null, values);
+            Long result = db.insert(TABLE_GASTO, null, values);
             db.close();
+
+            return result;
         }
 
         /* Obtener gasto por Id */

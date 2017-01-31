@@ -1,12 +1,16 @@
 package com.mobile.santige.nuevaaplicacion;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -45,6 +49,8 @@ public class ResultActivity extends Activity {
 
     String mensajeWhatsapp = "";
 
+    Boolean peniaGuardada;
+
     final static int idBotLayout = Menu.FIRST + 102,
             idTopLayout = Menu.FIRST + 100,
             bottomMenuHeight = 75;
@@ -56,6 +62,8 @@ public class ResultActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Boolean peniaGuardada = false;
 
         db = DatabaseHandler.getInstance(this);
 
@@ -111,12 +119,12 @@ public class ResultActivity extends Activity {
         global_panel.setGravity(Gravity.FILL);
 
         // +++++++++++++ TOP COMPONENT: the header
-        RelativeLayout ibMenu = new RelativeLayout(this);
+        /*RelativeLayout ibMenu = new RelativeLayout(this);
         ibMenu.setId(idTopLayout);
 
         RelativeLayout.LayoutParams topParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         topParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        global_panel.addView(ibMenu, topParams);
+        global_panel.addView(ibMenu, topParams);*/
 
         // +++++++++++++ BOTTOM COMPONENT: the footer
         LinearLayout ibMenuBot = new LinearLayout(this);
@@ -148,9 +156,23 @@ public class ResultActivity extends Activity {
             public void onClick(View v) {
 
                 Penia penia = getPenia();
-                if (db.addPenia(penia)!= -1) {
+                Integer id = db.addPenia(penia).intValue();
+                if (id!= -1) {
+                    penia.setId(id);
+                    for ( Persona p : personas){
+                        if ((p.getGastos()!=null) && (!p.getNombre().equals(textPersonaSinGasto))){
+                            p.setPeniaId( penia.getId());
+                            Integer personId = db.addPerson(p,penia).intValue();
+                            for (Gasto g: p.getGastos()){
+                                db.addGasto(g, personId);
+                            }
+                        }
+                    }
                     Toast.makeText(v.getContext(),"La peña fue guardada con exito.", Toast.LENGTH_SHORT).show();
+                    peniaGuardada = true;
                 }
+
+
             }
 
             @NonNull
@@ -194,6 +216,36 @@ public class ResultActivity extends Activity {
         });
         LinearLayout.LayoutParams lpcButton = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lpcButton.weight = 1;
+
+        Button inicioButtom = new Button(this);
+        inicioButtom.setText("Volver al menu");
+        inicioButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Intent intent = new Intent(v.getContext(), MainActivity.class);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                startActivity(intent);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("Si vuelve atras se perderan los cambios realizados. ¿Continuar?")
+                        .setPositiveButton("Si", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener)
+                        .show();
+            }
+        });
 
         ibMenuBot.addView(guardarButton, lpcButton);
         ibMenuBot.addView(bottomButton, lpcButton);

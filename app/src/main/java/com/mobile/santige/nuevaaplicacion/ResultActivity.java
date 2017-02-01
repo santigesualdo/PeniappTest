@@ -23,8 +23,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -112,45 +116,14 @@ public class ResultActivity extends Activity {
         return y >= 128 ? Color.BLACK : Color.WHITE;
     }
 
-    private void updateView(final List<Persona> personas) {
+    private void updateView( final List<Persona> personas){
+        setContentView(R.layout.activity_result);
 
-        RelativeLayout global_panel = new RelativeLayout(this);
-        global_panel.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        global_panel.setGravity(Gravity.FILL);
-
-        // +++++++++++++ TOP COMPONENT: the header
-        /*RelativeLayout ibMenu = new RelativeLayout(this);
-        ibMenu.setId(idTopLayout);
-
-        RelativeLayout.LayoutParams topParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        topParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        global_panel.addView(ibMenu, topParams);*/
-
-        // +++++++++++++ BOTTOM COMPONENT: the footer
-        LinearLayout ibMenuBot = new LinearLayout(this);
-        ibMenuBot.setWeightSum(2);
-        ibMenuBot.setId(idBotLayout);
-        ibMenuBot.setOrientation(LinearLayout.HORIZONTAL);
-        ibMenuBot.setBackgroundColor(Color.argb(100,0,256,0));
-        //ibMenuBot.setMinimumHeight(bottomMenuHeight);
-        RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        botParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        global_panel.addView(ibMenuBot, botParams);
-
-        // textview in ibMenu : card holder
-        TextView cTVBot = new TextView(this);
-        cTVBot.setPadding(0,0,0,0);
-        cTVBot.setText("Monto total gastado: ");
-        cTVBot.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        cTVBot.setTypeface(Typeface.create("arial", Typeface.BOLD));
-        RelativeLayout.LayoutParams lpcTVBot = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lpcTVBot.addRule(RelativeLayout.CENTER_IN_PARENT);
-        lpcTVBot.addRule(RelativeLayout.ALIGN_TOP);
-
-        // botton
-        Button guardarButton = new Button(this);
+        Button guardarButton = (Button) findViewById( R.id.guardarButton);
         guardarButton.setText("Guardar Peña");
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams )guardarButton.getLayoutParams();
+        params.weight = 1;
+        guardarButton.setLayoutParams(params);
         guardarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,8 +144,6 @@ public class ResultActivity extends Activity {
                     Toast.makeText(v.getContext(),"La peña fue guardada con exito.", Toast.LENGTH_SHORT).show();
                     peniaGuardada = true;
                 }
-
-
             }
 
             @NonNull
@@ -193,8 +164,11 @@ public class ResultActivity extends Activity {
             }
         });
 
-        Button bottomButton = new Button(this);
+        Button bottomButton = (Button) findViewById( R.id.compartirButton);
         bottomButton.setText("Compartir");
+        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams )bottomButton.getLayoutParams();
+        params2.weight = 1;
+        bottomButton.setLayoutParams(params2);
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,10 +188,19 @@ public class ResultActivity extends Activity {
                 }
             }
         });
-        LinearLayout.LayoutParams lpcButton = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lpcButton.weight = 1;
 
-        Button inicioButtom = new Button(this);
+        TextView textBottom = (TextView) findViewById(R.id.textoBottom);
+        textBottom.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textBottom.setText("Monto total gastado: $" + montoTotal);
+        textBottom.setTypeface(Typeface.create("arial", Typeface.BOLD));
+
+        TextView textTop = (TextView) findViewById(R.id.topText);
+        textTop.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textTop.setText("Resultados de la peña:");
+        textTop.setPadding(10,10,10,10);
+        textBottom.setTypeface(Typeface.create("arial", Typeface.BOLD));
+
+        Button inicioButtom = (Button) findViewById( R.id.volverInicioButton);
         inicioButtom.setText("Volver al menu");
         inicioButtom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,29 +230,9 @@ public class ResultActivity extends Activity {
             }
         });
 
-        ibMenuBot.addView(guardarButton, lpcButton);
-        ibMenuBot.addView(bottomButton, lpcButton);
-
-        // +++++++++++++ MIDDLE COMPONENT: all our GUI content
-        LinearLayout midLayout = new LinearLayout(this);
-        midLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        midLayout.setBackgroundColor(Color.WHITE);
-        midLayout.setOrientation(LinearLayout.VERTICAL);
-
-        RelativeLayout.LayoutParams midParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        midParams.addRule(RelativeLayout.ABOVE, ibMenuBot.getId());
-        midParams.addRule(RelativeLayout.BELOW, ibMenu.getId());
-        global_panel.addView(midLayout, midParams);
-        //scroll - so our content will be scrollable between the header and the footer
-        ScrollView vscroll = new ScrollView(this);
-        vscroll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        vscroll.setFillViewport(true);
-        midLayout.addView(vscroll);
-
-        //panel in scroll: add all controls/ objects to this layout
         LinearLayout m_panel = new LinearLayout(this);
-        m_panel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         m_panel.setOrientation(LinearLayout.VERTICAL);
+        ScrollView vscroll = (ScrollView) findViewById(R.id.v_scroll);
         vscroll.addView(m_panel);
         ListView list = new ListView(this);
         if (resPerAdapter != null) {
@@ -279,7 +242,6 @@ public class ResultActivity extends Activity {
         }
 
         m_panel.addView(list);
-        setContentView(global_panel);
     }
 
     private class ResultPersonasAdapter extends ArrayAdapter<Persona>{

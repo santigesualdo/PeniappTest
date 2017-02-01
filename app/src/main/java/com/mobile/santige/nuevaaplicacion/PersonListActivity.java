@@ -133,12 +133,13 @@ public class PersonListActivity extends Activity {
         RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         //botParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
         global_panel.addView(ibMenuBot, botParams);
 
         // textview in ibMenu : card holder
         TextView cTVBot = new TextView(this);
         cTVBot.setText("Monto total gastado: ");
-        cTVBot.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+        cTVBot.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
         cTVBot.setTypeface(Typeface.create("arial", Typeface.BOLD));
         RelativeLayout.LayoutParams lpcTVBot = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         //lpcTVBot.addRule(RelativeLayout.CENTER_IN_PARENT);

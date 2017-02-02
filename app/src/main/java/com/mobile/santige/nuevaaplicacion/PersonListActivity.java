@@ -56,6 +56,8 @@ public class PersonListActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
         Bundle bundleObject = getIntent().getExtras();
 
         grupoPersonas = (GrupoPersonas) bundleObject.getSerializable("array_personas");
@@ -94,61 +96,31 @@ public class PersonListActivity extends Activity {
 
     private void updateView(final List<Persona> personas) {
 
+        setContentView(R.layout.activity_person_list);
+
         //Create our top content holder
-        RelativeLayout global_panel = new RelativeLayout(this);
-        global_panel.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        global_panel.setBackgroundColor(Color.WHITE);
-        global_panel.setGravity(Gravity.FILL);
-
+        RelativeLayout global_panel = (RelativeLayout) findViewById(R.id.global_panel);
         // +++++++++++++ TOP COMPONENT: the header
-        RelativeLayout ibMenu = new RelativeLayout(this);
-        ibMenu.setId(idTopLayout);
-
-        RelativeLayout.LayoutParams topParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        topParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        global_panel.addView(ibMenu, topParams);
+        RelativeLayout ibMenu = (RelativeLayout) findViewById(R.id.ibMenu);
 
         // cancel button in ibMenu
         int nTextH = 18;
-        TextView m_bCancel = new TextView(this);
-        m_bCancel.setId(idBack);
-        m_bCancel.setText("¿Quienes gastaron?");
-        nTextH = 18;
-        m_bCancel.setTextSize(TypedValue.COMPLEX_UNIT_SP, nTextH);
-        m_bCancel.setTypeface(Typeface.create("arial", Typeface.BOLD));
-        RelativeLayout.LayoutParams lpbCancel =
-                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lpbCancel.addRule(RelativeLayout.CENTER_IN_PARENT);
-        ibMenu.addView(m_bCancel, lpbCancel);
+        TextView titleGastos = (TextView) findViewById(R.id.titleGastos);
+        titleGastos.setTextSize(TypedValue.COMPLEX_UNIT_SP, nTextH);
+        titleGastos.setTypeface(Typeface.create("arial", Typeface.BOLD));
 
         // +++++++++++++ BOTTOM COMPONENT: the footer
-        LinearLayout ibMenuBot = new LinearLayout(this);
-        ibMenuBot.setId(idBotLayout);
-        ibMenuBot.setBackgroundColor(WHITE);
-        ibMenuBot.setBackgroundResource(R.drawable.border);
-        //ibMenuBot.setMinimumHeight(bottomMenuHeight);
-        // LinearLayout.LayoutParams ibMenuBotParams = (LinearLayout.LayoutParams) ibMenuBot.getLayoutParams();
-        //ibMenuBotParams. = 2;
-
-        RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //botParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
-        global_panel.addView(ibMenuBot, botParams);
+        LinearLayout ibMenuBot = (LinearLayout) findViewById(R.id.ibMenuBot);
 
         // textview in ibMenu : card holder
-        TextView cTVBot = new TextView(this);
-        cTVBot.setText("Monto total gastado: ");
+        TextView cTVBot = (TextView) findViewById(R.id.cTVBot);
         cTVBot.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
         cTVBot.setTypeface(Typeface.create("arial", Typeface.BOLD));
-        RelativeLayout.LayoutParams lpcTVBot = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //lpcTVBot.addRule(RelativeLayout.CENTER_IN_PARENT);
-        //lpcTVBot.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        lpcTVBot.setMargins(20,0,20,0);
 
         // botton
-        Button bottomButton = new Button(this);
-        bottomButton.setText("Listo!");
+        Button bottomButton = (Button) findViewById(R.id.bottomButton);
+        bottomButton.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        bottomButton.setText("Continuar");
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,21 +144,11 @@ public class PersonListActivity extends Activity {
                 }
             }
         });
-        RelativeLayout.LayoutParams lpcButton = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //lpcButton.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        //lpcButton.addRule(RelativeLayout.ALIGN_BOTTOM);
-
-        ibMenuBot.addView(cTVBot, lpcTVBot);
-        ibMenuBot.addView(bottomButton, lpcButton);
 
         // +++++++++++++ MIDDLE COMPONENT: all our GUI content
-        LinearLayout midLayout = new LinearLayout(this);
-        midLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        midLayout.setBackgroundColor(WHITE);
-        midLayout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout midLayout = (LinearLayout) findViewById(R.id.midLayout);
 
-        Button addPerson = new Button(this);
-        addPerson.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        Button addPerson = (Button) findViewById(R.id.addPerson);
         addPerson.setText("Agregar Persona con Gastos");
         addPerson.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
         addPerson.setOnClickListener(new View.OnClickListener() {
@@ -204,22 +166,15 @@ public class PersonListActivity extends Activity {
                 updateView(personas);
             }
         });
-        midLayout.addView(addPerson);
-
-        RelativeLayout.LayoutParams midParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        midParams.addRule(RelativeLayout.ABOVE, ibMenuBot.getId());
-        midParams.addRule(RelativeLayout.BELOW, ibMenu.getId());
-        global_panel.addView(midLayout, midParams);
         //scroll - so our content will be scrollable between the header and the footer
-        ScrollView vscroll = new ScrollView(this);
-        vscroll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        vscroll.setFillViewport(true);
-        midLayout.addView(vscroll);
+        ScrollView vscroll = (ScrollView) findViewById(R.id.vscroll);
 
         //panel in scroll: add all controls/ objects to this layout
         LinearLayout m_panel = new LinearLayout(this);
-        m_panel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams mpanelParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         m_panel.setOrientation(LinearLayout.VERTICAL);
+        m_panel.setLayoutParams(mpanelParams);
         vscroll.addView(m_panel);
 
         ListView list = new ListView(this);
@@ -241,15 +196,12 @@ public class PersonListActivity extends Activity {
         DecimalFormat df = new DecimalFormat("#.00");
 
         if (montoTotal > 0) {
-            cTVBot.setText("Monto total gastado: $" + df.format(montoTotal));
+            cTVBot.setText("Gastos: $" + df.format(montoTotal));
         } else {
-            cTVBot.setText("Monto total gastado: $0.00");
+            cTVBot.setText("Gastos: $0.00");
         }
 
-
         m_panel.addView(list);
-        setContentView(global_panel);
-
     }
 
     public void onResume() {

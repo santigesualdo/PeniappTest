@@ -10,48 +10,60 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mobile.santige.nuevaaplicacion.PersonSelectionActivity">
 
-    <SeekBar
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar"
+            android:max="50"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:progress="1"
+            style="@android:style/Widget.Material.SeekBar" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekbarvalue"
+            android:textAlignment="center"
+            android:layout_above="@+id/seekBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="26dp"
+            android:textSize="24sp" />
+
+        <Button
+            android:text="@string/text_button_aceptar"
+            android:layout_width="match_parent"
+            android:id="@+id/button2"
+            android:textSize="10sp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/seekBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:max="100"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:progress="1"
-        style="@android:style/Widget.Material.SeekBar" />
+        android:layout_alignParentTop="true">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekbarvalue"
-        android:textAlignment="center"
-        android:layout_above="@+id/seekBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="26dp"
-        android:textSize="18sp" />
-
-    <Button
-        android:text="@string/text_button_aceptar"
-        android:layout_width="match_parent"
-        android:id="@+id/button2"
-        android:textSize="10sp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/seekBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:text="@string/text_select_person"
-        android:layout_width="match_parent"
-        android:id="@+id/textView2"
-        android:textAlignment="center"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginBottom="22dp"
-        android:layout_above="@+id/seekbarvalue"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:text="@string/text_select_person"
+            android:layout_width="match_parent"
+            android:id="@+id/textView2"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/tytlestyle"
+            android:padding="10dp" />
+    </RelativeLayout>
 
 </RelativeLayout>

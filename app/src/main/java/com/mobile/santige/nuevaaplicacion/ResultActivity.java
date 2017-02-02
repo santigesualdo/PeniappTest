@@ -67,7 +67,9 @@ public class ResultActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Boolean peniaGuardada = false;
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
+        peniaGuardada = false;
 
         db = DatabaseHandler.getInstance(this);
 
@@ -205,28 +207,33 @@ public class ResultActivity extends Activity {
         inicioButtom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final Intent intent = new Intent(v.getContext(), MainActivity.class);
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                startActivity(intent);
-                                break;
+                if (peniaGuardada){
+                    startActivity(intent);
+                }else{
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    startActivity(intent);
+                                    break;
 
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
                         }
-                    }
-                };
+                    };
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage("Si vuelve atras se perderan los cambios realizados. ¿Continuar?")
-                        .setPositiveButton("Si", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener)
-                        .show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setMessage("Si vuelve atras se perderan los cambios realizados. ¿Continuar?")
+                            .setPositiveButton("Si", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener)
+                            .show();
+                }
+
+
             }
         });
 

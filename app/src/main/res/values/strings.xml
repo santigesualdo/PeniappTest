@@ -114,5 +114,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="button_ver_peñas_anteriores">ver peñas anteriores</string>
     <string name="title_activity_ver_penias">VerPeniasActivity</string>
+    <string name="quienes_gastaron">¿Quienes gastaron?</string>
+    <string name="continuar">Continuar</string>
+    <string name="agregar_persona">Agregar Persona</string>
+    <string name="gastos">Gastos:</string>
+    <string name="titulo">PeñAPP</string>
+    <string name="volver_al_menu">volver al menu</string>
+    <string name="guardar_peña">guardar peña</string>
+    <string name="compartir">compartir</string>
+    <string name="monto_total">Monto Total</string>
 
 </resources>

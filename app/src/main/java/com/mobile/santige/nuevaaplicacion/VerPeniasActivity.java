@@ -48,6 +48,9 @@ public class VerPeniasActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
         setContentView(R.layout.activity_ver_penias);
 
         db = DatabaseHandler.getInstance(this);

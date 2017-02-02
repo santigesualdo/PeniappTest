@@ -36,7 +36,12 @@
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/topText" />
+            android:id="@+id/topText"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:background="@drawable/tytlestyle"
+            android:padding="5dp"
+            android:layout_margin="5dp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -51,8 +56,8 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="false"
+            android:layout_alignParentBottom="false"
             android:id="@+id/tableLay">
 
             <TableRow
@@ -62,31 +67,36 @@
                 android:id="@+id/row1">
 
                 <TextView
-                    android:text="TextView"
+                    android:text="@string/monto_total"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/textoBottom"
                     android:layout_weight="1"
-                    android:background="@color/common_action_bar_splitter" />
+                    android:background="@color/common_action_bar_splitter"
+                    android:layout_margin="10dp"
+                    tools:ignore="HardcodedText"
+                    android:textAlignment="center" />
             </TableRow>
 
             <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:id="@+id/row2"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:layout_height="match_parent">
 
                 <Button
-                    android:text="Button"
+                    android:text="@string/compartir"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/compartirButton" />
+                    android:layout_height="match_parent"
+                    android:id="@+id/compartirButton"
+                    android:layout_weight="1" />
 
                 <Button
-                    android:text="Button"
+                    android:text="@string/guardar_peña"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/guardarButton" />
+                    android:layout_height="match_parent"
+                    android:id="@+id/guardarButton"
+                    android:layout_weight="1" />
             </TableRow>
 
             <TableRow
@@ -96,7 +106,7 @@
                 android:weightSum="1">
 
                 <Button
-                    android:text="Button"
+                    android:text="@string/volver_al_menu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/volverInicioButton"

@@ -23,6 +23,9 @@ public class PersonSelectionActivity extends Activity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
         setContentView(R.layout.activity_person_selection);
 
         Bundle bundleObject = getIntent().getExtras();

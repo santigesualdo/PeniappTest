@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PeñApp</string>
+    <string name="app_name">Peñapp</string>
     <string name="volver">Volver</string>
     <string name="nombre_descrip">Ingresa el nombre de la persona</string>
     <string name="gasto_descrip">¿En qué gastaste?</string>
@@ -118,10 +118,11 @@
     <string name="continuar">Continuar</string>
     <string name="agregar_persona">Agregar Persona</string>
     <string name="gastos">Gastos:</string>
-    <string name="titulo">PeñAPP</string>
+    <string name="titulo">PEÑAPP</string>
     <string name="volver_al_menu">volver al menu</string>
     <string name="guardar_peña">guardar peña</string>
     <string name="compartir">compartir</string>
     <string name="monto_total">Monto Total</string>
+    <string name="button_acerca_de">Acerca De</string>
 
 </resources>

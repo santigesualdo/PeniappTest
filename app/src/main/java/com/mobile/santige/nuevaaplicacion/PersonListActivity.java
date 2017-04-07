@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -19,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -30,8 +28,6 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.graphics.Color.WHITE;
 
 public class PersonListActivity extends Activity {
 
@@ -103,23 +99,22 @@ public class PersonListActivity extends Activity {
         // +++++++++++++ TOP COMPONENT: the header
         RelativeLayout ibMenu = (RelativeLayout) findViewById(R.id.ibMenu);
 
-        // cancel button in ibMenu
-        int nTextH = 18;
         TextView titleGastos = (TextView) findViewById(R.id.titleGastos);
-        titleGastos.setTextSize(TypedValue.COMPLEX_UNIT_SP, nTextH);
-        titleGastos.setTypeface(Typeface.create("arial", Typeface.BOLD));
+        //titleGastos.setTextSize(TypedValue.COMPLEX_UNIT_SP, nTextH);
+        titleGastos.setTypeface(MainActivity.gothamBold);
+        titleGastos.setBackgroundResource(R.drawable.button_subtittle_shape);
 
         // +++++++++++++ BOTTOM COMPONENT: the footer
         LinearLayout ibMenuBot = (LinearLayout) findViewById(R.id.ibMenuBot);
 
         // textview in ibMenu : card holder
         TextView cTVBot = (TextView) findViewById(R.id.cTVBot);
-        cTVBot.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-        cTVBot.setTypeface(Typeface.create("arial", Typeface.BOLD));
+        cTVBot.setTypeface(MainActivity.gothamBold);
 
         // botton
         Button bottomButton = (Button) findViewById(R.id.bottomButton);
-        bottomButton.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        bottomButton.setTypeface(MainActivity.gothamBold);
+
         bottomButton.setText("Continuar");
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,8 +144,7 @@ public class PersonListActivity extends Activity {
         LinearLayout midLayout = (LinearLayout) findViewById(R.id.midLayout);
 
         Button addPerson = (Button) findViewById(R.id.addPerson);
-        addPerson.setText("Agregar Persona con Gastos");
-        addPerson.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        addPerson.setTypeface(MainActivity.gothamBold);
         addPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -366,39 +360,32 @@ public class PersonListActivity extends Activity {
 
                 LinearLayout personaEditLay = new LinearLayout(PersonListActivity.this);
                 // linearLayoutBut.setPadding(5,5,5,5);
-                personaEditLay.setWeightSum(2);
                 personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
-                personaEditLay.setBackgroundColor(WHITE);
+                personaEditLay.setBackgroundColor(Color.TRANSPARENT);
+
                 listLayout.addView(personaEditLay);
 
                 listText.setText(persona.getNombre());
-                listText.setBackgroundColor(Color.TRANSPARENT);
-
-                listText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                listText.setGravity(Gravity.CENTER_VERTICAL);
-                listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-                LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param2.weight=1.8f;
+                listText.setBackgroundColor(Color.WHITE);
+                listText.setTextColor(Color.BLACK);
+                listText.setGravity(Gravity.CENTER_HORIZONTAL);
+                listText.setTypeface(MainActivity.gothamBold);
+                LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                param2.setMargins(0,0,0,10);
                 listText.setLayoutParams(param2);
 
-                final ImageButton but = new ImageButton(PersonListActivity.this);
-                but.setBackgroundColor(Color.TRANSPARENT);
-                but.setImageResource(R.drawable.penc);
-                LinearLayout.LayoutParams param3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param3.weight=0.2f;
-                but.setLayoutParams(param3);
 
-                but.setOnClickListener(new View.OnClickListener() {
+                listText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showEditPersonNameDialog(v, persona);
                     }
                 });
 
-                personaEditLay.addView(but);
+                /*personaEditLay.addView(but);*/
                 personaEditLay.addView(listText);
 
-                listLayout.setBackgroundColor(WHITE);
+                listLayout.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
 
                 int _id = 5001;
                 final LinearLayout gastosLayout = new LinearLayout(PersonListActivity.this);
@@ -416,9 +403,9 @@ public class PersonListActivity extends Activity {
 
                     _id++;
                     listDescripGasto.setId(_id);
-                    listDescripGasto.setBackgroundColor(WHITE);
+                    listDescripGasto.setBackgroundColor(Color.argb(1,0,168,152));
                     listDescripGasto.setTextColor(Color.BLACK);
-                    listDescripGasto.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
                     if (cantidad == 1) {
                         listDescripGasto.setText("(Compro " + cantidad + " cosa y gasto $ " + monto + ")");
                     } else {
@@ -426,7 +413,7 @@ public class PersonListActivity extends Activity {
                     }
 
                     //gastosLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
-                    gastosLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    gastosLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                     gastosLayout.addView(listDescripGasto, ViewGroup.LayoutParams.MATCH_PARENT);
 
                     listLayout.addView(gastosLayout);
@@ -436,7 +423,7 @@ public class PersonListActivity extends Activity {
                 // linearLayoutBut.setPadding(5,5,5,5);
                 linearLayoutBut.setWeightSum(2);
                 linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
-                linearLayoutBut.setBackgroundColor(WHITE);
+                linearLayoutBut.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
                 listLayout.addView(linearLayoutBut);
 
                 LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);
@@ -444,7 +431,11 @@ public class PersonListActivity extends Activity {
 
                 Button bNuevoGasto = new Button(this.getContext());
                 bNuevoGasto.setText("Agregar Gasto");
+
                 bNuevoGasto.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+                bNuevoGasto.setTypeface(MainActivity.gothamBold);
+                bNuevoGasto.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
+
                 bNuevoGasto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v)
@@ -456,6 +447,8 @@ public class PersonListActivity extends Activity {
 
                 Button removePerson = new Button(this.getContext());
                 removePerson.setText("Quitar Persona");
+                removePerson.setTypeface(MainActivity.gothamBold);
+                removePerson.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
                 removePerson.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
                 removePerson.setOnClickListener(new View.OnClickListener() {
                     @Override

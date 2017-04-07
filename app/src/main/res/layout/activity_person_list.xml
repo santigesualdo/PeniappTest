@@ -20,37 +20,72 @@
         android:layout_below="@+id/ibMenu"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/addPerson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/agregar_persona"
-            android:textAlignment="center" />
-
         <ScrollView
             android:id="@+id/vscroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.07"
             android:fillViewport="true">
 
         </ScrollView>
+
+        <Button
+            android:id="@+id/addPerson"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_subtittle2_shape"
+            android:text="@string/agregar_persona"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/ibMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/textTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_tittle_shape"
+            android:padding="5dp"
+            android:text="@string/titulo"
+            android:textAlignment="center"
+            android:textColor="@color/backColor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/titleGastos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/tytlestyle"
-            android:padding="10dp"
+            android:layout_alignLeft="@+id/textTitulo"
+            android:layout_below="@+id/textTitulo"
+            android:layout_marginEnd="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
             android:text="@string/quienes_gastaron"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            tools:background="@drawable/button_subtittle_shape" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -59,30 +94,34 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="@drawable/border"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="2">
 
         <TextView
             android:id="@+id/cTVBot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="4.22"
+            android:background="@drawable/button_subtittle_shape"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="@string/gastos"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/bottomButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_subtittle2_shape_round"
             android:text="@string/continuar"
-            android:textAlignment="inherit" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -5,8 +5,8 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.mobile.santige.nuevaaplicacion"
-        minSdkVersion 19
-        targetSdkVersion 19
+        minSdkVersion 14
+        targetSdkVersion 14
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

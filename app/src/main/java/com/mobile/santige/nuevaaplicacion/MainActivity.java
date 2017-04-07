@@ -2,10 +2,12 @@ package com.mobile.santige.nuevaaplicacion;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.*;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -13,6 +15,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     String msg = "Android";
     private Integer personasCount=2;
     private GrupoPersonas grupoPersonas;
+
+    public static Typeface gothamBold;
+    public static Typeface gothamThin;
+    public static Typeface gothamThinItalic;
+    public static Typeface gothamMedium;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +29,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         setContentView(R.layout.activity_main);
 
+        /*gothamBold = Typeface.createFromAsset(getAssets(),"fonts/Gotham-Bold.otf");
+        gothamThin = Typeface.createFromAsset(getAssets(),"fonts/Gotham-Thin.otf");
+        gothamThinItalic = Typeface.createFromAsset(getAssets(),"fonts/Gotham-ThinItalic.otf");
+        gothamMedium = Typeface.createFromAsset(getAssets(),"fonts/Gotham-Medium.otf");*/
+
+        TextView tv = (TextView) findViewById(R.id.textTitulo);
+        tv.setTypeface(gothamBold);
+
         Button comenzar = (Button) findViewById(R.id.comenzar);
+        Button acercade = (Button) findViewById(R.id.acerca_de);
+
+        comenzar.setTypeface(gothamThin);
+        acercade.setTypeface(gothamThin);
+
         comenzar.setOnClickListener(this);
 
         Button verPenias = (Button) findViewById(R.id.ver_peñas);
@@ -33,6 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(i);
             }
         });
+        verPenias.setTypeface(gothamThin);
 
         Log.d(msg,"The OnCreate() event. ");
     }
@@ -75,7 +96,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(this, PersonListActivity.class );
         Bundle b = new Bundle();
 
-        b.putSerializable("array_personas", grupoPersonas);
+            b.putSerializable("array_personas", grupoPersonas);
         intent.putExtras(b);
         intent.putExtra("personasCount", personasCount);
         startActivity(intent);

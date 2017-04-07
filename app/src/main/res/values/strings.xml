@@ -114,9 +114,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="button_ver_peñas_anteriores">ver peñas anteriores</string>
     <string name="title_activity_ver_penias">VerPeniasActivity</string>
-    <string name="quienes_gastaron">¿Quienes gastaron?</string>
+    <string name="quienes_gastaron">Amigos que gastaron</string>
     <string name="continuar">Continuar</string>
-    <string name="agregar_persona">Agregar Persona</string>
+    <string name="agregar_persona">Agregar Amigo</string>
     <string name="gastos">Gastos:</string>
     <string name="titulo">PEÑAPP</string>
     <string name="volver_al_menu">volver al menu</string>

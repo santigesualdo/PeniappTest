@@ -378,10 +378,11 @@ public class PersonListActivity extends Activity {
                 }
                 //listText.setBackgroundColor(Color.WHITE);
                 listText.setTextColor(Color.BLACK);
+                listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
                 listText.setGravity(Gravity.CENTER_HORIZONTAL);
                 listText.setTypeface(MainActivity.gothamBold);
                 LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param2.setMargins(0,0,0,5);
+                param2.setMargins(0,10,0,5);
                 listText.setLayoutParams(param2);
 
                 listText.setOnClickListener(new View.OnClickListener() {
@@ -402,38 +403,44 @@ public class PersonListActivity extends Activity {
 
                 final TextView listDescripGasto = new TextView(PersonListActivity.this);
 
-                if (persona.getGastos() != null) {
-                    Double monto = 0.0;
-                    int cantidad = persona.getGastos().size();
-                    for (Gasto g : persona.getGastos()) {
-                        monto += g.getMonto();
-                    }
-
-
-                    _id++;
-                    listDescripGasto.setId(_id);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        listDescripGasto.setBackground(getResources().getDrawable(R.drawable.gradient2));
-                    }
-                    listDescripGasto.setBackgroundColor(getResources().getColor(R.color.buttonPressedColor));
-                    listDescripGasto.setTextColor(Color.WHITE);
-                    listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
-                    listDescripGasto.setText(" Gastó $ " + monto );
-                    /*if (cantidad == 1) {
-                        listDescripGasto.setText(" Gastó $ " + monto );
-                    } else {
-                        listDescripGasto.setText(" Gastó $ " + monto );
-                    }*/
-
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-                    lp.setMargins(0,0,0,5);
-
-                    //gastosLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
-                    gastosLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    gastosLayout.addView(listDescripGasto, lp);
-
-                    listLayout.addView(gastosLayout);
+                if (persona.getGastos() == null) {
+                    List<Gasto> gastos = new ArrayList<Gasto>();
+                    gastos.add(new Gasto("", 0.0));
+                    persona.setGastos(gastos);
                 }
+
+
+                Double monto = 0.0;
+                int cantidad = persona.getGastos().size();
+                for (Gasto g : persona.getGastos()) {
+                    monto += g.getMonto();
+                }
+
+
+                _id++;
+                listDescripGasto.setId(_id);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    listDescripGasto.setBackground(getResources().getDrawable(R.drawable.gradient2));
+                }
+                listDescripGasto.setBackgroundColor(getResources().getColor(R.color.buttonPressedColor));
+                listDescripGasto.setTextColor(Color.WHITE);
+                listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
+                listDescripGasto.setText(" Gastó $ " + monto );
+                /*if (cantidad == 1) {
+                    listDescripGasto.setText(" Gastó $ " + monto );
+                } else {
+                    listDescripGasto.setText(" Gastó $ " + monto );
+                }*/
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+                lp.setMargins(0,0,0,5);
+
+                //gastosLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
+                gastosLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+                gastosLayout.addView(listDescripGasto, lp);
+
+                listLayout.addView(gastosLayout);
+
 
                 LinearLayout linearLayoutBut = new LinearLayout(PersonListActivity.this);
                 // linearLayoutBut.setPadding(5,5,5,5);
@@ -444,6 +451,7 @@ public class PersonListActivity extends Activity {
                 listLayout.addView(linearLayoutBut);
 
                 LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);
+                param.setMargins(5,10,5,10);
                 param.weight=1.0f;
 
                 Button bNuevoGasto = new Button(this.getContext());
@@ -452,6 +460,7 @@ public class PersonListActivity extends Activity {
                 bNuevoGasto.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
                 bNuevoGasto.setTypeface(MainActivity.gothamBold);
                 bNuevoGasto.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
+
 
                 bNuevoGasto.setOnClickListener(new View.OnClickListener() {
                     @Override

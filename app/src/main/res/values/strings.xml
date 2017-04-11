@@ -124,5 +124,6 @@
     <string name="compartir">compartir</string>
     <string name="monto_total">Monto Total</string>
     <string name="button_acerca_de">Acerca De</string>
+    <string name="total_amigos">Total de amigos que participaron</string>
 
 </resources>

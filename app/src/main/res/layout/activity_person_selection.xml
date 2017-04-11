@@ -4,6 +4,7 @@
     android:id="@+id/activity_person_selection"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundGlobalColor"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,59 +12,100 @@
     tools:context="com.mobile.santige.nuevaaplicacion.PersonSelectionActivity">
 
     <RelativeLayout
+        android:id="@+id/ibMenu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/seekBar"
-            android:max="50"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:progress="1"
-            style="@android:style/Widget.Material.SeekBar" />
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true">
 
         <TextView
+            android:id="@+id/textTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/seekbarvalue"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_tittle_shape"
+            android:padding="5dp"
+            android:text="@string/titulo"
             android:textAlignment="center"
-            android:layout_above="@+id/seekBar"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="26dp"
-            android:textSize="24sp" />
+            android:textColor="@color/backColor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:text="@string/text_button_aceptar"
+        <TextView
+            android:id="@+id/titleGastos"
             android:layout_width="match_parent"
-            android:id="@+id/button2"
-            android:textSize="10sp"
-            android:layout_height="35dp"
-            android:layout_below="@+id/seekBar"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="20dp" />
+            android:layout_below="@+id/textTitulo"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/total_amigos"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            tools:background="@drawable/button_subtittle_shape" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true">
 
-        <TextView
-            android:text="@string/text_select_person"
+        <SeekBar
+            android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:id="@+id/textView2"
-            android:textAlignment="center"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@drawable/tytlestyle"
-            android:padding="10dp" />
+            android:layout_centerVertical="true"
+            android:foreground="@android:color/white"
+            android:progressDrawable="@drawable/progress"
+            android:thumb="@drawable/thumb"
+            android:max="50"
+            android:progress="1" />
+
+        <SeekBar
+            android:id="@+id/seekBarDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+ >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/seekbarvalue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/seekBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="26dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/button_subtittle2_shape_round"
+            android:text="@string/text_button_aceptar"
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="35dp" />
     </RelativeLayout>
 
 </RelativeLayout>

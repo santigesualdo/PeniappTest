@@ -28,7 +28,6 @@
             android:layout_marginStart="49dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_tittle_shape"
-            android:elegantTextHeight="false"
             android:padding="10dp"
             android:text="@string/titulo"
             android:textAlignment="center"

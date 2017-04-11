@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -178,6 +180,9 @@ public class PersonListActivity extends Activity {
             myAdapter = new PersonaAdapter(this, personas);
         }
 
+        list.setDivider(getResources().getDrawable(R.drawable.list_view_divider));
+        list.setDividerHeight(3);
+
         montoTotal = 0;
         for (Persona pe : personas) {
             if (pe.getGastos() != null) {
@@ -339,6 +344,8 @@ public class PersonListActivity extends Activity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
+            //convertView.setBackgroundColor(Color.YELLOW);
+
             final LinearLayout listLayout = new LinearLayout(PersonListActivity.this);
             listLayout.setOrientation(LinearLayout.VERTICAL);
             listLayout.setId(5000);
@@ -348,7 +355,7 @@ public class PersonListActivity extends Activity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             //params.setMargins(20,20,20,20);
             listLayout.setLayoutParams(params);
-            listLayout.setPadding(10,10,10,10);
+            listLayout.setPadding(5,5,5,5);
 
 
             if (listLayout != null) {
@@ -366,14 +373,16 @@ public class PersonListActivity extends Activity {
                 listLayout.addView(personaEditLay);
 
                 listText.setText(persona.getNombre());
-                listText.setBackgroundColor(Color.WHITE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    listText.setBackground(getResources().getDrawable(R.drawable.gradient));
+                }
+                //listText.setBackgroundColor(Color.WHITE);
                 listText.setTextColor(Color.BLACK);
                 listText.setGravity(Gravity.CENTER_HORIZONTAL);
                 listText.setTypeface(MainActivity.gothamBold);
                 LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param2.setMargins(0,0,0,10);
+                param2.setMargins(0,0,0,5);
                 listText.setLayoutParams(param2);
-
 
                 listText.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -403,18 +412,25 @@ public class PersonListActivity extends Activity {
 
                     _id++;
                     listDescripGasto.setId(_id);
-                    listDescripGasto.setBackgroundColor(Color.argb(1,0,168,152));
-                    listDescripGasto.setTextColor(Color.BLACK);
-                    listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
-                    if (cantidad == 1) {
-                        listDescripGasto.setText("(Compro " + cantidad + " cosa y gasto $ " + monto + ")");
-                    } else {
-                        listDescripGasto.setText("(Compro " + cantidad + " cosas y gasto $ " + monto + ")");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        listDescripGasto.setBackground(getResources().getDrawable(R.drawable.gradient2));
                     }
+                    listDescripGasto.setBackgroundColor(getResources().getColor(R.color.buttonPressedColor));
+                    listDescripGasto.setTextColor(Color.WHITE);
+                    listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
+                    listDescripGasto.setText(" Gastó $ " + monto );
+                    /*if (cantidad == 1) {
+                        listDescripGasto.setText(" Gastó $ " + monto );
+                    } else {
+                        listDescripGasto.setText(" Gastó $ " + monto );
+                    }*/
+
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+                    lp.setMargins(0,0,0,5);
 
                     //gastosLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
                     gastosLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    gastosLayout.addView(listDescripGasto, ViewGroup.LayoutParams.MATCH_PARENT);
+                    gastosLayout.addView(listDescripGasto, lp);
 
                     listLayout.addView(gastosLayout);
                 }
@@ -423,7 +439,8 @@ public class PersonListActivity extends Activity {
                 // linearLayoutBut.setPadding(5,5,5,5);
                 linearLayoutBut.setWeightSum(2);
                 linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
-                linearLayoutBut.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
+                linearLayoutBut.setBackgroundColor(Color.TRANSPARENT);
+                //linearLayoutBut.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
                 listLayout.addView(linearLayoutBut);
 
                 LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);

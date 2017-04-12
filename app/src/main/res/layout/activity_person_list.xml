@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ibMenuBot"
-        android:layout_below="@+id/ibMenu"
+        android:layout_below="@+id/topMenu"
         android:orientation="vertical">
 
         <ScrollView
@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/ibMenu"
+        android:id="@+id/topMenu"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentTop="true">

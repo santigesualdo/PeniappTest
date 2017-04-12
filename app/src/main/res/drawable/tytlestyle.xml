@@ -6,6 +6,6 @@
         android:width="3dp"
         android:color="@color/colorPrimaryDark" />
 
-    <solid android:color="@color/common_plus_signin_btn_text_dark_default" />
+    <solid android:color="@color/colorPrimary" />
 
 </shape>

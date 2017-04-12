@@ -123,6 +123,7 @@ public class ResultActivity extends Activity {
 
         Button guardarButton = (Button) findViewById( R.id.guardarButton);
         guardarButton.setText("Guardar Peña");
+        guardarButton.setTypeface(MainActivity.gothamBold);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams )guardarButton.getLayoutParams();
         params.weight = 1;
         guardarButton.setLayoutParams(params);
@@ -167,6 +168,7 @@ public class ResultActivity extends Activity {
         });
 
         Button bottomButton = (Button) findViewById( R.id.compartirButton);
+        bottomButton.setTypeface(MainActivity.gothamBold);
         bottomButton.setText("Compartir");
         LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams )bottomButton.getLayoutParams();
         params2.weight = 1;
@@ -192,18 +194,13 @@ public class ResultActivity extends Activity {
         });
 
         TextView textBottom = (TextView) findViewById(R.id.textoBottom);
-        textBottom.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textBottom.setTypeface(MainActivity.gothamBold);
         textBottom.setText("Monto total gastado: $" + montoTotal);
-        textBottom.setTypeface(Typeface.create("arial", Typeface.BOLD));
-
-        TextView textTop = (TextView) findViewById(R.id.topText);
-        textTop.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        textTop.setText("Resultados de la peña:");
-        textTop.setPadding(10,10,10,10);
-        textBottom.setTypeface(Typeface.create("arial", Typeface.BOLD));
+        textBottom.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16.0F);
 
         Button inicioButtom = (Button) findViewById( R.id.volverInicioButton);
-        inicioButtom.setText("Volver al menu");
+        inicioButtom.setTypeface(MainActivity.gothamBold);
+        inicioButtom.setText(R.string.volver_al_menu);
         inicioButtom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,7 +224,7 @@ public class ResultActivity extends Activity {
                     };
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setMessage("Si vuelve atras se perderan los cambios realizados. ¿Continuar?")
+                    builder.setMessage(R.string.preguntaVerificacion)
                             .setPositiveButton("Si", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener)
                             .show();
@@ -260,21 +257,25 @@ public class ResultActivity extends Activity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             LinearLayout listLayout = new LinearLayout(ResultActivity.this);
             listLayout.setOrientation(LinearLayout.VERTICAL);
-            listLayout.setId(5000);
+            Integer id = 5000;
+            listLayout.setId(id);
             if (listLayout != null) {
                 final Persona persona = super.getItem(position);
 
                 final TextView listText = new TextView(ResultActivity.this);
-                listText.setId(5001);
+                id++;
+                listText.setId(id);
 
                 listText.setText(persona.getNombre());
-                listText.setPadding(0, 5, 0, 5);
-                listText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-                Random rnd = new Random();
+                listText.setTypeface(MainActivity.gothamBold);
+                listText.setPadding(10,10, 10, 10);
+                listText.setGravity(Gravity.CENTER_HORIZONTAL);
+                listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle2_shape));
+                listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+/*                Random rnd = new Random();
                 int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-                listLayout.setBackgroundColor(color);
-                listText.setTextColor(getContrastColor(color));
+                listLayout.setBackgroundColor(color);*/
+                listText.setTextColor(Color.WHITE);
 
                 double acumGastosPersona = 0;
                 double montoAPoner= 0;

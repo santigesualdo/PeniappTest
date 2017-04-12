@@ -12,10 +12,11 @@
     tools:context="com.mobile.santige.nuevaaplicacion.PersonSelectionActivity">
 
     <RelativeLayout
-        android:id="@+id/ibMenu"
+        android:id="@+id/topMenu"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/textTitulo"
@@ -36,31 +37,29 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/titleGastos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textTitulo"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="@string/total_amigos"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            tools:background="@drawable/button_subtittle_shape" />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
+        android:layout_below="@+id/topMenu">
+
+        <TextView
+            android:id="@+id/textoAmigos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/total_amigos"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            tools:background="@drawable/button_subtittle_shape" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -70,11 +69,12 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:foreground="@android:color/white"
-            android:progressDrawable="@drawable/progress"
-            android:minHeight="10dip"
-            android:maxHeight="10dip"
             android:max="50"
-            android:progress="1" />
+            android:maxHeight="10dip"
+            android:minHeight="10dip"
+            android:progress="1"
+            android:progressDrawable="@drawable/progress"
+            android:thumb="@drawable/thumb" />
 
         <TextView
             android:id="@+id/seekbarvalue"
@@ -86,7 +86,8 @@
             android:layout_marginBottom="26dp"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:ignore="SelectableText" />
 
         <Button
             android:id="@+id/button2"

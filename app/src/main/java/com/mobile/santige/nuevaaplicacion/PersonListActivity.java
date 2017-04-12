@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -99,7 +98,7 @@ public class PersonListActivity extends Activity {
         //Create our top content holder
         RelativeLayout global_panel = (RelativeLayout) findViewById(R.id.global_panel);
         // +++++++++++++ TOP COMPONENT: the header
-        RelativeLayout ibMenu = (RelativeLayout) findViewById(R.id.ibMenu);
+        RelativeLayout ibMenu = (RelativeLayout) findViewById(R.id.topMenu);
 
         TextView titleGastos = (TextView) findViewById(R.id.titleGastos);
         //titleGastos.setTextSize(TypedValue.COMPLEX_UNIT_SP, nTextH);
@@ -344,16 +343,15 @@ public class PersonListActivity extends Activity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            //convertView.setBackgroundColor(Color.YELLOW);
+            Integer id = 5000;
 
             final LinearLayout listLayout = new LinearLayout(PersonListActivity.this);
             listLayout.setOrientation(LinearLayout.VERTICAL);
-            listLayout.setId(5000);
+            listLayout.setId(id);
             listLayout.setWeightSum(2);
 
             listLayout.setBackgroundResource(R.drawable.border);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            //params.setMargins(20,20,20,20);
             listLayout.setLayoutParams(params);
             listLayout.setPadding(5,5,5,5);
 
@@ -363,10 +361,10 @@ public class PersonListActivity extends Activity {
                 final Persona persona = super.getItem(position);
 
                 final TextView listText = new TextView(PersonListActivity.this);
-                listText.setId(5001);
+                id = 5001;
+                listText.setId(id);
 
                 LinearLayout personaEditLay = new LinearLayout(PersonListActivity.this);
-                // linearLayoutBut.setPadding(5,5,5,5);
                 personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
                 personaEditLay.setBackgroundColor(Color.TRANSPARENT);
 
@@ -376,15 +374,15 @@ public class PersonListActivity extends Activity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     listText.setBackground(getResources().getDrawable(R.drawable.gradient));
                 }
-                //listText.setBackgroundColor(Color.WHITE);
+
                 listText.setTextColor(Color.BLACK);
                 listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
                 listText.setGravity(Gravity.CENTER_HORIZONTAL);
                 listText.setTypeface(MainActivity.gothamBold);
+                listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
                 LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 param2.setMargins(0,10,0,5);
                 listText.setLayoutParams(param2);
-
                 listText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -392,7 +390,7 @@ public class PersonListActivity extends Activity {
                     }
                 });
 
-                /*personaEditLay.addView(but);*/
+
                 personaEditLay.addView(listText);
 
                 listLayout.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
@@ -411,11 +409,9 @@ public class PersonListActivity extends Activity {
 
 
                 Double monto = 0.0;
-                int cantidad = persona.getGastos().size();
                 for (Gasto g : persona.getGastos()) {
                     monto += g.getMonto();
                 }
-
 
                 _id++;
                 listDescripGasto.setId(_id);
@@ -426,32 +422,23 @@ public class PersonListActivity extends Activity {
                 listDescripGasto.setTextColor(Color.WHITE);
                 listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
                 listDescripGasto.setText(" Gastó $ " + monto );
-                /*if (cantidad == 1) {
-                    listDescripGasto.setText(" Gastó $ " + monto );
-                } else {
-                    listDescripGasto.setText(" Gastó $ " + monto );
-                }*/
 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
                 lp.setMargins(0,0,0,5);
 
-                //gastosLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
                 gastosLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                 gastosLayout.addView(listDescripGasto, lp);
 
                 listLayout.addView(gastosLayout);
 
-
                 LinearLayout linearLayoutBut = new LinearLayout(PersonListActivity.this);
-                // linearLayoutBut.setPadding(5,5,5,5);
                 linearLayoutBut.setWeightSum(2);
                 linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
                 linearLayoutBut.setBackgroundColor(Color.TRANSPARENT);
-                //linearLayoutBut.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
                 listLayout.addView(linearLayoutBut);
 
                 LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);
-                param.setMargins(5,10,5,10);
+                param.setMargins(5,2,5,2);
                 param.weight=1.0f;
 
                 Button bNuevoGasto = new Button(this.getContext());

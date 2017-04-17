@@ -19,12 +19,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ public class PersonListActivity extends Activity {
     private List<Persona> listaPersonas;
     private GrupoPersonas grupoPersonas;
     private double montoTotal;
+    private String nombrePenia;
 
     int numPersons;
     TextView seekBarValue;
@@ -98,6 +103,17 @@ public class PersonListActivity extends Activity {
         TextView tv = (TextView) findViewById(R.id.textTitulo);
         tv.setTypeface(MainActivity.gothamBold);
 
+        TextView textNombrePenia = (TextView) findViewById(R.id.textNombrePenia);
+        textNombrePenia.setBackgroundResource(R.drawable.button_subtittle_shape);
+        textNombrePenia.setTypeface(MainActivity.gothamBold);
+
+        textNombrePenia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            showEditPeniaName(v);
+            }
+        });
+
         //Create our top content holder
         RelativeLayout global_panel = (RelativeLayout) findViewById(R.id.global_panel);
         // +++++++++++++ TOP COMPONENT: the header
@@ -135,6 +151,7 @@ public class PersonListActivity extends Activity {
                         b.putSerializable("array_personas", personasGroup);
                         intent.putExtras(b);
                         intent.putExtra("monto_total", montoTotal);
+                        intent.putExtra("nombre_penia", nombrePenia);
 
                         startActivity(intent);
                     }else{
@@ -211,6 +228,68 @@ public class PersonListActivity extends Activity {
     public void onResume() {
         super.onResume();
         updateView(listaPersonas);
+    }
+
+    private void showEditPeniaName(final View v){
+        LayoutInflater li = LayoutInflater.from(v.getContext());
+        View promptsView = li.inflate(R.layout.dialog_edit_nombre_penia, null);
+
+        final TextView text = (TextView) v;
+        text.setTypeface(MainActivity.gothamBold);
+
+        /*EditText inputDescripName = (EditText) findViewById(R.id.inputDescripName);
+        inputDescripName.setTypeface(MainActivity.gothamBold);*/
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                v.getContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText nombreDescrip = (EditText) promptsView.findViewById(R.id.inputDescripName);
+        nombreDescrip.setTypeface(MainActivity.gothamBold);
+        nombreDescrip.setText(R.string.nombre_penia);
+        nombreDescrip.setText("");
+        nombreDescrip.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (nombreDescrip.getText().toString().equals("-")){
+                    nombreDescrip.setText("");
+                }
+                return false;
+            }
+        });
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setTitle("Ingresar Nombre.")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                String desc = nombreDescrip.getText().toString();
+
+                                if (desc.equals("")){
+                                    Toast.makeText(  v.getContext() ,"No ingresaste un nombre.", Toast.LENGTH_LONG ).show();
+                                    nombreDescrip.requestFocus();
+                                    return;
+                                }
+
+                                nombrePenia = nombreDescrip.getText().toString();
+                                text.setText(nombrePenia);
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 
     private void showEditPersonNameDialog(final View v, final Persona persona) {
@@ -370,39 +449,53 @@ public class PersonListActivity extends Activity {
 
                 final Persona persona = super.getItem(position);
 
+                LinearLayout personaEditLay = new LinearLayout(PersonListActivity.this);
+                personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
+                personaEditLay.setWeightSum(2);
+                personaEditLay.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
+                LinearLayout.LayoutParams params0 = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params0.setMargins(0,0,0,5);
+                listLayout.addView(personaEditLay, params0);
+
                 final TextView listText = new TextView(PersonListActivity.this);
                 id = 5001;
                 listText.setId(id);
                 listText.setTypeface(MainActivity.gothamBold);
 
-                LinearLayout personaEditLay = new LinearLayout(PersonListActivity.this);
-                personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
-                personaEditLay.setBackgroundColor(Color.TRANSPARENT);
-
-                listLayout.addView(personaEditLay);
-
                 listText.setText(persona.getNombre());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     listText.setBackground(getResources().getDrawable(R.drawable.gradient));
                 }
-
+                listText.setBackgroundColor(Color.TRANSPARENT);
                 listText.setTextColor(Color.BLACK);
                 listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-                listText.setGravity(Gravity.CENTER_HORIZONTAL);
+                listText.setGravity(Gravity.RIGHT);
+                //listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params1.weight = 1.7f;
+                params1.setMargins(0,0,0,0);
 
-                listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
-                LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param2.setMargins(0,10,0,5);
-                listText.setLayoutParams(param2);
-                listText.setOnClickListener(new View.OnClickListener() {
+                ImageButton butEliminarPenia = new ImageButton(getContext());
+                butEliminarPenia.setMaxHeight(30);
+                butEliminarPenia.setBackgroundColor(Color.TRANSPARENT);
+                butEliminarPenia.setImageResource(R.drawable.penc);
+                LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                params2.gravity = Gravity.LEFT;
+                params2.setMargins(5,0,5,0);
+                params2.weight = 0.3f;
+
+                butEliminarPenia.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showEditPersonNameDialog(v, persona);
                     }
                 });
 
-
-                personaEditLay.addView(listText);
+                personaEditLay.addView(listText, params1);
+                personaEditLay.addView(butEliminarPenia,params2);
 
                 listLayout.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
 

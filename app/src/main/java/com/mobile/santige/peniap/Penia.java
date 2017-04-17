@@ -7,11 +7,13 @@ public class Penia implements Serializable {
     private Integer id;
     private Double monto;
     private String fecha;
+    private String nombre;
     private Integer countPersons;
     private Integer activa;
 
-    public Penia( Integer id, Double monto, String fecha, Integer countPersons, Integer activa){
+    public Penia( Integer id, String nombre, Double monto, String fecha, Integer countPersons, Integer activa){
         this.id = id;
+        this.nombre = nombre;
         this.monto = monto;
         this.fecha = fecha;
         this.countPersons = countPersons;
@@ -58,4 +60,8 @@ public class Penia implements Serializable {
     public void setActiva(Integer activa) {
         this.activa = activa;
     }
+
+    public String getNombre() { return nombre; }
+
+    public void setNombre(String nombre) { this.nombre = nombre; }
 }

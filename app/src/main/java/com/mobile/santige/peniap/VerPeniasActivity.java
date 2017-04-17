@@ -90,7 +90,7 @@ public class VerPeniasActivity extends Activity {
 
         TextView cTVBot = (TextView) findViewById(R.id.cTVBot);
         cTVBot.setTypeface(MainActivity.gothamBold);
-        cTVBot.setText( cTVBot.getText().toString() + listaPenias.size()  );
+        cTVBot.setText( cTVBot.getText().toString() + ' '+ listaPenias.size()  );
 
         // +++++++++++++ MIDDLE COMPONENT: all our GUI content
         LinearLayout ibMenuMiddle = (LinearLayout) findViewById(R.id.ibMenuMiddle);
@@ -112,24 +112,30 @@ public class VerPeniasActivity extends Activity {
         LinearLayout m_panel = (LinearLayout) findViewById(R.id.scrollPanel);
 
         ListView list = new ListView(this);
-        list.setDivider(getResources().getDrawable(R.drawable.list_view_divider));
-        list.setDividerHeight(3);
-
         if (myAdapter != null) {
             list.setAdapter(myAdapter);
         } else {
-            myAdapter = new VerPeniasActivity.PeniaAdapter(this, listaPenias);
+            myAdapter = new PeniaAdapter(this, listaPenias);
             list.setAdapter(myAdapter);
         }
 
+        //list.setDivider(getResources().getDrawable(R.drawable.list_view_divider));
+        //list.setDividerHeight(3);
+
         m_panel.addView(list);
-
-
     }
 
     private class PeniaAdapter extends ArrayAdapter<Penia> {
         public PeniaAdapter(Context context, List<Penia> penias) {
             super(context, -1, -1, penias);
+        }
+
+        private void addViewLine(ViewGroup viewGroup) {
+            View line = new View(this.getContext());
+            LinearLayout.LayoutParams para = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            para.setMargins(15,2,15,2);
+            line.setBackgroundColor(Color.BLACK);
+            viewGroup.addView(line,para );
         }
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -143,7 +149,7 @@ public class VerPeniasActivity extends Activity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             //params.setMargins(20,20,20,20);
             listLayout.setLayoutParams(params);
-            listLayout.setPadding(10,10,10,10);
+            //listLayout.setPadding(10,10,10,10);
 
 
 
@@ -151,17 +157,17 @@ public class VerPeniasActivity extends Activity {
 
                 final Penia penia = super.getItem(position);
 
+                // personaEditLay, nombre de penia, boton para eliminar
                 LinearLayout personaEditLay = new LinearLayout(VerPeniasActivity.this);
-                // linearLayoutBut.setPadding(5,5,5,5);
+                personaEditLay.setPadding(0,0,0,0);
                 personaEditLay.setWeightSum(3);
                 personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
-
                 personaEditLay.setBackgroundColor(Color.WHITE);
                 // Titulo penia
                 final TextView tituloText = new TextView(VerPeniasActivity.this);
                 tituloText.setId(5001);
                 tituloText.setTypeface(MainActivity.gothamBold);
-                tituloText.setText("AD");
+                tituloText.setText(penia.getNombre());
                 tituloText.setBackgroundResource(R.drawable.shape_verpenia_result);
                 tituloText.setGravity(Gravity.CENTER);
                 tituloText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
@@ -204,31 +210,42 @@ public class VerPeniasActivity extends Activity {
                     }
                 });
 
+
                 personaEditLay.addView(butEliminarPenia);
                 personaEditLay.addView(tituloText);
 
+                // personaDataLay, donde estan los datos
                 LinearLayout personaDataLay = new LinearLayout(VerPeniasActivity.this);
                 personaDataLay.setWeightSum(2);
                 personaDataLay.setOrientation(LinearLayout.VERTICAL);
-                personaDataLay.setBackgroundColor(Color.TRANSPARENT);
+                personaDataLay.setBackgroundColor(Color.WHITE);
+                LinearLayout.LayoutParams lpPersonaDataLay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                lpPersonaDataLay.setMargins(0,0,0,10);
 
-                final TextView fechaText = new TextView(VerPeniasActivity.this);
+                // fecha
+                TextView fechaText = new TextView(VerPeniasActivity.this);
                 fechaText.setId(6001);
+                fechaText.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
                 fechaText.setTypeface(MainActivity.gothamBold);
                 fechaText.setTextColor(Color.WHITE);
+                fechaText.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
                 fechaText.setText(penia.getFecha());
                 fechaText.setGravity(Gravity.RIGHT);
                 personaDataLay.addView(fechaText);
+                //listView.addView(fechaText);
 
-
-
-                TextView cantidadPersonasTxt = new TextView(this.getContext());
+                // cant personas
+                TextView cantidadPersonasTxt = new TextView(VerPeniasActivity.this);
                 cantidadPersonasTxt.setBackgroundColor(Color.WHITE);
                 cantidadPersonasTxt.setTypeface(MainActivity.gothamBold);
                 cantidadPersonasTxt.setText("Amigos: " + penia.getCountPersons());
                 cantidadPersonasTxt.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
                 cantidadPersonasTxt.setGravity(Gravity.CENTER_HORIZONTAL);
+                personaDataLay.addView(cantidadPersonasTxt);
 
+                addViewLine(personaDataLay);
+
+                // total gastado
                 TextView totalText = new TextView(this.getContext());
                 totalText.setBackgroundColor(Color.WHITE);
                 totalText.setTypeface(MainActivity.gothamBold);
@@ -239,27 +256,35 @@ public class VerPeniasActivity extends Activity {
                 totalText.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
                 totalText.setGravity(Gravity.CENTER_HORIZONTAL);
 
-                personaDataLay.addView(cantidadPersonasTxt);
-
+                // listado de penias guardadas
                 List<Persona> personasEnPenia = db.getPersonasByPenia(penia.getId());
                 Integer id = 7000;
-                TextView persona = new TextView(this.getContext());
-                persona.setTypeface(MainActivity.gothamBold);
-                persona.setId(id++);
-                persona.setText( "Gastó cada uno: $" + df.format(penia.getMonto()/penia.getCountPersons()) );
-                persona.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-                persona.setBackgroundColor(Color.WHITE);
-                persona.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                // gastos de cada uno
+                TextView gastoCadaUno = new TextView(this.getContext());
+                gastoCadaUno.setTypeface(MainActivity.gothamBold);
+                gastoCadaUno.setId(id++);
+                gastoCadaUno.setText( "Gastó cada uno: $" + df.format(penia.getMonto()/penia.getCountPersons()) );
+                gastoCadaUno.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+                gastoCadaUno.setBackgroundColor(Color.WHITE);
+                gastoCadaUno.setGravity(Gravity.CENTER_HORIZONTAL);
 
                 personaDataLay.addView(totalText);
-                personaDataLay.addView(persona);
+                addViewLine(personaDataLay);
+                personaDataLay.addView(gastoCadaUno);
+                addViewLine(personaDataLay);
+
+                Integer i = 1;
                 for (Persona p : personasEnPenia ){
                     if (p.getGastos() != null){
                         Double gastoTotalPorPersona = 0.0;
                         for (Gasto g : p.getGastos()){
+                            // calculo monto total
                             gastoTotalPorPersona+= g.getMonto();
                         }
-                        persona = new TextView(this.getContext());
+                        // gasto de cada persona
+
+                        TextView persona = new TextView(this.getContext());
                         persona.setTypeface(MainActivity.gothamBold);
                         persona.setBackgroundColor(Color.WHITE);
                         persona.setId(id++);
@@ -267,26 +292,14 @@ public class VerPeniasActivity extends Activity {
                         persona.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
                         persona.setGravity(Gravity.CENTER_HORIZONTAL);
                         personaDataLay.addView(persona);
+                        if (i++ != personasEnPenia.size()) {
+                            addViewLine(personaDataLay);
+                        }
                     }
                 }
 
-                listLayout.setBackgroundColor(TRANSPARENT);
-
-                int _id = 5001;
-                final LinearLayout gastosLayout = new LinearLayout(VerPeniasActivity.this);
-                gastosLayout.setOrientation(LinearLayout.VERTICAL);
-
-                LinearLayout linearLayoutBut = new LinearLayout(VerPeniasActivity.this);
-                linearLayoutBut.setWeightSum(2);
-                linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
-                linearLayoutBut.setBackgroundColor(WHITE);
-                listLayout.addView(linearLayoutBut);
-
-                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);
-                param.weight=1.0f;
-
                 listLayout.addView(personaEditLay);
-                listLayout.addView(personaDataLay);
+                listLayout.addView(personaDataLay, lpPersonaDataLay);
 
                 return listLayout;
             }
@@ -294,4 +307,6 @@ public class VerPeniasActivity extends Activity {
             return null;
         }
     }
+
+
 }

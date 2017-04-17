@@ -38,6 +38,8 @@ public class ResultActivity extends Activity {
     Integer cantPersonas;
     Double montoPorPera;
     Integer personasSinGasto;
+    String nombrePenia;
+
 
     Persona personaSinGasto;
 
@@ -69,6 +71,7 @@ public class ResultActivity extends Activity {
         personas = grupoPersonas.get_listaPersonas();
         montoTotal = getIntent().getExtras().getDouble("monto_total");
         cantPersonas = getIntent().getExtras().getInt("count_persons");
+        nombrePenia = getIntent().getExtras().getString("nombre_penia");
         montoPorPera = montoTotal / cantPersonas;
 
         personasSinGasto = cantPersonas - personas.size();
@@ -156,6 +159,7 @@ public class ResultActivity extends Activity {
                 String localTime = date.format(currentLocalTime);
 
                 Penia penia = new Penia();
+                penia.setNombre(nombrePenia);
                 penia.setMonto(montoTotal);
                 penia.setFecha(localTime);
                 penia.setCountPersons(cantPersonas);

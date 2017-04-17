@@ -18,6 +18,7 @@ public class PersonSelectionActivity extends Activity {
     private GrupoPersonas grupoPersonas;
     private List<Persona> listaPersonas;
     private double montoTotal;
+    private String nombre_penia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class PersonSelectionActivity extends Activity {
         grupoPersonas = (GrupoPersonas) bundleObject.getSerializable("array_personas");
         listaPersonas = grupoPersonas.get_listaPersonas();
         montoTotal = getIntent().getExtras().getDouble("monto_total");
+        nombre_penia = getIntent().getExtras().getString("nombre_penia");
 
         Button aceptar = (Button) findViewById(R.id.button2);
         aceptar.setTypeface(MainActivity.gothamBold);
@@ -50,6 +52,7 @@ public class PersonSelectionActivity extends Activity {
 
                 intent.putExtra("monto_total", montoTotal);
                 intent.putExtra("count_persons", countPersons);
+                intent.putExtra("nombre_penia", nombre_penia);
 
                 Bundle bundleObject = new Bundle();
 

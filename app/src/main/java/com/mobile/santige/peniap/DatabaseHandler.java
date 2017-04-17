@@ -29,6 +29,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Penia table column name
     private static final String PENIA_KEY_ID_= "id";
+    private static final String PENIA_KEY_NOMBRE = "nombre";
     private static final String PENIA_KEY_MONTO = "monto";
     private static final String PENIA_KEY_FECHA = "fecha";
     private static final String PENIA_KEY_COUNTPERSONS = "countpersons";
@@ -58,6 +59,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PENIA_TABLE = "CREATE TABLE " + TABLE_PENIA + "("
                 + PENIA_KEY_ID_ + " INTEGER PRIMARY KEY,"
+                + PENIA_KEY_NOMBRE + " TEXT,"
                 + PENIA_KEY_MONTO + " TEXT,"
                 + PENIA_KEY_FECHA + " TEXT,"
                 + PENIA_KEY_COUNTPERSONS + " INTEGER, "
@@ -94,9 +96,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             ContentValues values = new ContentValues();
             values.put(PENIA_KEY_MONTO, penia.getMonto()); // Penia monto
-            values.put(PENIA_KEY_FECHA, penia.getFecha()); // Penia monto
-            values.put(PENIA_KEY_COUNTPERSONS, penia.getCountPersons()); // Penia monto
-            values.put(PENIA_KEY_ACTIVE, penia.getActiva()); // Penia monto
+            values.put(PENIA_KEY_NOMBRE, penia.getNombre()); // Penia nombre
+            values.put(PENIA_KEY_FECHA, penia.getFecha()); // Penia fecha
+            values.put(PENIA_KEY_COUNTPERSONS, penia.getCountPersons()); // Penia cantidad
+            values.put(PENIA_KEY_ACTIVE, penia.getActiva()); // Penia activa
 
             Long result = db.insert(TABLE_PENIA, null, values);
             db.close();
@@ -123,7 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         public Penia getPenia(int id) {
             SQLiteDatabase db = this.getReadableDatabase();
 
-            Cursor cursor = db.query(TABLE_PENIA, new String[] { PENIA_KEY_ID_,
+            Cursor cursor = db.query(TABLE_PENIA, new String[] { PENIA_KEY_ID_, PENIA_KEY_NOMBRE,
                             PENIA_KEY_MONTO, PENIA_KEY_FECHA , PENIA_KEY_COUNTPERSONS}, PENIA_KEY_ID_ + "=? and "+ PENIA_KEY_ACTIVE+ "=1",
                     new String[] { String.valueOf(id) }, null, null, null, null);
 
@@ -132,10 +135,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             Penia penia = new Penia(
                     cursor.getInt(0),
-                    Double.parseDouble(cursor.getString(1)),
-                    cursor.getString(2),
-                    cursor.getInt(3),
-                    cursor.getInt(4)
+                    cursor.getString(1),
+                    Double.parseDouble(cursor.getString(2)),
+                    cursor.getString(3),
+                    cursor.getInt(4),
+                    cursor.getInt(5)
             );
 
             // return contact
@@ -154,10 +158,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 do {
                     Penia penia = new Penia(
                             cursor.getInt(0),
-                            Double.parseDouble(cursor.getString(1)),
-                            cursor.getString(2),
-                            cursor.getInt(3),
-                            cursor.getInt(4)
+                            cursor.getString(1),
+                            Double.parseDouble(cursor.getString(2)),
+                            cursor.getString(3),
+                            cursor.getInt(4),
+                            cursor.getInt(5)
                     );
                     peniaList.add(penia);
                 } while (cursor.moveToNext());
@@ -171,6 +176,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
+            values.put(PENIA_KEY_NOMBRE,penia.getNombre());
             values.put(PENIA_KEY_MONTO, penia.getMonto());
             values.put(PENIA_KEY_FECHA, penia.getFecha());
             values.put(PENIA_KEY_COUNTPERSONS, penia.getCountPersons());

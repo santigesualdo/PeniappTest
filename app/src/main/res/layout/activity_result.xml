@@ -77,7 +77,8 @@
         <TableLayout
             android:id="@+id/tableLay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
 
             <TableRow
                 android:id="@+id/row1"

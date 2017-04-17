@@ -1,4 +1,4 @@
-package com.mobile.santige.nuevaaplicacion;
+package com.mobile.santige.peniap;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.*;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -17,9 +17,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private GrupoPersonas grupoPersonas;
 
     public static Typeface gothamBold;
-    public static Typeface gothamThin;
-    public static Typeface gothamThinItalic;
-    public static Typeface gothamMedium;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +26,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         setContentView(R.layout.activity_main);
 
-        /*gothamBold = Typeface.createFromAsset(getAssets(),"fonts/Gotham-Bold.otf");
-        gothamThin = Typeface.createFromAsset(getAssets(),"fonts/Gotham-Thin.otf");
-        gothamThinItalic = Typeface.createFromAsset(getAssets(),"fonts/Gotham-ThinItalic.otf");
-        gothamMedium = Typeface.createFromAsset(getAssets(),"fonts/Gotham-Medium.otf");*/
-
         TextView tv = (TextView) findViewById(R.id.textTitulo);
+        gothamBold  = Typeface.createFromAsset(getAssets(), "Gotham-Bold.otf");
         tv.setTypeface(gothamBold);
 
         Button comenzar = (Button) findViewById(R.id.comenzar);
         Button acercade = (Button) findViewById(R.id.acerca_de);
-
-        comenzar.setTypeface(gothamThin);
-        acercade.setTypeface(gothamThin);
 
         comenzar.setOnClickListener(this);
 
@@ -53,7 +43,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(i);
             }
         });
-        verPenias.setTypeface(gothamThin);
+
+        comenzar.setTypeface(gothamBold);
+        verPenias.setTypeface(gothamBold);
+        acercade.setTypeface(gothamBold);
 
         Log.d(msg,"The OnCreate() event. ");
     }

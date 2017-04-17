@@ -1,8 +1,9 @@
-package com.mobile.santige.nuevaaplicacion;
+package com.mobile.santige.peniap;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -54,6 +55,8 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         errorReport.append("Incremental: ");
         errorReport.append(Build.VERSION.INCREMENTAL);
         errorReport.append(LINE_SEPARATOR);
+
+        Log.d("Error",errorReport.toString());
 
         Intent intent = new Intent(myContext, CrashActivity.class);
         intent.putExtra("error", errorReport.toString());

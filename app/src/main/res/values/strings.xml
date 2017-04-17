@@ -127,5 +127,8 @@
     <string name="total_amigos">Total de amigos que participaron</string>
     <string name="result_title">Resultados de la peña</string>
     <string name="preguntaVerificacion">\"Si vuelve atras se perderan los cambios realizados. ¿Continuar?\"</string>
+    <string name="listadoPenias">Peñas anteriores</string>
+    <string name="nuevaPeñaText">Nueva peña.</string>
+    <string name="cantidadPeniasText">Cantidad de Peñas:</string>
 
 </resources>

@@ -8,6 +8,118 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mobile.santige.nuevaaplicacion.VerPeniasActivity">
+    tools:context="com.mobile.santige.peniap.VerPeniasActivity"
+    android:gravity="fill"
+    android:background="@color/backgroundGlobalColor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibMenuTop"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/textTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_tittle_shape"
+            android:padding="5dp"
+            android:text="@string/titulo"
+            android:textAlignment="center"
+            android:textColor="@color/backColor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/m_bCancel"
+            android:background="@drawable/button_subtittle_shape"
+            android:layout_centerInParent="false"
+            android:layout_marginTop="45dp"
+            android:textAlignment="center"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/listadoPenias"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ibMenuMiddle"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/ibMenuBot"
+        android:layout_below="@+id/ibMenuTop">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ScrollView"
+            android:fillViewport="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/scrollPanel" />
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibMenuBot"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:text="@string/cantidadPeniasText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cTVBot"
+            android:gravity="center_horizontal"
+            android:background="@drawable/button_subtittle_shape"
+            android:padding="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:text="@string/nuevaPeñaText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonAddPenia"
+            android:background="@drawable/button_subtittle_shape"
+            android:textSize="14sp"
+            android:minHeight="35dp"
+            android:layout_marginBottom="5dp" />
+        <Button
+            android:text="@string/volver_al_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonMenu"
+            android:background="@drawable/button_subtittle_shape"
+            android:textSize="14sp"
+            android:minHeight="35dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -7,7 +7,7 @@
     android:background="@color/backgroundGlobalColor"
     android:gravity="fill"
     android:orientation="vertical"
-    tools:context="com.mobile.santige.nuevaaplicacion.ResultActivity">
+    tools:context="com.mobile.santige.peniap.ResultActivity">
 
     <RelativeLayout
         android:id="@+id/topMenu"
@@ -36,7 +36,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/resultados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"

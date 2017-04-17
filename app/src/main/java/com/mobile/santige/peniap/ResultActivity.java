@@ -1,4 +1,4 @@
-package com.mobile.santige.nuevaaplicacion;
+package com.mobile.santige.peniap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,11 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -21,14 +17,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -38,7 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 public class ResultActivity extends Activity {
 
@@ -121,9 +111,16 @@ public class ResultActivity extends Activity {
     private void updateView( final List<Persona> personas){
         setContentView(R.layout.activity_result);
 
+        TextView tv = (TextView) findViewById(R.id.textTitulo);
+        tv.setTypeface(MainActivity.gothamBold);
+
+        TextView textResultados= (TextView) findViewById(R.id.resultados);
+        textResultados.setTypeface(MainActivity.gothamBold);
+
         Button guardarButton = (Button) findViewById( R.id.guardarButton);
-        guardarButton.setText("Guardar Peña");
         guardarButton.setTypeface(MainActivity.gothamBold);
+        guardarButton.setText("Guardar Peña");
+
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams )guardarButton.getLayoutParams();
         params.weight = 1;
         guardarButton.setLayoutParams(params);
@@ -169,6 +166,7 @@ public class ResultActivity extends Activity {
 
         Button bottomButton = (Button) findViewById( R.id.compartirButton);
         bottomButton.setTypeface(MainActivity.gothamBold);
+
         bottomButton.setText("Compartir");
         LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams )bottomButton.getLayoutParams();
         params2.weight = 1;
@@ -195,12 +193,14 @@ public class ResultActivity extends Activity {
 
         TextView textBottom = (TextView) findViewById(R.id.textoBottom);
         textBottom.setTypeface(MainActivity.gothamBold);
+
         textBottom.setText("Monto total gastado: $" + montoTotal);
         textBottom.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16.0F);
 
         Button inicioButtom = (Button) findViewById( R.id.volverInicioButton);
         inicioButtom.setTypeface(MainActivity.gothamBold);
         inicioButtom.setText(R.string.volver_al_menu);
+
         inicioButtom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,7 +301,7 @@ public class ResultActivity extends Activity {
                 }else{
                     persona.setMensajeSalida(persona.getNombre() + " deben pagar $" + df.format(Math.abs(montoPorPera)));
                 }
-
+                listText.setTypeface(MainActivity.gothamBold);
                 listText.setText(persona.getMensajeSalida());
                 listLayout.addView(listText);
 

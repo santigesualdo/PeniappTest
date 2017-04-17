@@ -1,4 +1,4 @@
-package com.mobile.santige.nuevaaplicacion;
+package com.mobile.santige.peniap;
 
 import java.io.Serializable;
 

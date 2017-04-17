@@ -1,4 +1,4 @@
-package com.mobile.santige.nuevaaplicacion;
+package com.mobile.santige.peniap;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,12 +27,16 @@ public class PersonSelectionActivity extends Activity {
 
         setContentView(R.layout.activity_person_selection);
 
+        TextView tv = (TextView) findViewById(R.id.textTitulo);
+        tv.setTypeface(MainActivity.gothamBold);
+
         Bundle bundleObject = getIntent().getExtras();
         grupoPersonas = (GrupoPersonas) bundleObject.getSerializable("array_personas");
         listaPersonas = grupoPersonas.get_listaPersonas();
         montoTotal = getIntent().getExtras().getDouble("monto_total");
 
         Button aceptar = (Button) findViewById(R.id.button2);
+        aceptar.setTypeface(MainActivity.gothamBold);
         aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +65,7 @@ public class PersonSelectionActivity extends Activity {
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
 
         seekBarValue = (TextView) findViewById(R.id.seekbarvalue);
+        seekBarValue.setTypeface(MainActivity.gothamBold);
         seekBarValue.setText(Integer.toString(listaPersonas.size()));
         seekBarValue.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
 
@@ -79,6 +84,7 @@ public class PersonSelectionActivity extends Activity {
         });
 
         TextView textAmigos = (TextView) findViewById(R.id.textoAmigos);
+        textAmigos.setTypeface(MainActivity.gothamBold);
         textAmigos.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
 
 

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mobile.santige.nuevaaplicacion">
+    package="com.mobile.santige.peniap">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
-            android:name=".MainActivity"
+            android:name="com.mobile.santige.peniap.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
@@ -18,16 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PersonSelectionActivity" />
-        <activity android:name=".ResultActivity" />
+        <activity android:name="com.mobile.santige.peniap.PersonSelectionActivity" />
+        <activity android:name="com.mobile.santige.peniap.ResultActivity" />
         <activity
-            android:name=".PersonListActivity"
+            android:name="com.mobile.santige.peniap.PersonListActivity"
             android:label="@string/title_activity_person_list"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.mobile.santige.peniap.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobile.santige.nuevaaplicacion.MainActivity" />
+                android:value="com.mobile.santige.peniap.MainActivity" />
         </activity>
 
         <meta-data
@@ -35,11 +36,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".VerPeniasActivity"
+            android:name="com.mobile.santige.peniap.VerPeniasActivity"
             android:label="@string/title_activity_ver_penias"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".CrashActivity"></activity>
+        <activity android:name="com.mobile.santige.peniap.CrashActivity"></activity>
     </application>
 
 </manifest>

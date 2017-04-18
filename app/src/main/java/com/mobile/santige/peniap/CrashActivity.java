@@ -12,7 +12,7 @@ public class CrashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_crash);
 
         error = (TextView) findViewById(R.id.error);
 

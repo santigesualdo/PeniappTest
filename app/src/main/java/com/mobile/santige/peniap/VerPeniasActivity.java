@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -140,13 +141,13 @@ public class VerPeniasActivity extends Activity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            final LinearLayout listLayout = new LinearLayout(VerPeniasActivity.this);
+            final LinearLayout listLayout = new LinearLayout(getContext());
             listLayout.setOrientation(LinearLayout.VERTICAL);
             listLayout.setId(5000);
             listLayout.setWeightSum(2);
             listLayout.setBackgroundColor(Color.TRANSPARENT);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
             //params.setMargins(20,20,20,20);
             listLayout.setLayoutParams(params);
             //listLayout.setPadding(10,10,10,10);

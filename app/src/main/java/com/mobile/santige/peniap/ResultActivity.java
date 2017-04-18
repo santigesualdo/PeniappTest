@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -123,10 +124,6 @@ public class ResultActivity extends Activity {
         Button guardarButton = (Button) findViewById( R.id.guardarButton);
         guardarButton.setTypeface(MainActivity.gothamBold);
         guardarButton.setText("Guardar Peña");
-
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams )guardarButton.getLayoutParams();
-        params.weight = 1;
-        guardarButton.setLayoutParams(params);
         guardarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,11 +167,8 @@ public class ResultActivity extends Activity {
 
         Button bottomButton = (Button) findViewById( R.id.compartirButton);
         bottomButton.setTypeface(MainActivity.gothamBold);
-
         bottomButton.setText("Compartir");
-        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams )bottomButton.getLayoutParams();
-        params2.weight = 1;
-        bottomButton.setLayoutParams(params2);
+
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,7 +232,7 @@ public class ResultActivity extends Activity {
             }
         });
 
-        LinearLayout m_panel = new LinearLayout(this);
+        LinearLayout m_panel = new LinearLayout(tv.getContext());
         m_panel.setOrientation(LinearLayout.VERTICAL);
         ScrollView vscroll = (ScrollView) findViewById(R.id.v_scroll);
         vscroll.addView(m_panel);
@@ -259,57 +253,58 @@ public class ResultActivity extends Activity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            LinearLayout listLayout = new LinearLayout(ResultActivity.this);
+
+            final LinearLayout listLayout = new LinearLayout(getContext());
             listLayout.setOrientation(LinearLayout.VERTICAL);
+
             Integer id = 5000;
             listLayout.setId(id);
-            if (listLayout != null) {
-                final Persona persona = super.getItem(position);
 
-                final TextView listText = new TextView(ResultActivity.this);
-                id++;
-                listText.setId(id);
+            final Persona persona = super.getItem(position);
 
-                listText.setText(persona.getNombre());
-                listText.setTypeface(MainActivity.gothamBold);
-                listText.setPadding(10,10, 10, 10);
-                listText.setGravity(Gravity.CENTER_HORIZONTAL);
-                listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle2_shape));
-                listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+            final TextView listText = new TextView(ResultActivity.this);
+            id++;
+            listText.setId(id);
+
+            listText.setText(persona.getNombre());
+            listText.setTypeface(MainActivity.gothamBold);
+            listText.setPadding(10,10, 10, 10);
+            listText.setGravity(Gravity.CENTER_HORIZONTAL);
+            listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle2_shape));
+            listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
 /*                Random rnd = new Random();
-                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-                listLayout.setBackgroundColor(color);*/
-                listText.setTextColor(Color.WHITE);
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            listLayout.setBackgroundColor(color);*/
+            listText.setTextColor(Color.WHITE);
 
-                double acumGastosPersona = 0;
-                double montoAPoner= 0;
-                if (persona.getGastos()!= null){
-                    for (Gasto g : persona.getGastos()) {
-                        acumGastosPersona += g.getMonto();
-                    }
+            double acumGastosPersona = 0;
+            double montoAPoner= 0;
+            if (persona.getGastos()!= null){
+                for (Gasto g : persona.getGastos()) {
+                    acumGastosPersona += g.getMonto();
                 }
-                montoAPoner= montoPorPera-acumGastosPersona;
-                DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-                df.setMaximumFractionDigits(2); //340 = DecimalFormat.DOUBLE_FRACTION_DIGITS
-                df.setMinimumFractionDigits(2);//FractionDigits(2);
-
-                String mensaje="";
-                if (persona.getNombre() != textPersonaSinGasto){
-                    if (montoAPoner > 0 ) {
-                        persona.setMensajeSalida(persona.getNombre() + " debe pagar $" + df.format(Math.abs(montoAPoner)));
-                    }else if (montoAPoner<0){
-                        persona.setMensajeSalida(persona.getNombre() + " debe recuperar $ " + df.format(Math.abs(montoAPoner)));
-                    }else if (montoAPoner == 0){
-                        persona.setMensajeSalida(persona.getNombre() + " ya esta derecho de gastos.");
-                    }
-                }else{
-                    persona.setMensajeSalida(persona.getNombre() + " deben pagar $" + df.format(Math.abs(montoPorPera)));
-                }
-                listText.setTypeface(MainActivity.gothamBold);
-                listText.setText(persona.getMensajeSalida());
-                listLayout.addView(listText);
-
             }
+            montoAPoner= montoPorPera-acumGastosPersona;
+            DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+            df.setMaximumFractionDigits(2); //340 = DecimalFormat.DOUBLE_FRACTION_DIGITS
+            df.setMinimumFractionDigits(2);//FractionDigits(2);
+
+            String mensaje="";
+            if (persona.getNombre() != textPersonaSinGasto){
+                if (montoAPoner > 0 ) {
+                    persona.setMensajeSalida(persona.getNombre() + " debe pagar $" + df.format(Math.abs(montoAPoner)));
+                }else if (montoAPoner<0){
+                    persona.setMensajeSalida(persona.getNombre() + " debe recuperar $ " + df.format(Math.abs(montoAPoner)));
+                }else if (montoAPoner == 0){
+                    persona.setMensajeSalida(persona.getNombre() + " ya esta derecho de gastos.");
+                }
+            }else{
+                persona.setMensajeSalida(persona.getNombre() + " deben pagar $" + df.format(Math.abs(montoPorPera)));
+            }
+            listText.setTypeface(MainActivity.gothamBold);
+            listText.setText(persona.getMensajeSalida());
+            listLayout.addView(listText);
+
             return listLayout;
         }
     }

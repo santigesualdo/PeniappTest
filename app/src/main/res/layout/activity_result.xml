@@ -69,10 +69,11 @@
         android:id="@+id/ibMenuBot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true">
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <TableLayout
             android:id="@+id/tableLay"

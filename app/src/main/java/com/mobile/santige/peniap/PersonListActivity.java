@@ -16,20 +16,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -434,156 +431,151 @@ public class PersonListActivity extends Activity {
 
             Integer id = 5000;
 
-            final LinearLayout listLayout = new LinearLayout(PersonListActivity.this);
+            final LinearLayout listLayout = new LinearLayout(getContext());
             listLayout.setOrientation(LinearLayout.VERTICAL);
             listLayout.setId(id);
             listLayout.setWeightSum(2);
-
             listLayout.setBackgroundResource(R.drawable.border);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
             listLayout.setLayoutParams(params);
             listLayout.setPadding(5,5,5,5);
 
+            final Persona persona = super.getItem(position);
 
-            if (listLayout != null) {
+            LinearLayout personaEditLay = new LinearLayout(PersonListActivity.this);
+            personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
+            personaEditLay.setPadding(5,5,5,5);
+            personaEditLay.setWeightSum(2);
+            personaEditLay.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
+            LinearLayout.LayoutParams params0 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params0.gravity = Gravity.CENTER_HORIZONTAL;
+            params0.setMargins(0,0,0,5);
+            listLayout.addView(personaEditLay, params0);
 
-                final Persona persona = super.getItem(position);
+            final TextView listText = new TextView(PersonListActivity.this);
+            id = 5001;
+            listText.setId(id);
+            listText.setTypeface(MainActivity.gothamBold);
 
-                LinearLayout personaEditLay = new LinearLayout(PersonListActivity.this);
-                personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
-                personaEditLay.setWeightSum(2);
-                personaEditLay.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
-                LinearLayout.LayoutParams params0 = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params0.setMargins(0,0,0,5);
-                listLayout.addView(personaEditLay, params0);
+            listText.setText(persona.getNombre());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                listText.setBackground(getResources().getDrawable(R.drawable.gradient));
+            }
+            listText.setBackgroundColor(Color.TRANSPARENT);
+            listText.setTextColor(Color.BLACK);
+            listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+            listText.setGravity(Gravity.RIGHT);
+            //listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
+            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params1.weight = 1.7f;
+            params1.setMargins(0,0,0,0);
 
-                final TextView listText = new TextView(PersonListActivity.this);
-                id = 5001;
-                listText.setId(id);
-                listText.setTypeface(MainActivity.gothamBold);
+            ImageButton butEliminarPenia = new ImageButton(getContext());
+            butEliminarPenia.setMaxHeight(30);
+            butEliminarPenia.setBackgroundColor(Color.TRANSPARENT);
+            butEliminarPenia.setImageResource(R.drawable.penc);
+            LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            params2.gravity = Gravity.LEFT;
+            params2.setMargins(5,0,5,0);
+            params2.weight = 0.3f;
 
-                listText.setText(persona.getNombre());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    listText.setBackground(getResources().getDrawable(R.drawable.gradient));
+            butEliminarPenia.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showEditPersonNameDialog(v, persona);
                 }
-                listText.setBackgroundColor(Color.TRANSPARENT);
-                listText.setTextColor(Color.BLACK);
-                listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-                listText.setGravity(Gravity.RIGHT);
-                //listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
-                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params1.weight = 1.7f;
-                params1.setMargins(0,0,0,0);
+            });
 
-                ImageButton butEliminarPenia = new ImageButton(getContext());
-                butEliminarPenia.setMaxHeight(30);
-                butEliminarPenia.setBackgroundColor(Color.TRANSPARENT);
-                butEliminarPenia.setImageResource(R.drawable.penc);
-                LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                params2.gravity = Gravity.LEFT;
-                params2.setMargins(5,0,5,0);
-                params2.weight = 0.3f;
+            personaEditLay.addView(listText, params1);
+            personaEditLay.addView(butEliminarPenia,params2);
 
-                butEliminarPenia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showEditPersonNameDialog(v, persona);
-                    }
-                });
+            listLayout.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
 
-                personaEditLay.addView(listText, params1);
-                personaEditLay.addView(butEliminarPenia,params2);
+            int _id = 5001;
+            final LinearLayout gastosLayout = new LinearLayout(PersonListActivity.this);
+            gastosLayout.setOrientation(LinearLayout.VERTICAL);
 
-                listLayout.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
+            final TextView listDescripGasto = new TextView(PersonListActivity.this);
+            listDescripGasto.setTypeface(MainActivity.gothamBold);
 
-                int _id = 5001;
-                final LinearLayout gastosLayout = new LinearLayout(PersonListActivity.this);
-                gastosLayout.setOrientation(LinearLayout.VERTICAL);
-
-                final TextView listDescripGasto = new TextView(PersonListActivity.this);
-                listDescripGasto.setTypeface(MainActivity.gothamBold);
-
-                if (persona.getGastos() == null) {
-                    List<Gasto> gastos = new ArrayList<Gasto>();
-                    gastos.add(new Gasto("", 0.0));
-                    persona.setGastos(gastos);
-                }
-
-
-                Double monto = 0.0;
-                for (Gasto g : persona.getGastos()) {
-                    monto += g.getMonto();
-                }
-
-                _id++;
-                listDescripGasto.setId(_id);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    listDescripGasto.setBackground(getResources().getDrawable(R.drawable.gradient2));
-                }
-                listDescripGasto.setBackgroundColor(getResources().getColor(R.color.buttonPressedColor));
-                listDescripGasto.setTextColor(Color.WHITE);
-                listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
-                listDescripGasto.setText(" Gastó $ " + monto );
-
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0,0,0,5);
-
-                gastosLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-                gastosLayout.addView(listDescripGasto, lp);
-
-                listLayout.addView(gastosLayout);
-
-                LinearLayout linearLayoutBut = new LinearLayout(PersonListActivity.this);
-                linearLayoutBut.setWeightSum(2);
-                linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
-                linearLayoutBut.setBackgroundColor(Color.TRANSPARENT);
-                listLayout.addView(linearLayoutBut);
-
-                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);
-                param.setMargins(5,2,5,5);
-                param.weight=1.0f;
-
-                Button bNuevoGasto = new Button(this.getContext());
-                bNuevoGasto.setTypeface(MainActivity.gothamBold);
-                bNuevoGasto.setText("Agregar Gasto");
-
-                bNuevoGasto.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
-
-                bNuevoGasto.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
-
-
-                bNuevoGasto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        showNewGastoDialog(v, persona);
-                    }
-                });
-
-
-                Button removePerson = new Button(this.getContext());
-                removePerson.setTypeface(MainActivity.gothamBold);
-                removePerson.setText("Quitar Persona");
-
-                removePerson.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
-                removePerson.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
-                removePerson.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PersonaAdapter.super.remove(persona);
-                    }
-                });
-
-                linearLayoutBut.addView(bNuevoGasto, param);
-                linearLayoutBut.addView(removePerson, param);
-
-                return listLayout;
+            if (persona.getGastos() == null) {
+                List<Gasto> gastos = new ArrayList<Gasto>();
+                gastos.add(new Gasto("", 0.0));
+                persona.setGastos(gastos);
             }
 
-            return null;
+
+            Double monto = 0.0;
+            for (Gasto g : persona.getGastos()) {
+                monto += g.getMonto();
+            }
+
+            _id++;
+            listDescripGasto.setId(_id);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                listDescripGasto.setBackground(getResources().getDrawable(R.drawable.gradient2));
+            }
+            listDescripGasto.setBackgroundColor(getResources().getColor(R.color.buttonPressedColor));
+            listDescripGasto.setTextColor(Color.WHITE);
+            listDescripGasto.setGravity(Gravity.CENTER_HORIZONTAL);
+            listDescripGasto.setText(" Gastó $ " + monto );
+
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+            lp.setMargins(0,0,0,0);
+
+            gastosLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+            gastosLayout.addView(listDescripGasto, lp);
+
+            listLayout.addView(gastosLayout);
+
+            LinearLayout linearLayoutBut = new LinearLayout(PersonListActivity.this);
+            linearLayoutBut.setWeightSum(2);
+            linearLayoutBut.setOrientation(LinearLayout.HORIZONTAL);
+            linearLayoutBut.setBackgroundColor(Color.TRANSPARENT);
+            listLayout.addView(linearLayoutBut);
+
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.MATCH_PARENT);
+            param.setMargins(5,2,5,5);
+            param.weight=1.0f;
+
+            Button bNuevoGasto = new Button(this.getContext());
+            bNuevoGasto.setTypeface(MainActivity.gothamBold);
+            bNuevoGasto.setText("Agregar Gasto");
+
+            bNuevoGasto.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+
+            bNuevoGasto.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
+
+
+            bNuevoGasto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    showNewGastoDialog(v, persona);
+                }
+            });
+
+
+            Button removePerson = new Button(this.getContext());
+            removePerson.setTypeface(MainActivity.gothamBold);
+            removePerson.setText("Quitar Persona");
+
+            removePerson.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
+            removePerson.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+            removePerson.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PersonaAdapter.super.remove(persona);
+                }
+            });
+
+            linearLayoutBut.addView(bNuevoGasto, param);
+            linearLayoutBut.addView(removePerson, param);
+
+            return listLayout;
         }
     }
 

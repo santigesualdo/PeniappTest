@@ -472,17 +472,24 @@ public class PersonListActivity extends Activity {
             params1.weight = 1.7f;
             params1.setMargins(0,0,0,0);
 
-            ImageButton butEliminarPenia = new ImageButton(getContext());
-            butEliminarPenia.setMaxHeight(30);
-            butEliminarPenia.setBackgroundColor(Color.TRANSPARENT);
-            butEliminarPenia.setImageResource(R.drawable.penc);
+            ImageButton butEditPersonName = new ImageButton(getContext());
+            butEditPersonName.setMaxHeight(30);
+            butEditPersonName.setBackgroundColor(Color.TRANSPARENT);
+            butEditPersonName.setImageResource(R.drawable.penc);
             LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             params2.gravity = Gravity.LEFT;
             params2.setMargins(5,0,5,0);
             params2.weight = 0.3f;
 
-            butEliminarPenia.setOnClickListener(new View.OnClickListener() {
+            listText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showEditPersonNameDialog(v, persona);
+                }
+            });
+
+            butEditPersonName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showEditPersonNameDialog(v, persona);
@@ -490,7 +497,7 @@ public class PersonListActivity extends Activity {
             });
 
             personaEditLay.addView(listText, params1);
-            personaEditLay.addView(butEliminarPenia,params2);
+            personaEditLay.addView(butEditPersonName,params2);
 
             listLayout.setBackgroundColor(getResources().getColor(R.color.backgroundGlobalColor));
 

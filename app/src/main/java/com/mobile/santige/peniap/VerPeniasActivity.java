@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -134,7 +136,7 @@ public class VerPeniasActivity extends Activity {
         private void addViewLine(ViewGroup viewGroup) {
             View line = new View(this.getContext());
             LinearLayout.LayoutParams para = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            para.setMargins(15,2,15,2);
+            para.setMargins(2,2,2,2);
             line.setBackgroundColor(Color.BLACK);
             viewGroup.addView(line,para );
         }
@@ -159,9 +161,9 @@ public class VerPeniasActivity extends Activity {
                 final Penia penia = super.getItem(position);
 
                 // personaEditLay, nombre de penia, boton para eliminar
-                LinearLayout personaEditLay = new LinearLayout(VerPeniasActivity.this);
+                final LinearLayout personaEditLay = new LinearLayout(VerPeniasActivity.this);
                 personaEditLay.setPadding(0,0,0,0);
-                personaEditLay.setWeightSum(3);
+                personaEditLay.setWeightSum(2);
                 personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
                 personaEditLay.setBackgroundColor(Color.WHITE);
                 // Titulo penia
@@ -172,56 +174,39 @@ public class VerPeniasActivity extends Activity {
                 tituloText.setBackgroundResource(R.drawable.shape_verpenia_result);
                 tituloText.setGravity(Gravity.CENTER);
                 tituloText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-                LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 param2.weight=1.8f;
-                tituloText.setLayoutParams(param2);
-
-                // Boton eliminar peña
-                final ImageButton butEliminarPenia = new ImageButton(VerPeniasActivity.this);
-                butEliminarPenia.setBackgroundColor(Color.TRANSPARENT);
-                butEliminarPenia.setImageResource(R.drawable.elim);
-                LinearLayout.LayoutParams param3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param3.weight=0.2f;
-                butEliminarPenia.setLayoutParams(param3);
-                butEliminarPenia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-
-                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which){
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                            PeniaAdapter.super.remove(penia);
-                                            DatabaseHandler db = DatabaseHandler.getInstance(v.getContext());
-                                            db.deletePenia(penia);
-                                            updateView(listaPenias);
-                                        break;
-                                    case DialogInterface.BUTTON_NEGATIVE:
-                                        break;
-                                }
-                            }
-                        };
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                        builder.setMessage("¿Esta seguro de eliminar esta peña?")
-                                .setNegativeButton("No", dialogClickListener)
-                                .setPositiveButton("Si", dialogClickListener)
-                                .show();
-                    }
-                });
-
-
-                personaEditLay.addView(butEliminarPenia);
-                personaEditLay.addView(tituloText);
+                param2.gravity = Gravity.CENTER;
 
                 // personaDataLay, donde estan los datos
-                LinearLayout personaDataLay = new LinearLayout(VerPeniasActivity.this);
+                final LinearLayout personaDataLay = new LinearLayout(VerPeniasActivity.this);
                 personaDataLay.setWeightSum(2);
                 personaDataLay.setOrientation(LinearLayout.VERTICAL);
                 personaDataLay.setBackgroundColor(Color.WHITE);
-                LinearLayout.LayoutParams lpPersonaDataLay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                lpPersonaDataLay.setMargins(0,0,0,10);
+                final LinearLayout.LayoutParams lpPersonaDataLay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                lpPersonaDataLay.setMargins(0,5,0,5);
+
+                // Boton eliminar peña
+                final ImageButton butHideShow = new ImageButton(VerPeniasActivity.this);
+                butHideShow.setBackgroundColor(Color.TRANSPARENT);
+                butHideShow.setImageResource(R.drawable.desple);
+                LinearLayout.LayoutParams param3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                param3.weight=0.1f;
+                param3.setMargins(2,0,2,0);
+                param3.gravity = Gravity.CENTER;
+
+                LinearLayout.LayoutParams param4 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                param4.weight=0.1f;
+                param4.gravity = Gravity.CENTER;
+                param4.setMargins(2,0,2,0);
+
+                final ImageButton butDeletePenia = new ImageButton(VerPeniasActivity.this);
+                butDeletePenia.setBackgroundColor(Color.TRANSPARENT);
+                butDeletePenia.setImageResource(R.drawable.elim);
+
+                personaEditLay.addView(butHideShow, param3);
+                personaEditLay.addView(tituloText, param2);
+                personaEditLay.addView(butDeletePenia, param4);
 
                 // fecha
                 TextView fechaText = new TextView(VerPeniasActivity.this);
@@ -241,7 +226,7 @@ public class VerPeniasActivity extends Activity {
                 cantidadPersonasTxt.setTypeface(MainActivity.gothamBold);
                 cantidadPersonasTxt.setText("Amigos: " + penia.getCountPersons());
                 cantidadPersonasTxt.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-                cantidadPersonasTxt.setGravity(Gravity.CENTER_HORIZONTAL);
+                cantidadPersonasTxt.setGravity(Gravity.LEFT);
                 personaDataLay.addView(cantidadPersonasTxt);
 
                 addViewLine(personaDataLay);
@@ -255,11 +240,15 @@ public class VerPeniasActivity extends Activity {
                 df.setMinimumFractionDigits(2);
                 totalText.setText("Total Gastado: $ "+ df.format(penia.getMonto()));
                 totalText.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-                totalText.setGravity(Gravity.CENTER_HORIZONTAL);
+                totalText.setGravity(Gravity.LEFT);
 
                 // listado de penias guardadas
                 List<Persona> personasEnPenia = db.getPersonasByPenia(penia.getId());
                 Integer id = 7000;
+
+                Integer cant = personasEnPenia.size();
+
+                Log.d("Cantidad de Personas", cant.toString());
 
                 // gastos de cada uno
                 TextView gastoCadaUno = new TextView(this.getContext());
@@ -268,7 +257,7 @@ public class VerPeniasActivity extends Activity {
                 gastoCadaUno.setText( "Gastó cada uno: $" + df.format(penia.getMonto()/penia.getCountPersons()) );
                 gastoCadaUno.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
                 gastoCadaUno.setBackgroundColor(Color.WHITE);
-                gastoCadaUno.setGravity(Gravity.CENTER_HORIZONTAL);
+                gastoCadaUno.setGravity(Gravity.LEFT);
 
                 personaDataLay.addView(totalText);
                 addViewLine(personaDataLay);
@@ -291,7 +280,7 @@ public class VerPeniasActivity extends Activity {
                         persona.setId(id++);
                         persona.setText( p.getNombre() + " - $" + df.format(gastoTotalPorPersona));
                         persona.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-                        persona.setGravity(Gravity.CENTER_HORIZONTAL);
+                        persona.setGravity(Gravity.LEFT);
                         personaDataLay.addView(persona);
                         if (i++ != personasEnPenia.size()) {
                             addViewLine(personaDataLay);
@@ -299,8 +288,48 @@ public class VerPeniasActivity extends Activity {
                     }
                 }
 
+                butDeletePenia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which){
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        PeniaAdapter.super.remove(penia);
+                                        DatabaseHandler db = DatabaseHandler.getInstance(v.getContext());
+                                        db.deletePenia(penia);
+                                        updateView(listaPenias);
+                                        break;
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        break;
+                                }
+                            }
+                        };
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setMessage("¿Esta seguro de eliminar esta peña?")
+                                .setNegativeButton("No", dialogClickListener)
+                                .setPositiveButton("Si", dialogClickListener)
+                                .show();
+                    }
+                });
+                butHideShow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+
+                        if (personaDataLay.getVisibility() != View.GONE){
+                            personaDataLay.setVisibility(View.GONE);
+                            lpPersonaDataLay.setMargins(0,0,0,0);
+                        }else{
+                            personaDataLay.setVisibility(View.VISIBLE);
+                            lpPersonaDataLay.setMargins(0,0,0,10);
+                        }
+                    }
+                });
+
                 listLayout.addView(personaEditLay);
-                listLayout.addView(personaDataLay, lpPersonaDataLay);
+                listLayout.addView(personaDataLay,lpPersonaDataLay);
 
                 return listLayout;
             }

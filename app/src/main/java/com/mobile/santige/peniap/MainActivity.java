@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.*;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -15,6 +19,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     String msg = "Android";
     private Integer personasCount=2;
     private GrupoPersonas grupoPersonas;
+
+    private String SHOWCASE_ID = "10000";
+
+    public static ShowcaseView.Builder builder;
 
     public static Typeface gothamBold;
 
@@ -31,7 +39,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         tv.setTypeface(gothamBold);
 
         Button comenzar = (Button) findViewById(R.id.comenzar);
-        Button acercade = (Button) findViewById(R.id.acerca_de);
 
         comenzar.setOnClickListener(this);
 
@@ -46,39 +53,50 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         comenzar.setTypeface(gothamBold);
         verPenias.setTypeface(gothamBold);
-        acercade.setTypeface(gothamBold);
 
-        Log.d(msg,"The OnCreate() event. ");
+        /*Target target = new ViewTarget(comenzar.getId(), this);
+        ShowcaseView.Builder res = new ShowcaseView.Builder(this, true)
+                .setTarget(target)
+                .setContentTitle("title")
+                .setContentText("content");
+
+        res.build();*/
+
+        ShowcaseView.Builder builder = new ShowcaseView.Builder(this)
+                .setTarget( new ViewTarget( findViewById(R.id.activity_main)) )
+                .setContentTitle("Bienvenidos a PEÑAPP!!")
+                .setContentText("Pulsa empezar para iniciar una peña nueva!")
+                .hideOnTouchOutside()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .blockAllTouches();
+
+        builder.build();
+
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        Log.d(msg,"The OnStart() event");
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        Log.d(msg, "The OnResume() event");
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        Log.d(msg, "The onPause() event");
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        Log.d(msg, "The onStop() event");
     }
 
     @Override
     protected void onDestroy(){
         super.onResume();
-        Log.d(msg, "The onDestroy() event");
     }
 
     @Override

@@ -47,10 +47,7 @@ public class ResultActivity extends Activity {
     String mensajeWhatsapp = "";
 
     Boolean peniaGuardada;
-
-    final static int idBotLayout = Menu.FIRST + 102,
-            idTopLayout = Menu.FIRST + 100,
-            bottomMenuHeight = 75;
+    Boolean puedeGuardar;
 
     static String textPersonaSinGasto = "las personas sin gastos";
 
@@ -73,6 +70,7 @@ public class ResultActivity extends Activity {
         montoTotal = getIntent().getExtras().getDouble("monto_total");
         cantPersonas = getIntent().getExtras().getInt("count_persons");
         nombrePenia = getIntent().getExtras().getString("nombre_penia");
+        puedeGuardar = getIntent().getExtras().getBoolean("guardarPeniaBut");
         montoPorPera = montoTotal / cantPersonas;
 
         personasSinGasto = cantPersonas - personas.size();
@@ -122,6 +120,7 @@ public class ResultActivity extends Activity {
         textResultados.setTypeface(MainActivity.gothamBold);
 
         Button guardarButton = (Button) findViewById( R.id.guardarButton);
+        guardarButton.setEnabled(puedeGuardar);
         guardarButton.setTypeface(MainActivity.gothamBold);
         guardarButton.setText("Guardar Peña");
         guardarButton.setOnClickListener(new View.OnClickListener() {
@@ -221,14 +220,16 @@ public class ResultActivity extends Activity {
                         }
                     };
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setMessage(R.string.preguntaVerificacion)
-                            .setPositiveButton("Si", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener)
-                            .show();
+                    if (puedeGuardar){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setMessage(R.string.preguntaVerificacion)
+                                .setPositiveButton("Si", dialogClickListener)
+                                .setNegativeButton("No", dialogClickListener)
+                                .show();
+                    }else{
+                        startActivity(intent);
+                    }
                 }
-
-
             }
         });
 

@@ -200,7 +200,6 @@ public class PersonListActivity extends Activity {
         }
 
         list.setDivider(getResources().getDrawable(R.drawable.list_view_divider));
-        list.setDividerHeight(3);
 
         montoTotal = 0;
         for (Persona pe : personas) {

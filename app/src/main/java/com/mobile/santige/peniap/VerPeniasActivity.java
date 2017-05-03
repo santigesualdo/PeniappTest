@@ -6,13 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -21,31 +18,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
-
-import static android.graphics.Color.TRANSPARENT;
-import static android.graphics.Color.WHITE;
 
 public class VerPeniasActivity extends Activity {
 
     List<Penia> listaPenias;
 
     private PeniaAdapter myAdapter;
-
-    final static int idTopLayout = Menu.FIRST + 100,
-            idBack = Menu.FIRST + 101,
-            idBotLayout = Menu.FIRST + 102,
-            bottomMenuHeight = 75;
 
     DatabaseHandler db;
 
@@ -70,18 +54,9 @@ public class VerPeniasActivity extends Activity {
         //Create our top content holder
         setContentView(R.layout.activity_ver_penias);
 
-        // Global Panel
-        RelativeLayout global_panel = (RelativeLayout) findViewById(R.id.global_panel);
-
-        // Top Component
-        RelativeLayout ibMenuTop = (RelativeLayout) findViewById(R.id.ibMenuTop);
-
         // Text in top
         TextView m_bCancel = (TextView) findViewById(R.id.m_bCancel);
         m_bCancel.setTypeface(MainActivity.gothamBold);
-
-        // Bottom component
-        LinearLayout ibMenuBot = (LinearLayout) findViewById(R.id.ibMenuBot);
 
         Double montoTotalP = 0.0;
         for ( Penia penia : listaPenias){
@@ -95,9 +70,6 @@ public class VerPeniasActivity extends Activity {
         cTVBot.setTypeface(MainActivity.gothamBold);
         cTVBot.setText( cTVBot.getText().toString() + ' '+ listaPenias.size()  );
 
-        // +++++++++++++ MIDDLE COMPONENT: all our GUI content
-        LinearLayout ibMenuMiddle = (LinearLayout) findViewById(R.id.ibMenuMiddle);
-
         Button addPenia = (Button) findViewById(R.id.buttonAddPenia);
         addPenia.setTypeface(MainActivity.gothamBold);
         addPenia.setOnClickListener(new View.OnClickListener() {
@@ -107,9 +79,6 @@ public class VerPeniasActivity extends Activity {
                 startActivity(i);
             }
         });
-
-        //scroll - so our content will be scrollable between the header and the footer
-        ScrollView vscroll =(ScrollView) findViewById(R.id.ScrollView);
 
         //panel in scroll: add all controls/ objects to this layout
         LinearLayout m_panel = (LinearLayout) findViewById(R.id.scrollPanel);
@@ -121,9 +90,6 @@ public class VerPeniasActivity extends Activity {
             myAdapter = new PeniaAdapter(this, listaPenias);
             list.setAdapter(myAdapter);
         }
-
-        //list.setDivider(getResources().getDrawable(R.drawable.list_view_divider));
-        //list.setDividerHeight(3);
 
         m_panel.addView(list);
     }
@@ -150,11 +116,7 @@ public class VerPeniasActivity extends Activity {
             listLayout.setBackgroundColor(Color.TRANSPARENT);
 
             AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
-            //params.setMargins(20,20,20,20);
             listLayout.setLayoutParams(params);
-            //listLayout.setPadding(10,10,10,10);
-
-
 
             if (listLayout != null) {
 
@@ -166,6 +128,23 @@ public class VerPeniasActivity extends Activity {
                 personaEditLay.setWeightSum(2);
                 personaEditLay.setOrientation(LinearLayout.HORIZONTAL);
                 personaEditLay.setBackgroundColor(Color.WHITE);
+
+                // personaDataLay, donde estan los datos
+                final LinearLayout personaDataLay = new LinearLayout(VerPeniasActivity.this);
+                personaDataLay.setWeightSum(1);
+                personaDataLay.setOrientation(LinearLayout.VERTICAL);
+                personaDataLay.setBackgroundColor(Color.WHITE);
+                final LinearLayout.LayoutParams lpPersonaDataLay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                lpPersonaDataLay.setMargins(0,5,0,5);
+
+                final LinearLayout buttonsLayout = new LinearLayout(VerPeniasActivity.this);
+                buttonsLayout.setBackgroundColor(Color.TRANSPARENT);
+                final LinearLayout tittleLayout = new LinearLayout(VerPeniasActivity.this);
+                tittleLayout.setBackgroundColor(Color.TRANSPARENT);
+                final LinearLayout.LayoutParams buttonsTittleParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                buttonsTittleParams.setMargins(0,5,0,5);
+                buttonsTittleParams.weight = 1.5f;
+
                 // Titulo penia
                 final TextView tituloText = new TextView(VerPeniasActivity.this);
                 tituloText.setId(5001);
@@ -174,39 +153,34 @@ public class VerPeniasActivity extends Activity {
                 tituloText.setBackgroundResource(R.drawable.shape_verpenia_result);
                 tituloText.setGravity(Gravity.CENTER);
                 tituloText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-                LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param2.weight=1.8f;
-                param2.gravity = Gravity.CENTER;
 
-                // personaDataLay, donde estan los datos
-                final LinearLayout personaDataLay = new LinearLayout(VerPeniasActivity.this);
-                personaDataLay.setWeightSum(2);
-                personaDataLay.setOrientation(LinearLayout.VERTICAL);
-                personaDataLay.setBackgroundColor(Color.WHITE);
-                final LinearLayout.LayoutParams lpPersonaDataLay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                lpPersonaDataLay.setMargins(0,5,0,5);
+                LinearLayout.LayoutParams paramTitulo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                paramTitulo.gravity = Gravity.LEFT;
+                paramTitulo.setMargins(20,0,0,0);
+
+                LinearLayout.LayoutParams paramButons = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                paramButons.setMargins(5,0,5,0);
+                paramButons.gravity = Gravity.CENTER;
 
                 // Boton eliminar peña
                 final ImageButton butHideShow = new ImageButton(VerPeniasActivity.this);
                 butHideShow.setBackgroundColor(Color.TRANSPARENT);
                 butHideShow.setImageResource(R.drawable.desple);
-                LinearLayout.LayoutParams param3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param3.weight=0.1f;
-                param3.setMargins(2,0,2,0);
-                param3.gravity = Gravity.CENTER;
-
-                LinearLayout.LayoutParams param4 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                param4.weight=0.1f;
-                param4.gravity = Gravity.CENTER;
-                param4.setMargins(2,0,2,0);
 
                 final ImageButton butDeletePenia = new ImageButton(VerPeniasActivity.this);
                 butDeletePenia.setBackgroundColor(Color.TRANSPARENT);
                 butDeletePenia.setImageResource(R.drawable.elim);
 
-                personaEditLay.addView(butHideShow, param3);
-                personaEditLay.addView(tituloText, param2);
-                personaEditLay.addView(butDeletePenia, param4);
+                final ImageButton butVerPeniaResult = new ImageButton(VerPeniasActivity.this);
+                butVerPeniaResult.setBackgroundColor(Color.TRANSPARENT);
+                butVerPeniaResult.setImageResource(R.drawable.busc);
+
+                personaEditLay.addView(buttonsLayout);
+                    buttonsLayout.addView(butHideShow, paramButons);
+                    buttonsLayout.addView(butDeletePenia, paramButons);
+                    buttonsLayout.addView(butVerPeniaResult, paramButons);
+                personaEditLay.addView(tittleLayout, buttonsTittleParams);
+                    tittleLayout.addView(tituloText, paramTitulo);
 
                 // fecha
                 TextView fechaText = new TextView(VerPeniasActivity.this);
@@ -218,7 +192,6 @@ public class VerPeniasActivity extends Activity {
                 fechaText.setText(penia.getFecha());
                 fechaText.setGravity(Gravity.RIGHT);
                 personaDataLay.addView(fechaText);
-                //listView.addView(fechaText);
 
                 // cant personas
                 TextView cantidadPersonasTxt = new TextView(VerPeniasActivity.this);
@@ -325,6 +298,24 @@ public class VerPeniasActivity extends Activity {
                             personaDataLay.setVisibility(View.VISIBLE);
                             lpPersonaDataLay.setMargins(0,0,0,10);
                         }
+                    }
+                });
+
+                butVerPeniaResult.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), ResultActivity.class );
+                        intent.putExtra("monto_total", penia.getMonto());
+                        intent.putExtra("count_persons",  penia.getCountPersons());
+                        intent.putExtra("nombre_penia", penia.getNombre());
+                        intent.putExtra("guardarPeniaBut", false);
+                        List<Persona> listaPersonas = db.getPersonasByPenia(penia.getId());
+                        GrupoPersonas personasGroup = new GrupoPersonas();
+                        personasGroup.set_listaPersonas(listaPersonas);
+                        Bundle b = new Bundle();
+                        b.putSerializable("array_personas", personasGroup);
+                        intent.putExtras(b);
+                        startActivity(intent);
                     }
                 });
 

@@ -53,6 +53,7 @@ public class PersonSelectionActivity extends Activity {
                 intent.putExtra("monto_total", montoTotal);
                 intent.putExtra("count_persons", countPersons);
                 intent.putExtra("nombre_penia", nombre_penia);
+                intent.putExtra("guardarPeniaBut", true);
 
                 Bundle bundleObject = new Bundle();
 

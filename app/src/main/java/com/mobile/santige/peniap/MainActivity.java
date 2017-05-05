@@ -8,21 +8,12 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
-import com.github.amlcurran.showcaseview.targets.Target;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
-
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     String msg = "Android";
     private Integer personasCount=2;
     private GrupoPersonas grupoPersonas;
-
-    private String SHOWCASE_ID = "10000";
-
-    public static ShowcaseView.Builder builder;
 
     public static Typeface gothamBold;
 
@@ -54,23 +45,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         comenzar.setTypeface(gothamBold);
         verPenias.setTypeface(gothamBold);
 
-        /*Target target = new ViewTarget(comenzar.getId(), this);
-        ShowcaseView.Builder res = new ShowcaseView.Builder(this, true)
-                .setTarget(target)
-                .setContentTitle("title")
-                .setContentText("content");
-
-        res.build();*/
-
-        ShowcaseView.Builder builder = new ShowcaseView.Builder(this)
-                .setTarget( new ViewTarget( findViewById(R.id.activity_main)) )
-                .setContentTitle("Bienvenidos a PEÑAPP!!")
-                .setContentText("Pulsa empezar para iniciar una peña nueva!")
-                .hideOnTouchOutside()
+        /*ShowcaseView.Builder builder_ = new ShowcaseView.Builder(this)
+                .setTarget( new ViewTarget( findViewById(R.id.ver_peñas)) )
+                //.setContentTitle("Bienvenidos a PEÑAPP!!")
+                //.setContentText("Pulsa empezar para iniciar una peña nueva!")
+                //.set
                 .setStyle(R.style.CustomShowcaseTheme2)
-                .blockAllTouches();
 
-        builder.build();
+                .hideOnTouchOutside();
+
+
+        builder_.build();*/
+
+
 
     }
 

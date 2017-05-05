@@ -42,7 +42,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
-    compile 'com.nhaarman.supertooltips:library:3.0.+'
+    compile ('com.github.worker8:tourguide:1.0.17-SNAPSHOT@aar'){
+        transitive=true
+    }
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
 }

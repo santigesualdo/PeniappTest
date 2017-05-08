@@ -2,24 +2,11 @@ package com.mobile.santige.peniap;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.*;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
-
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Pointer;
-import tourguide.tourguide.ToolTip;
-import tourguide.tourguide.TourGuide;
-
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -28,6 +15,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private GrupoPersonas grupoPersonas;
 
     public static Typeface gothamBold;
+
+    public Boolean primerUso = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,88 +43,41 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        incializarPersonas();
+
         comenzar.setTypeface(gothamBold);
         verPenias.setTypeface(gothamBold);
 
-        Animation animation = new TranslateAnimation(0f, 0f, 200f, 0f);
-        animation.setDuration(2000);
-        animation.setFillAfter(true);
-        animation.setInterpolator(new BounceInterpolator());
-
-
-        ToolTip toolTip = new ToolTip()
-                .setTitle("Bienvenid@! a PEÑAPP")
-                .setDescription("Toca EMPEZAR para iniciar una nueva peña.")
-                .setTextColor(Color.WHITE)
-                .setBackgroundColor(Color.parseColor("#79c48c"))
-                .setShadow(true)
-
-                .setGravity(Gravity.CENTER | Gravity.BOTTOM)
-                .setEnterAnimation(animation);
-
-        Overlay overlay = new Overlay()
-                .setStyle(Overlay.Style.NoHole);
-
-        Pointer pointer = new Pointer()
-                .setColor(Color.parseColor("#79c48c"));
-
-        TourGuide mTourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
-                .setPointer(pointer)
-                .setToolTip(toolTip)
-                .setOverlay(overlay)
-                .playOn(comenzar);
-
-
-        /*ShowcaseView.Builder builder_ = new ShowcaseView.Builder(this)
-                .setTarget( new ViewTarget( findViewById(R.id.ver_peñas)) )
-                //.setContentTitle("Bienvenidos a PEÑAPP!!")
-                //.setContentText("Pulsa empezar para iniciar una peña nueva!")
-                //.set
-                .setStyle(R.style.CustomShowcaseTheme2)
-
-                .hideOnTouchOutside();
-
-
-        builder_.build();*/
-
-
-
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-    }
+    private void empezarSlides() {
+        Intent i = new Intent(this.getBaseContext(), SlidesActivity.class);
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-    }
+        Bundle b = new Bundle();
+        b.putSerializable("array_personas", grupoPersonas);
+        i.putExtras(b);
+        i.putExtra("personasCount", personasCount);
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-    }
+        startActivity(i);
 
-    @Override
-    protected void onStop(){
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onResume();
     }
 
     @Override
     public void onClick(View v) {
+        if (primerUso){
+            empezarSlides();
+            primerUso=false;
+        }else{
+            empezarPenia();
+        }
+    }
 
-        incializarPersonas();
+    public void empezarPenia(){
 
         Intent intent = new Intent(this, PersonListActivity.class );
         Bundle b = new Bundle();
 
-            b.putSerializable("array_personas", grupoPersonas);
+        b.putSerializable("array_personas", grupoPersonas);
         intent.putExtras(b);
         intent.putExtra("personasCount", personasCount);
         startActivity(intent);
@@ -159,4 +101,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
             grupoPersonas.get_listaPersonas().add(p);
         }
     }
+
 }

@@ -41,5 +41,7 @@
     <string name="nuevaPeñaText">Nueva peña.</string>
     <string name="cantidadPeniasText">Cantidad de Peñas:</string>
     <string name="nombre_penia">(Ingresar nombre de la Peña)</string>
+    <string name="title_activity_test_">Test_Activity</string>
+    <string name="title_activity_test_activity">test_activity</string>
 
 </resources>

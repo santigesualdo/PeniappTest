@@ -38,7 +38,8 @@
             android:label="@string/title_activity_ver_penias"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CrashActivity" />
-        <activity android:name=".Test_activity" />
+        <activity android:name=".SlidesActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

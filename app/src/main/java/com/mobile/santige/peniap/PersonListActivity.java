@@ -15,8 +15,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,13 +30,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import tourguide.tourguide.ChainTourGuide;
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Pointer;
-import tourguide.tourguide.Sequence;
-import tourguide.tourguide.ToolTip;
-import tourguide.tourguide.TourGuide;
-
 public class PersonListActivity extends Activity {
 
     public Activity mActivity;
@@ -51,26 +42,13 @@ public class PersonListActivity extends Activity {
     private String nombrePenia;
 
     // Tutoriales
-    Boolean tutCorrido = false;
     TextView textNombrePenia = null;
     LinearLayout editPerson1Layout = null;
     LinearLayout editPerson2Layout = null;
     Button tutNuevoGasto = null;
     TextView titleGastos = null;
 
-    // Animaciones
-    private Animation mEnterAnimation, mExitAnimation;
-    // ToolTips
-    ToolTip toolTip1, toolTip2, toolTip3, toolTip4, toolTip5;
-    // Overlay
-    Overlay tourOverlay;
-    // Pointer
-    Pointer tourPointer;
-
-
-
     int numPersons;
-    private ChainTourGuide mTourGuideHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,82 +217,6 @@ public class PersonListActivity extends Activity {
 
         m_panel.addView(list);
 
-    }
-
-    private void prepareTourSecuence() {
-
-        mEnterAnimation = new AlphaAnimation(0f, 1f);
-        mEnterAnimation.setDuration(600);
-        mEnterAnimation.setFillAfter(true);
-
-        mExitAnimation = new AlphaAnimation(1f, 0f);
-        mExitAnimation.setDuration(600);
-        mExitAnimation.setFillAfter(true);
-
-        declareTourAssets();
-
-        runOverlay_ContinueMethod();
-    }
-
-    private void runOverlay_ContinueMethod() {
-        // the return handler is used to manipulate the cleanup of all the tutorial elements
-        ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
-                .setToolTip(toolTip1);
-
-        ChainTourGuide tourGuide2 = ChainTourGuide.init(this)
-                .setToolTip(toolTip2)
-                .playLater(editPerson1Layout);
-
-        ChainTourGuide tourGuide3 = ChainTourGuide.init(this)
-                .setToolTip(toolTip3)
-                .playLater(tutNuevoGasto);
-
-        ChainTourGuide tourGuide4 = ChainTourGuide.init(this)
-                .setToolTip(toolTip4)
-                .playLater(editPerson2Layout);
-
-        ChainTourGuide tourGuide5 = ChainTourGuide.init(this)
-                .setToolTip(toolTip5)
-                .playLater(titleGastos);
-
-        Sequence sequence = new Sequence.SequenceBuilder()
-                .add(tourGuide3,tourGuide5)
-                .setDefaultOverlay(new Overlay()
-                        .setStyle(Overlay.Style.Circle)
-                        .setEnterAnimation(mEnterAnimation)
-                        .setExitAnimation(mExitAnimation)
-                )
-                .setContinueMethod(Sequence.ContinueMethod.Overlay)
-                .build();
-
-        ChainTourGuide.init(this).playInSequence(sequence);
-    }
-
-    private void declareTourAssets() {
-        toolTip1 = new ToolTip()
-                .setTitle("Tip1:")
-                .setDescription("Para empezar, ingresa el nombre de la peña.")
-                .setTextColor(Color.WHITE);
-
-        toolTip2 = new ToolTip()
-                .setTitle("Tip2:")
-                .setDescription("Excelente..cambia 'Persona 0' por el nombre de la persona que gasto.")
-                .setTextColor(Color.WHITE);
-
-        toolTip3 = new ToolTip()
-                .setTitle("Tip3:")
-                .setDescription("Muy bien! Ingresa el gasto total de esa persona.")
-                .setTextColor(Color.WHITE);
-
-        toolTip4 = new ToolTip()
-                .setTitle("Tip4:")
-                .setDescription("Genial! Ahora repite este proceso con la 'Persona 1'")
-                .setTextColor(Color.WHITE);
-
-        toolTip5 = new ToolTip()
-                .setTitle("Tip5:")
-                .setDescription("Como mínimo una peña tiene 2 personas con gastos. Puedes ingresar todas las que necesites.")
-                .setTextColor(Color.WHITE);
     }
 
     public void onResume() {
@@ -614,7 +516,6 @@ public class PersonListActivity extends Activity {
                 persona.setGastos(gastos);
             }
 
-
             Double monto = 0.0;
             for (Gasto g : persona.getGastos()) {
                 monto += g.getMonto();
@@ -656,7 +557,6 @@ public class PersonListActivity extends Activity {
 
             bNuevoGasto.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
 
-
             bNuevoGasto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
@@ -664,7 +564,6 @@ public class PersonListActivity extends Activity {
                     showNewGastoDialog(v, persona);
                 }
             });
-
 
             if (tutNuevoGasto==null){
                 tutNuevoGasto = bNuevoGasto;
@@ -686,12 +585,17 @@ public class PersonListActivity extends Activity {
             linearLayoutBut.addView(bNuevoGasto, param);
             linearLayoutBut.addView(removePerson, param);
 
-            if (textNombrePenia!=null && editPerson1Layout !=null &&
-                    tutNuevoGasto !=null && titleGastos!=null &&
-                    editPerson1Layout !=null && editPerson2Layout !=null && !tutCorrido){
-                prepareTourSecuence();
-                //tutCorrido = true;
-            }
+/*            if (textNombrePenia!=null && editPerson1Layout !=null && tutNuevoGasto !=null
+                    && titleGastos!=null && editPerson2Layout !=null && !tutCorrido){
+
+                    textNombrePenia.setBackgroundColor(Color.parseColor("#80ff0000"));
+                    editPerson1Layout.setBackgroundColor(Color.parseColor("#80ff0000"));
+                    tutNuevoGasto.setBackgroundColor(Color.parseColor("#80ff0000"));
+                    titleGastos.setBackgroundColor(Color.parseColor("#80ff0000"));
+                    editPerson2Layout.setBackgroundColor(Color.parseColor("#80ff0000"));
+
+                    tutCorrido = true;
+            }*/
             return listLayout;
         }
     }

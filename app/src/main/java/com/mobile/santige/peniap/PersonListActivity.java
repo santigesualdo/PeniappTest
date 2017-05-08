@@ -13,13 +13,10 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -73,6 +70,7 @@ public class PersonListActivity extends Activity {
 
 
     int numPersons;
+    private ChainTourGuide mTourGuideHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,8 +259,7 @@ public class PersonListActivity extends Activity {
     private void runOverlay_ContinueMethod() {
         // the return handler is used to manipulate the cleanup of all the tutorial elements
         ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
-                .setToolTip(toolTip1)
-                .playLater(textNombrePenia);
+                .setToolTip(toolTip1);
 
         ChainTourGuide tourGuide2 = ChainTourGuide.init(this)
                 .setToolTip(toolTip2)
@@ -278,16 +275,16 @@ public class PersonListActivity extends Activity {
 
         ChainTourGuide tourGuide5 = ChainTourGuide.init(this)
                 .setToolTip(toolTip5)
-                .playLater(tutNuevoGasto);
+                .playLater(titleGastos);
 
         Sequence sequence = new Sequence.SequenceBuilder()
-                .add(tourGuide1, tourGuide2, tourGuide3, tourGuide4, tourGuide5)
+                .add(tourGuide3,tourGuide5)
                 .setDefaultOverlay(new Overlay()
+                        .setStyle(Overlay.Style.Circle)
                         .setEnterAnimation(mEnterAnimation)
                         .setExitAnimation(mExitAnimation)
                 )
-                .setDefaultPointer(null)
-                .setContinueMethod(Sequence.ContinueMethod.OverlayListener)
+                .setContinueMethod(Sequence.ContinueMethod.Overlay)
                 .build();
 
         ChainTourGuide.init(this).playInSequence(sequence);
@@ -297,56 +294,27 @@ public class PersonListActivity extends Activity {
         toolTip1 = new ToolTip()
                 .setTitle("Tip1:")
                 .setDescription("Para empezar, ingresa el nombre de la peña.")
-                .setTextColor(Color.WHITE)
-                .setBackgroundColor(Color.parseColor("#79c48c"))
-                .setShadow(true)
-                .setGravity(Gravity.BOTTOM)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mTourGuideHandler.next();
-                    }
-                });
+                .setTextColor(Color.WHITE);
 
         toolTip2 = new ToolTip()
                 .setTitle("Tip2:")
                 .setDescription("Excelente..cambia 'Persona 0' por el nombre de la persona que gasto.")
-                .setTextColor(Color.WHITE)
-                .setBackgroundColor(Color.parseColor("#79c48c"))
-                .setShadow(true)
-                .setGravity(Gravity.CENTER);
+                .setTextColor(Color.WHITE);
 
         toolTip3 = new ToolTip()
                 .setTitle("Tip3:")
                 .setDescription("Muy bien! Ingresa el gasto total de esa persona.")
-                .setTextColor(Color.WHITE)
-                .setBackgroundColor(Color.parseColor("#79c48c"))
-                .setShadow(true)
-                .setGravity(Gravity.CENTER);
+                .setTextColor(Color.WHITE);
 
         toolTip4 = new ToolTip()
                 .setTitle("Tip4:")
                 .setDescription("Genial! Ahora repite este proceso con la 'Persona 1'")
-                .setTextColor(Color.WHITE)
-                .setBackgroundColor(Color.parseColor("#79c48c"))
-                .setShadow(true)
-                .setGravity(Gravity.CENTER);
+                .setTextColor(Color.WHITE);
 
         toolTip5 = new ToolTip()
                 .setTitle("Tip5:")
                 .setDescription("Como mínimo una peña tiene 2 personas con gastos. Puedes ingresar todas las que necesites.")
-                .setTextColor(Color.WHITE)
-                .setBackgroundColor(Color.parseColor("#79c48c"))
-                .setShadow(true)
-                .setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-
-        tourOverlay = new Overlay()
-                .setStyle(Overlay.Style.Circle)
-                .setEnterAnimation(mEnterAnimation)
-                .setExitAnimation(mExitAnimation);
-
-        tourPointer = new Pointer()
-                .setColor(Color.parseColor("#79c48c"));
+                .setTextColor(Color.WHITE);
     }
 
     public void onResume() {
@@ -364,8 +332,7 @@ public class PersonListActivity extends Activity {
         /*EditText inputDescripName = (EditText) findViewById(R.id.inputDescripName);
         inputDescripName.setTypeface(MainActivity.gothamBold);*/
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                v.getContext());
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
@@ -723,7 +690,7 @@ public class PersonListActivity extends Activity {
                     tutNuevoGasto !=null && titleGastos!=null &&
                     editPerson1Layout !=null && editPerson2Layout !=null && !tutCorrido){
                 prepareTourSecuence();
-                tutCorrido = true;
+                //tutCorrido = true;
             }
             return listLayout;
         }

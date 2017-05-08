@@ -2,17 +2,18 @@ package com.mobile.santige.peniap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.github.paolorotolo.appintro.AppIntro2;
+import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
 import java.util.List;
 
 
-public class SlidesActivity extends AppIntro2 {
+public class SlidesActivity extends AppIntro {
 
     public Activity mActivity;
 
@@ -32,23 +33,23 @@ public class SlidesActivity extends AppIntro2 {
         listaPersonas = grupoPersonas.get_listaPersonas();
         numPersons = getIntent().getIntExtra("personasCount",0);
 
-        addSlide(AppIntroFragment.newInstance("Ayudin", "Peñapp te ayuda a calcular gastos dentro de una peña con dos o mas gastos.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Datos de la Peña", "Ingresa el nombre de la peña.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Datos de Personas", "Ingresa el nombre de la persona y el total que gasto.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Agregar Amigos", "Puedes agregar todos los que quieras.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Eliminar Amigos", "Si te equivocaste puedes borrar amigos.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Continuar.", "Cuando ya cargaste todo lo anterior, podes continuar.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Ingresar personas sin gastos.", "Toca la barra para indicar cuantos amigos participaron y que no tuvieron gastos.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Listo!.", "La peña ya casi esta lista, presiona continuar para ver resultados.", 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance("Resultados.", "Puedes guardar y compartir los resultados por Whatsapp.", 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip1) , getString(R.string.tip1value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip2) , getString(R.string.tip2value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip3) , getString(R.string.tip3value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip4) , getString(R.string.tip4value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip5) , getString(R.string.tip5value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip6) , getString(R.string.tip6value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip7) , getString(R.string.tip7value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip8) , getString(R.string.tip8value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip9) , getString(R.string.tip9value), 0, getResources().getColor(R.color.backColor)));
 
-        //setSkipText("Omitir");
-        //setDoneText("Listo.");
+        setSkipText("Omitir");
+        setDoneText("Empezar");
 
         // OPTIONAL METHODS
         // Override bar/separator color.
-        // setBarColor(Color.parseColor("#3F51B5"));
-        // setSeparatorColor(Color.parseColor("#2196F3"));
+         setBarColor(getResources().getColor(R.color.buttonPressedColor));
+         setSeparatorColor(Color.WHITE);
 
         // Hide Skip/Done button.
         showSkipButton(true);

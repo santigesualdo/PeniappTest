@@ -43,5 +43,23 @@
     <string name="nombre_penia">(Ingresar nombre de la Peña)</string>
     <string name="title_activity_test_">Test_Activity</string>
     <string name="title_activity_test_activity">test_activity</string>
+    <string name="tip1">Acerca de</string>
+    <string name="tip1value">Peñapp te ayuda a calcular gastos dentro de una peña con dos o mas gastos.</string>
+    <string name="tip2">Datos de la Peña</string>
+    <string name="tip2value">Ingresa el nombre de la peña.</string>
+    <string name="tip3">Datos de Personas</string>
+    <string name="tip3value">Ingresa el nombre de la persona y el total que gasto.</string>
+    <string name="tip4">Agregar Amigos</string>
+    <string name="tip4value">Puedes agregar todos los amigos que quieras.</string>
+    <string name="tip5">Eliminar Amigos</string>
+    <string name="tip5value">Si te equivocaste puedes borrar amigos.</string>
+    <string name="tip6">Continuar</string>
+    <string name="tip6value">Cuando ya cargaste todo lo anterior, podes continuar.</string>
+    <string name="tip7value">Toca la barra para indicar el total de participantes de la peña (incluidos los que gastaron).</string>
+    <string name="tip8">Listo!</string>
+    <string name="tip8value">La peña ya casi esta lista, presiona continuar para ver resultados.</string>
+    <string name="tip9">Resultados</string>
+    <string name="tip9value">Puedes guardar y compartir los resultados por Whatsapp.</string>
+    <string name="tip7">Total Participantes</string>
 
 </resources>

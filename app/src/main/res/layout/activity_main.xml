@@ -12,59 +12,97 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mobile.santige.peniap.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textTitulo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
-
-        <TextView
-            android:id="@+id/textTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="46dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="49dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_tittle_shape"
-            android:padding="10dp"
-            android:text="@string/titulo"
-            android:textAlignment="center"
-            android:textColor="@color/backColor"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            />
-
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/comenzar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ver_peñas"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:background="@drawable/button_main_activity_shape"
-        android:text="@string/button_main"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:layout_width="match_parent" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_tittle_shape"
+        android:paddingBottom="10dp"
+        android:paddingEnd="50dp"
+        android:paddingStart="50dp"
+        android:paddingTop="10dp"
+        android:text="@string/titulo"
+        android:textAlignment="center"
+        android:textColor="@color/backColor"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/ver_peñas"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/button_main_activity_shape"
-        android:text="@string/button_ver_peñas_anteriores"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:layout_width="match_parent" />
+        android:layout_centerHorizontal="false"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="false">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:text="@string/checkBoxAyuda"
+                android:textColor="@android:color/white"
+                android:buttonTint="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/comenzar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_main_activity_shape"
+                android:text="@string/button_main"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                tools:layout_width="match_parent" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/ver_peñas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_main_activity_shape"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="@string/button_ver_peñas_anteriores"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                tools:layout_width="match_parent" />
+        </TableRow>
+
+    </TableLayout>
 
 </RelativeLayout>

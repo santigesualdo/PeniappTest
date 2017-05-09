@@ -33,18 +33,18 @@ public class SlidesActivity extends AppIntro {
         listaPersonas = grupoPersonas.get_listaPersonas();
         numPersons = getIntent().getIntExtra("personasCount",0);
 
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip1) , getString(R.string.tip1value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip2) , getString(R.string.tip2value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip3) , getString(R.string.tip3value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip4) , getString(R.string.tip4value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip5) , getString(R.string.tip5value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip6) , getString(R.string.tip6value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip7) , getString(R.string.tip7value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip8) , getString(R.string.tip8value), 0, getResources().getColor(R.color.backColor)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.tip9) , getString(R.string.tip9value), 0, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip1) , getString(R.string.tip1value),R.drawable.slide1, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip2) , getString(R.string.tip2value), R.drawable.slide2, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip3) , getString(R.string.tip3value), R.drawable.slide3, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip4) , getString(R.string.tip4value), R.drawable.slide4, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip5) , getString(R.string.tip5value), R.drawable.slide5, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip6) , getString(R.string.tip6value), R.drawable.slide6, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip7) , getString(R.string.tip7value), R.drawable.slide7, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip8) , getString(R.string.tip8value), R.drawable.slide8, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip9) , getString(R.string.tip9value), R.drawable.slide9, getResources().getColor(R.color.backColor)));
 
-        setSkipText("Omitir");
-        setDoneText("Empezar");
+        setSkipText(getString(R.string.SkipTutorial));
+        setDoneText(getString(R.string.CompletedTutorial));
 
         // OPTIONAL METHODS
         // Override bar/separator color.

@@ -2,10 +2,12 @@ package com.mobile.santige.peniap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -16,11 +18,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public static Typeface gothamBold;
 
-    public Boolean primerUso = true;
+    SharedPreferences prefs = null;
+    CheckBox checkAyuda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        prefs = getSharedPreferences("com.mobile.santige.peniap", MODE_PRIVATE);
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
@@ -31,6 +36,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         tv.setTypeface(gothamBold);
 
         Button comenzar = (Button) findViewById(R.id.comenzar);
+
+        checkAyuda = (CheckBox) findViewById(R.id.checkBox);
 
         comenzar.setOnClickListener(this);
 
@@ -47,7 +54,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         comenzar.setTypeface(gothamBold);
         verPenias.setTypeface(gothamBold);
+        checkAyuda.setTypeface(gothamBold);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (prefs.getBoolean("firstrun", true)) {
+            checkAyuda.setChecked(true);
+        }else{
+            checkAyuda.setChecked(false);
+        }
     }
 
     private void empezarSlides() {
@@ -64,9 +83,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (primerUso){
+        if (checkAyuda.isChecked()){
             empezarSlides();
-            primerUso=false;
+            prefs.edit().putBoolean("firstrun", false).commit();;
         }else{
             empezarPenia();
         }

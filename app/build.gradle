@@ -6,7 +6,7 @@ android {
     compileSdkVersion 'Google Inc.:Google APIs:24'
     buildToolsVersion "24.0.3"
     defaultConfig {
-        applicationId "com.mobile.santige.nuevaaplicacion"
+        applicationId "com.mobile.santige.peniap"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1

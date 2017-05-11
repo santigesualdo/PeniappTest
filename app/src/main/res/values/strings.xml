@@ -11,7 +11,7 @@
     <string name="but_nuevogasto">Nuevo gasto</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="button_main">Empezar</string>
+    <string name="button_main">EMPEZAR</string>
     <string name="text_select_person">¿Cuántas personas participan de la peña en total?</string>
     <string name="text_button_aceptar">Aceptar</string>
     <string name="title_activity_person_selection">PersonSelectionActivity</string>
@@ -22,7 +22,7 @@
     <string name="title_activity_scroll">ScrollActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="button_ver_peñas_anteriores">ver peñas anteriores</string>
+    <string name="button_ver_peñas_anteriores">VER PEÑAS ANTERIORES</string>
     <string name="title_activity_ver_penias">VerPeniasActivity</string>
     <string name="quienes_gastaron">Amigos que gastaron</string>
     <string name="continuar">Continuar</string>

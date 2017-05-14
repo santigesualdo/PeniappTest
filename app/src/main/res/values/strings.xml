@@ -77,4 +77,5 @@
     <string name="errordospersonas">Para calcular gastos, al menos tiene que haber 2 personas.</string>
     <string name="segurovolver">Si vuelve atras se perderan los cambios realizados. ¿Continuar?</string>
     <string name="textgastos">GASTOS: $</string>
+    <string name="errorpenioanogasto">No puedes continuar sin agregar gastos.</string>
 </resources>

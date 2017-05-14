@@ -152,7 +152,7 @@ public class PersonListActivity extends Activity {
                         Toast.makeText(v.getContext(), R.string.errordospersonas, Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(v.getContext(), R.string.errorsingasto, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), R.string.errorpenioanogasto, Toast.LENGTH_SHORT).show();
                 }
             }
         });

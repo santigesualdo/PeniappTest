@@ -51,15 +51,13 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/textTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="5dp"
             android:background="@drawable/button_tittle_shape"
             android:padding="5dp"
             android:text="@string/titulo"
@@ -83,7 +81,9 @@
             android:text="@string/nombre_penia"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:background="@drawable/button_subtittle_shape" />
+            tools:background="@drawable/button_subtittle_shape"
+            android:layout_alignParentEnd="false"
+            android:layout_alignEnd="@+id/textTitulo" />
 
         <TextView
             android:id="@+id/titleGastos"
@@ -99,7 +99,10 @@
             android:paddingTop="5dp"
             android:text="@string/quienes_gastaron"
             android:textColor="@android:color/white"
-            tools:background="@drawable/button_subtittle_shape" />
+            tools:background="@drawable/button_subtittle_shape"
+            android:layout_alignEnd="@+id/textTitulo"
+            android:layout_alignStart="@+id/textTitulo"
+            android:layout_alignParentStart="false" />
 
     </RelativeLayout>
 
@@ -120,12 +123,12 @@
             android:layout_marginStart="20dp"
             android:layout_weight="4.22"
             android:background="@drawable/button_subtittle_shape"
-            android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:text="@string/gastos"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:paddingBottom="5dp" />
 
         <Button
             android:id="@+id/bottomButton"

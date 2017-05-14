@@ -42,6 +42,7 @@ public class SlidesActivity extends AppIntro {
         addSlide(AppIntroFragment.newInstance(getString(R.string.tip7) , getString(R.string.tip7value), R.drawable.slide7, getResources().getColor(R.color.backColor)));
         addSlide(AppIntroFragment.newInstance(getString(R.string.tip8) , getString(R.string.tip8value), R.drawable.slide8, getResources().getColor(R.color.backColor)));
         addSlide(AppIntroFragment.newInstance(getString(R.string.tip9) , getString(R.string.tip9value), R.drawable.slide9, getResources().getColor(R.color.backColor)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.tip10) , getString(R.string.tip10value), R.drawable.slide10, getResources().getColor(R.color.backColor)));
 
         setSkipText(getString(R.string.SkipTutorial));
         setDoneText(getString(R.string.CompletedTutorial));

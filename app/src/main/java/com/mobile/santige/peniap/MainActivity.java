@@ -19,7 +19,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public static Typeface gothamBold;
 
     SharedPreferences prefs = null;
-    CheckBox checkAyuda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +28,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_main);
+
+
 
         TextView tv = (TextView) findViewById(R.id.textTitulo);
         gothamBold  = Typeface.createFromAsset(getAssets(), "Gotham-Bold.otf");
         tv.setTypeface(gothamBold);
 
         Button comenzar = (Button) findViewById(R.id.comenzar);
-
-        checkAyuda = (CheckBox) findViewById(R.id.checkBox);
+        Button comousar = (Button) findViewById(R.id.comousar);
 
         comenzar.setOnClickListener(this);
 
@@ -50,23 +52,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        comousar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                empezarSlides();
+            }
+        });
+
         incializarPersonas();
 
         comenzar.setTypeface(gothamBold);
         verPenias.setTypeface(gothamBold);
-        checkAyuda.setTypeface(gothamBold);
+        comousar.setTypeface(gothamBold);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (prefs.getBoolean("firstrun", true)) {
-            checkAyuda.setChecked(true);
-        }else{
-            checkAyuda.setChecked(false);
-        }
     }
 
     private void empezarSlides() {
@@ -83,12 +86,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (checkAyuda.isChecked()){
-            empezarSlides();
-            prefs.edit().putBoolean("firstrun", false).commit();;
-        }else{
-            empezarPenia();
-        }
+        empezarPenia();
     }
 
     public void empezarPenia(){
@@ -115,7 +113,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         grupoPersonas = new GrupoPersonas();
         for (int i = 0 ; i< personasCount; i++){
             Persona p = new Persona();
-            p.setNombre("Persona " + i );
+            p.setNombre(getString(R.string.nombreidentificador) +" "+ i );
             p.setListID(i);
             grupoPersonas.get_listaPersonas().add(p);
         }

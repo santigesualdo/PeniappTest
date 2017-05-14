@@ -89,7 +89,7 @@ public class PersonListActivity extends Activity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Si vuelve atras se perderan los cambios realizados. ¿Continuar?")
+        builder.setMessage(R.string.segurovolver)
                 .setNegativeButton("No", dialogClickListener)
                 .setPositiveButton("Si", dialogClickListener)
                 .show();
@@ -131,7 +131,7 @@ public class PersonListActivity extends Activity {
         bottomButton.setTypeface(MainActivity.gothamBold);
 
 
-        bottomButton.setText("Continuar");
+        bottomButton.setText(R.string.continuar);
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,10 +149,10 @@ public class PersonListActivity extends Activity {
 
                         startActivity(intent);
                     }else{
-                        Toast.makeText(v.getContext(), "Para calcular gastos, al menos tiene que haber 2 personas.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), R.string.errordospersonas, Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(v.getContext(), "No hay gastos. No es posible continuar.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), R.string.errorsingasto, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -173,7 +173,7 @@ public class PersonListActivity extends Activity {
                 }else{
                     newP.setListID(0);
                 }
-                newP.setNombre("Persona "+ newP.getListID());
+                newP.setNombre(getString(R.string.nombreidentificador) + " "+newP.getListID());
                 personas.add(newP);
                 updateView(personas);
             }
@@ -210,9 +210,9 @@ public class PersonListActivity extends Activity {
         DecimalFormat df = new DecimalFormat("#.00");
 
         if (montoTotal > 0) {
-            cTVBot.setText("GASTOS: $" + df.format(montoTotal));
+            cTVBot.setText(getString(R.string.textgastos)+ df.format(montoTotal));
         } else {
-            cTVBot.setText("GASTOS: $0.00");
+            cTVBot.setText(getString(R.string.textgastos)+"0.00");
         }
 
         m_panel.addView(list);
@@ -255,14 +255,14 @@ public class PersonListActivity extends Activity {
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setTitle("Ingresar Nombre.")
+                .setTitle(R.string.ingresanombre)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 String desc = nombreDescrip.getText().toString();
 
                                 if (desc.equals("")){
-                                    Toast.makeText(  v.getContext() ,"No ingresaste un nombre.", Toast.LENGTH_LONG ).show();
+                                    Toast.makeText(  v.getContext() ,R.string.errorsinnombre, Toast.LENGTH_LONG ).show();
                                     nombreDescrip.requestFocus();
                                     return;
                                 }
@@ -316,14 +316,14 @@ public class PersonListActivity extends Activity {
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setTitle("Ingresar Nombre.")
+                .setTitle(R.string.ingresanombre)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 String desc = nombreDescrip.getText().toString();
 
                                 if (desc.equals("")){
-                                    Toast.makeText(  v.getContext() ,"No ingresaste un nombre.", Toast.LENGTH_LONG ).show();
+                                    Toast.makeText(  v.getContext() ,R.string.nombrevacio , Toast.LENGTH_LONG ).show();
                                     nombreDescrip.requestFocus();
                                     return;
                                 }
@@ -387,7 +387,7 @@ public class PersonListActivity extends Activity {
                                 try{
                                     montoNumero = Double.parseDouble(monto);
                                 }catch (Exception e){
-                                    Toast.makeText( v.getContext() ,"No ingresaste un numero para el importe, proba de nuevo.", Toast.LENGTH_LONG ).show();
+                                    Toast.makeText( v.getContext() ,R.string.errorsingasto, Toast.LENGTH_LONG ).show();
                                     gastoMont.requestFocus();
                                     return;
                                 }
@@ -462,7 +462,6 @@ public class PersonListActivity extends Activity {
             listText.setTextColor(Color.BLACK);
             listText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
             listText.setGravity(Gravity.RIGHT);
-            //listText.setBackground(getResources().getDrawable(R.drawable.button_subtittle_shape));
             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params1.weight = 1.7f;
@@ -551,7 +550,7 @@ public class PersonListActivity extends Activity {
 
             Button bNuevoGasto = new Button(this.getContext());
             bNuevoGasto.setTypeface(MainActivity.gothamBold);
-            bNuevoGasto.setText("Agregar Gasto");
+            bNuevoGasto.setText(R.string.nuevogasto);
 
             bNuevoGasto.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
 
@@ -571,7 +570,7 @@ public class PersonListActivity extends Activity {
 
             Button removePerson = new Button(this.getContext());
             removePerson.setTypeface(MainActivity.gothamBold);
-            removePerson.setText("Quitar Persona");
+            removePerson.setText(R.string.quitaramigo);
 
             removePerson.setBackgroundResource(R.drawable.button_subtittle2_shape_round);
             removePerson.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
@@ -585,17 +584,6 @@ public class PersonListActivity extends Activity {
             linearLayoutBut.addView(bNuevoGasto, param);
             linearLayoutBut.addView(removePerson, param);
 
-/*            if (textNombrePenia!=null && editPerson1Layout !=null && tutNuevoGasto !=null
-                    && titleGastos!=null && editPerson2Layout !=null && !tutCorrido){
-
-                    textNombrePenia.setBackgroundColor(Color.parseColor("#80ff0000"));
-                    editPerson1Layout.setBackgroundColor(Color.parseColor("#80ff0000"));
-                    tutNuevoGasto.setBackgroundColor(Color.parseColor("#80ff0000"));
-                    titleGastos.setBackgroundColor(Color.parseColor("#80ff0000"));
-                    editPerson2Layout.setBackgroundColor(Color.parseColor("#80ff0000"));
-
-                    tutCorrido = true;
-            }*/
             return listLayout;
         }
     }

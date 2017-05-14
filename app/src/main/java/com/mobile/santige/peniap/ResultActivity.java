@@ -94,15 +94,22 @@ public class ResultActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        personas.remove(personaSinGasto);
-        GrupoPersonas groupToSend = new GrupoPersonas();
-        groupToSend.set_listaPersonas(personas);
-        Intent intent = new Intent(this, PersonSelectionActivity.class);
-        Bundle bundleObject = new Bundle();
-        bundleObject.putSerializable("array_personas", groupToSend);
-        intent.putExtras(bundleObject);
-        intent.putExtra("monto_total", montoTotal);
-        startActivity(intent);
+
+        if (puedeGuardar) {
+            personas.remove(personaSinGasto);
+            GrupoPersonas groupToSend = new GrupoPersonas();
+            groupToSend.set_listaPersonas(personas);
+            Intent intent = new Intent(this, PersonSelectionActivity.class);
+            Bundle bundleObject = new Bundle();
+            bundleObject.putSerializable("array_personas", groupToSend);
+            intent.putExtras(bundleObject);
+            intent.putExtra("monto_total", montoTotal);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, VerPeniasActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     public static int getContrastColor(int color) {
